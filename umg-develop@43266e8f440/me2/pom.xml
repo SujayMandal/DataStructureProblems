@@ -19,7 +19,7 @@
 		<jstl.version>1.2</jstl.version>
 
 		<!-- Apache Commons file upload -->
-		<commons-fileupload.version>1.2.2</commons-fileupload.version>
+		<commons-fileupload.version>1.3.3</commons-fileupload.version>
 
 		<!-- Apache Commons IO -->
 		<commons-io.version>1.3.2</commons-io.version>
