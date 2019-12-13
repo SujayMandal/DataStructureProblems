@@ -1,0 +1,117 @@
+CREATE TABLE IF NOT EXISTS `WEEKN_DAILY_RUN_STATUS` (
+  `ID` varchar(255) NOT NULL,
+  `LAST_RUN_DATE` varchar(55) DEFAULT NULL,
+  `TOTAL_RECORD` INT(11) DEFAULT NULL,
+  `SUCCESS_COUNT` INT(11) DEFAULT NULL,
+  `FAIL_COUNT` INT(11) DEFAULT NULL,
+  `REPORT_TYPE` varchar(55) DEFAULT NULL,
+  `START_TIME` bigint(20) DEFAULT NULL,
+  `END_TIME` bigint(20) DEFAULT NULL,
+  `CREATED_BY` varchar(255) NOT NULL,
+  `CREATED_ON` bigint(20) NOT NULL,
+  `LAST_UPDATED_BY` varchar(255) DEFAULT NULL,
+  `LAST_UPDATED_ON` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS `WEEKN_DAILY_QA_REPORT` (
+	`ID` varchar(255) NOT NULL,
+	`RUN_STATUS_ID` varchar(255) NOT NULL,
+	`SELR_PROP_ID_VC_NN` varchar(55) DEFAULT NULL,
+	`RBID_PROP_ID_VC_PK` varchar(55) DEFAULT NULL,
+	`REO_PROP_STTS_VC` varchar(55) DEFAULT NULL,
+	`PROP_SOLD_DATE_DT` varchar(55) DEFAULT NULL,
+	`PROP_STTS_ID_VC_FK` varchar(55) DEFAULT NULL,
+	`RBID_PROP_LIST_ID_VC_PK` varchar(55) DEFAULT NULL,
+	`LIST_TYPE_ID_VC_FK` varchar(55) DEFAULT NULL,
+	`PREVIOUS_LIST_STRT_DATE` varchar(55) DEFAULT NULL,
+	`PREVIOUS_LIST_END_DATE` varchar(55) DEFAULT NULL,
+	`PREVIOUS_LIST_PRICE` varchar(55) DEFAULT NULL,
+	`CURRENT_LIST_STRT_DATE` varchar(55) DEFAULT NULL,
+	`CURRENT_LIST_END_DATE` varchar(55) DEFAULT NULL,
+	`LIST_PRCE_NT` varchar(55) DEFAULT NULL,
+	`LIST_STTS_DTLS_VC` varchar(55) DEFAULT NULL,
+	`OCCPNCY_STTS_AT_LST_CREATN` varchar(15) DEFAULT NULL,
+	`ACTUAL_LIST_CYCLE` varchar(15) DEFAULT NULL,
+	`WEEKN_RECOMMENDED_LIST_PRICE_REDUCTION` varchar(55) DEFAULT NULL,
+	`WEEKN_RECOMMENDED_DATE` varchar(55) DEFAULT NULL,
+	`WEEKN_EXCLUSION_REASON` varchar(255) DEFAULT NULL,
+	`PCT_PRICE_CHANGE_FRM_LAST_LIST` varchar(255) DEFAULT NULL,
+	`RULE_VIOLATION` varchar(15) DEFAULT NULL,
+	`WEEKN_MISSINGREPORT` varchar(15) DEFAULT NULL,
+	`CLASSIFICATION` varchar(15) DEFAULT NULL,
+	`STATUS` varchar(15) DEFAULT NULL,
+	`CREATED_BY` varchar(255) NOT NULL,
+	`CREATED_ON` bigint(20) NOT NULL,
+	`LAST_UPDATED_BY` varchar(255) DEFAULT NULL,
+	`LAST_UPDATED_ON` bigint(20) DEFAULT NULL,
+	PRIMARY KEY (`ID`),
+	CONSTRAINT `DAILY_RUN_STATUS_ID_FK` FOREIGN KEY (`RUN_STATUS_ID`) REFERENCES `WEEKN_DAILY_RUN_STATUS` (`ID`)	
+) ENGINE=InnoDB;
+
+SET @CREATED_BY = 'SYSTEM';
+
+SET @CREATED_ON =  UNIX_TIMESTAMP() * 1000;
+
+INSERT INTO `RA_TNT_SYSTEM_PARAMETERS` (`ID`, `SYS_KEY`,`SYS_VALUE`,`DESCRIPTION`,`CREATED_BY`,`CREATED_ON`,`LAST_UPDATED_BY`,`LAST_UPDATED_ON`) 
+VALUES (UUID(),'qa.daily.report.schedule.status', 'TRUE','Daily QA report enable or disable',@CREATED_BY, @CREATED_ON, @CREATED_BY, @CREATED_ON);
+
+INSERT INTO `WEEKN_DAILY_RUN_STATUS` (`ID`, `LAST_RUN_DATE`, `TOTAL_RECORD`, `SUCCESS_COUNT`, `FAIL_COUNT`, `REPORT_TYPE`, `START_TIME`, `END_TIME`, `CREATED_BY`, `CREATED_ON`, `LAST_UPDATED_BY`, `LAST_UPDATED_ON`) VALUES
+	(UUID(), '30-Jun-19 00:00:00.000', 1, 0, 0, 'QA-REPORT', @CREATED_ON, @CREATED_ON, @CREATED_BY, @CREATED_ON, @CREATED_BY, @CREATED_ON);
+
+SELECT ID from `RA_TNT_APPS` WHERE `NAME` = 'DPA' INTO @APP_ID;
+
+SET @CREATED_BY = 'SYSTEM';
+
+SET @CREATED_ON =  UNIX_TIMESTAMP() * 1000;
+
+INSERT INTO `RA_TNT_APP_PARAMS` (`ID`, `RA_TNT_APP_ID`, `ATTR_KEY`, `ATTR_VALUE`, `CLASSIFICATION`, `CREATED_BY`, `CREATED_ON`, `LAST_UPDATED_BY`, `LAST_UPDATED_ON`)
+VALUES (UUID(), @APP_ID, 'qa.report.email.body', 'Please find the summary of Dynamic Pricing QA report run on {0}.<br/><br/><table style="border: 1px solid #c1c7d0;text-align: center;border-spacing: 0px;"><tr style="background:aliceblue"><th style="border: 1px solid #c1c7d0"><b>Total Count</b></th><th style="border: 1px solid #c1c7d0"><b>Success Count</b></th><th style="border: 1px solid #c1c7d0"><b>Failure Count</b></th><th style="border: 1px solid #c1c7d0"><b>Run date</b></th></tr><tr><td style="border: 1px solid #c1c7d0;">{1}</td><td style="border: 1px solid #c1c7d0;">{2}</td><td style="border: 1px solid #c1c7d0;">{3}</td><td style="border: 1px solid #c1c7d0;">{4}</td></tr><table><br/>List of Failed Loan numbers:<br/>{5}<br/><br/>Thanks,<br/>REALAnalyticsSupport', NULL, @CREATED_BY, @CREATED_ON, @CREATED_BY, @CREATED_ON);
+
+INSERT INTO `RA_TNT_APP_PARAMS` (`ID`, `RA_TNT_APP_ID`, `ATTR_KEY`, `ATTR_VALUE`, `CLASSIFICATION`, `CREATED_BY`, `CREATED_ON`, `LAST_UPDATED_BY`, `LAST_UPDATED_ON`)
+VALUES (UUID(), @APP_ID, 'qa.report.email.tolist', 'saurabh.agarwal@altisource.com;PavanS.Ganachari@altisource.com;Kumar.Yogesh@altisource.com;realanalyticssupport@altisource.com', NULL, @CREATED_BY, @CREATED_ON, @CREATED_BY, @CREATED_ON);
+
+INSERT INTO `RA_TNT_APP_PARAMS` (`ID`, `RA_TNT_APP_ID`, `ATTR_KEY`, `ATTR_VALUE`, `CLASSIFICATION`, `CREATED_BY`, `CREATED_ON`, `LAST_UPDATED_BY`, `LAST_UPDATED_ON`)
+VALUES (UUID(), @APP_ID, 'qa.report.email.cclist', '', NULL, @CREATED_BY, @CREATED_ON, @CREATED_BY, @CREATED_ON);
+
+INSERT INTO `RA_TNT_APP_PARAMS` (`ID`, `RA_TNT_APP_ID`, `ATTR_KEY`, `ATTR_VALUE`, `CLASSIFICATION`, `CREATED_BY`, `CREATED_ON`, `LAST_UPDATED_BY`, `LAST_UPDATED_ON`)
+VALUES (UUID(), @APP_ID, 'qa.report.email.subject', 'Dynamic Pricing Daily QA Report - {0}', NULL, @CREATED_BY, @CREATED_ON, @CREATED_BY, @CREATED_ON);
+
+INSERT INTO `RA_TNT_APP_PARAMS` (`ID`, `RA_TNT_APP_ID`, `ATTR_KEY`, `ATTR_VALUE`, `CLASSIFICATION`, `CREATED_BY`, `CREATED_ON`, `LAST_UPDATED_BY`, `LAST_UPDATED_ON`)
+VALUES (UUID(), @APP_ID, 'qa.report.email.from', 'realanalyticssupport@altisource.com', NULL, @CREATED_BY, @CREATED_ON, @CREATED_BY, @CREATED_ON);
+
+ALTER TABLE `WEEKN_DAILY_QA_REPORT`
+	ADD COLUMN `OLD_PROP_ID` VARCHAR(55) NULL DEFAULT NULL AFTER `RBID_PROP_ID_VC_PK`,
+	ADD COLUMN `OLD_LOAN_NUMBER` VARCHAR(55) NULL DEFAULT NULL AFTER `OLD_PROP_ID`;
+
+ALTER TABLE `WEEKN_DAILY_QA_REPORT`
+	CHANGE COLUMN `PREVIOUS_LIST_END_DATE` `PREVIOUS_LIST_END_DATE` DATE NULL DEFAULT NULL AFTER `PREVIOUS_LIST_STRT_DATE`,
+	CHANGE COLUMN `CURRENT_LIST_END_DATE` `CURRENT_LIST_END_DATE` DATE NULL DEFAULT NULL AFTER `CURRENT_LIST_STRT_DATE`;
+
+ALTER TABLE `WEEKN_DAILY_QA_REPORT`
+	ADD COLUMN `PREVIOUS_LIST_START_DATE` DATE NULL DEFAULT NULL AFTER `LIST_TYPE_ID_VC_FK`;
+
+ALTER TABLE `WEEKN_DAILY_QA_REPORT`
+	ADD COLUMN `CURRENT_LIST_START_DATE` DATE NULL DEFAULT NULL AFTER `PREVIOUS_LIST_PRICE`;
+
+UPDATE `WEEKN_DAILY_QA_REPORT` SET `PREVIOUS_LIST_START_DATE` = `PREVIOUS_LIST_STRT_DATE`;
+
+UPDATE `WEEKN_DAILY_QA_REPORT` SET `CURRENT_LIST_START_DATE` = `CURRENT_LIST_STRT_DATE`;
+
+ALTER TABLE `WEEKN_DAILY_QA_REPORT`
+	DROP COLUMN `PREVIOUS_LIST_STRT_DATE`;
+
+ALTER TABLE `WEEKN_DAILY_QA_REPORT`
+	DROP COLUMN `CURRENT_LIST_STRT_DATE`;
+
+UPDATE `RA_TNT_APP_PARAMS` SET `ATTR_VALUE` = 'Please find the summary of Dynamic Pricing QA report run on {0}.<br/><br/><table style="border: 1px solid #c1c7d0;text-align: center;border-spacing: 0px;"><tr style="background:aliceblue"><th style="border: 1px solid #c1c7d0"><b>Total Count</b></th><th style="border: 1px solid #c1c7d0"><b>Success Count</b></th><th style="border: 1px solid #c1c7d0"><b>Failure Count</b></th><th style="border: 1px solid #c1c7d0"><b>Run date</b></th></tr><tr><td style="border: 1px solid #c1c7d0;">{1}</td><td style="border: 1px solid #c1c7d0;">{2}</td><td style="border: 1px solid #c1c7d0;">{3}</td><td style="border: 1px solid #c1c7d0;">{4}</td></tr></table><br/>List of Failed Loan numbers:<br/>{5}<br/><br/>Thanks,<br/>REALAnalyticsSupport' 
+	WHERE `ATTR_KEY` = 'qa.report.email.body';
+
+SELECT ID from `RA_TNT_APPS` WHERE `NAME` = 'DPA' INTO @APP_ID;
+
+SET @CREATED_BY = 'SYSTEM';
+
+SET @CREATED_ON =  UNIX_TIMESTAMP() * 1000;
+
+INSERT INTO `RA_TNT_APP_PARAMS` (`ID`, `RA_TNT_APP_ID`, `ATTR_KEY`, `ATTR_VALUE`, `CLASSIFICATION`, `CREATED_BY`, `CREATED_ON`, `LAST_UPDATED_BY`, `LAST_UPDATED_ON`)
+VALUES (UUID(), @APP_ID, 'qa.report.error.email.body', 'Please find the error summary of Dynamic Pricing QA report run on {0}.<br/><br/>{1}<br/><br/>Thanks,<br/>REALAnalyticsSupport', NULL, @CREATED_BY, @CREATED_ON, @CREATED_BY, @CREATED_ON);

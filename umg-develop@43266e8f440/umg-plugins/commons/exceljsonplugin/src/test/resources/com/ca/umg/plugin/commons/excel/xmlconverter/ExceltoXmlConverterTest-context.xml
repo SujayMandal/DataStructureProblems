@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<!-- <bean class="org.dozer.DozerBeanMapper" /> -->
+	<context:component-scan base-package="com.ca.umg.plugin.commons.*.java" />
+	<!-- <bean id="excelReader" class="com.ca.umg.plugin.commons.excel.xmlconverter.ModelExcelReader"/> -->
+	<bean id="exceltoXmlConverter" class="com.ca.umg.plugin.commons.excel.xmlconverter.ExceltoXmlConverter"/>
+	<bean id="modelExcelReaderHelper" class="com.ca.umg.plugin.commons.excel.xmlconverter.ModelExcelReaderHelper"/>	
+	<bean id="modelExcelReaderFactory" class="com.ca.umg.plugin.commons.excel.xmlconverter.ModelExcelReaderFactory"/>	
+	<bean id="matlabModelExcelReader" class="com.ca.umg.plugin.commons.excel.xmlconverter.MatlabModelExcelReader"/>
+	<bean id="rModelExcelReader" class="com.ca.umg.plugin.commons.excel.xmlconverter.RModelExcelReader"/>
+	<bean id="datatypeValidator" class="com.ca.umg.plugin.commons.excel.xmlconverter.entity.DatatypeValidator"/>
+	<bean id="excelReadHelper" class="com.ca.umg.plugin.commons.excel.reader.ExcelReadHelper"/>
+	<bean id="exceptionCodeParameters" class="com.ca.umg.plugin.commons.excel.reader.exception.codes.ExceptionCodeParameters"/>
+	<bean id="defaultValueValidator" class="com.ca.umg.plugin.commons.excel.xmlconverter.entity.DefaultValueValidator"/>
+	<bean id="acceptableValueValidator" class="com.ca.umg.plugin.commons.excel.xmlconverter.entity.AcceptableValueValidator"/>
+	<bean id="excelModelExcelReader" class="com.ca.umg.plugin.commons.excel.xmlconverter.ExcelModelExcelReader"/>
+	<bean id="excelModelHelper" class="com.ca.umg.plugin.commons.excel.xmlconverter.ExcelModelHelper"/>
+	
+	
+	
+	
+	
+	<context:component-scan base-package="com.ca.framework.core.exception" />
+	<bean id="messageContainer" class="com.ca.framework.core.util.MessageContainer"></bean>
+	
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>locale/ui-messages</value>
+				<value>locale/framework-messages</value>
+			</list>
+		</property>
+	</bean>
+	 	
+</beans>

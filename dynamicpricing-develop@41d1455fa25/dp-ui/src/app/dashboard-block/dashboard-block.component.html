@@ -1,0 +1,56 @@
+<div class="container-fluid">
+  <div class="section-wrapper">
+    <div class="col-sm-3" id="searchFile" *ngIf="weekType == 'week0'">
+      <ng-multiselect-dropdown id="fileName" name="fileName" [placeholder]="'File Name'" [data]="dropdownFilesList" [(ngModel)]="fileName"
+        [settings]="fileNameDropdownSettings">
+      </ng-multiselect-dropdown>
+    </div>
+    <div class="col-sm-3" id="status">
+      <ng-multiselect-dropdown id="fileStatus" name="fileStatus" [placeholder]="'Status'" [data]="possibleStatus" [(ngModel)]="selectedStatus"
+        [settings]="statusDropdownSettings">
+      </ng-multiselect-dropdown>
+    </div>
+    <div class="col-sm-2" id="fromDateLabel" *ngIf="weekType == 'weekN'">
+      <label>From date</label>
+    </div>
+    <div class="col-sm-2" id="startDate">
+      <div class="icon-positioner" title="From date">
+        <input type="date" class="form-control" id="fromDate" [ngModel]="fromDate | date:'yyyy-MM-dd'" (ngModelChange)="fromDate = $event"
+          name="fromDate" (keydown)="onKeyInput()">
+      </div>
+    </div>
+    <div class="col-sm-1" id="toDateLabel" *ngIf="weekType == 'weekN'">
+      <label>To date</label>
+    </div>
+    <div class="col-sm-2" id="endtDate">
+      <div class="icon-positioner" title="To date">
+        <input class="form-control" [ngModel]="toDate | date:'yyyy-MM-dd'" (ngModelChange)="toDate = $event" type="date" name="toDate"
+          id="toDate" (keydown)="onKeyInput()">
+      </div>
+    </div>
+    <div class="buttons-group">
+      <button type="button" class="btn btn-primary" [disabled]="isDisabled()" (click)="onSearch()">Search</button>
+    </div>
+    <!--<button type="button" class="btn btn-primary" [disabled]="true">Download</button>
+          <button type="button" class="btn btn-primary" [disabled]="true">Email</button>-->
+    <label style="color:red" *ngIf=errorFlag>{{error}}</label>
+  </div>
+
+  <!--<div class="section-wrapper break-word" style="text-align: center" *ngIf=errorFlag>
+        <label style="color:red" *ngFor="let error of errorMsg">
+      {{error}}
+    </label><br />
+      </div>
+      <div class="section-wrapper break-word" style="text-align: center" *ngIf=false>
+        <label style="color:#94bb1e">{{successMsg}}</label>
+      </div>-->
+
+  <div class="section-wrapper grid-view" *ngIf=successFlag>
+    <ag-grid-angular [style.height.px]="errorFlag ? gridMinHeight : gridMaxHeight" class="ag-theme-balham" [gridOptions]="gridOptions" [rowData]="rowData">
+    </ag-grid-angular>
+    <div class="buttons-group grid-button">
+      <button type="button" class="btn btn-primary" (click)="onDownload()">Download</button>
+    </div>
+  </div>
+
+</div>

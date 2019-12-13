@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:metrics="http://www.ryantenney.com/schema/metrics"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.ryantenney.com/schema/metrics http://www.ryantenney.com/schema/metrics/metrics-3.0.xsd
+		http://www.springframework.org/schema/task
+		http://www.springframework.org/schema/task/spring-task-3.0.xsd">
+
+	<!-- <context:component-scan base-package="com.ca.framework.core.util" /> 
+		<context:component-scan base-package="com.ca.umg.rt.core" /> <context:component-scan 
+		base-package="com.ca.umg.rt.timer" /> <context:component-scan base-package="com.ca.umg.rt.batching" 
+		/> <context:component-scan base-package="com.ca.umg.rt.util" /> <context:component-scan 
+		base-package="com.ca.umg.plugin.commons" /> -->
+
+
+	<context:component-scan base-package="com.ca.framework, com.ca.umg, com.ca.umg.notification, com.ca.pool">
+		<context:exclude-filter type="regex" expression="com\.ca\.framework\.core\.db\.audit\.*.*|com\.ca\.umg\.modelet\.*.*"/>
+	</context:component-scan>
+	
+	<bean id="umgRestTemplate" class="com.ca.framework.core.restclient.UmgRestTemplate"></bean>
+
+	<bean id="integrationRepository" class="com.ca.umg.rt.repository.ClasspathIntegrationRepository">
+		<property name="flowPattern" value="classpath*:**/*-integration-flow.xml" />
+	</bean>
+
+	<bean id="databaseIntegrationRepository" class="com.ca.umg.rt.repository.DatabaseIntegrationRepository" />
+
+	<bean id="flowContainerManager" class="com.ca.umg.rt.flows.container.FlowContainerManager"
+		init-method="start" destroy-method="stop" depends-on="cacheRegistry">
+		<property name="integrationRepository" ref="databaseIntegrationRepository" />
+		<property name="publishedVersionContainer" ref="publishedVersionContainer" />
+	</bean>
+	
+	<bean id="publishedVersionContainer"
+		class="com.ca.umg.rt.util.PublishedVersionContainer" init-method="init">
+	</bean>
+	
+	<bean id="batchFlowContainerManager" class="com.ca.umg.rt.flows.container.BatchFlowContainerManager"
+		init-method="start" destroy-method="stop" depends-on="cacheRegistry">
+		<property name="integrationRepository" ref="databaseIntegrationRepository" />
+	</bean>
+
+	<bean id="httpTransportHandler" class="com.ca.umg.rt.endpoint.http.HttpTransportHandler">
+		<property name="containerManager" ref="flowContainerManager" />
+	</bean>
+	
+	<bean id="topicListener" class="com.ca.umg.rt.cache.listener.FlowPublishListener" init-method="init">
+		<property name="cacheRegistry" ref="cacheRegistry"/>
+		<property name="containerManager" ref="flowContainerManager"/>
+		<property name="deploymnetBO" ref="deploymentBOImpl"></property>
+	</bean>
+	
+	<bean id="batchListener" class="com.ca.umg.rt.cache.listener.LruEventListener" init-method="init">
+		<property name="cacheRegistry" ref="cacheRegistry"/>
+	</bean>
+	
+	<bean id="batchtopicListener" class="com.ca.umg.rt.cache.listener.BatchFlowDeploymentListener" init-method="init">
+		<property name="cacheRegistry" ref="cacheRegistry"/>
+		<property name="deploymnetBO" ref="deploymentBOImpl"></property>
+	</bean>
+
+	<bean id="staticDataTopicListener" class="com.ca.umg.rt.cache.listener.StaticDataContainerListener" init-method="init">
+		<property name="cacheRegistry" ref="cacheRegistry"/>
+		<property name="staticDataContainer" ref="staticDataContainer"></property>
+	</bean>
+	
+	<bean id="cacheRegistry"
+		class="com.ca.framework.core.cache.registry.impl.DefaultCacheRegistry">
+		<constructor-arg name="configFile" value="hazelcast-config.xml" />
+	</bean>
+	<bean id="systemParam"
+		class="com.ca.framework.core.systemparameter.SystemParameterProviderImpl" init-method="init">		
+	</bean>
+	
+	<bean id="systemModeletConfig"
+          class="com.ca.systemmodelet.SystemModeletConfigImpl" init-method="init">
+	</bean>
+	
+	<bean id="flowContainer" class="com.ca.umg.rt.flows.container.FlowContainer" scope="prototype">
+		<property name="cacheRegistry" ref="cacheRegistry"/>
+	</bean>
+	
+	<bean id="batchFlowContainer" class="com.ca.umg.rt.flows.container.BatchFlowContainer" scope="prototype">
+		<property name="cacheRegistry" ref="cacheRegistry"/>
+	</bean>
+	
+	<bean id="umgSecurityFilter" class="com.ca.umg.rt.web.filter.UMGSecurityFilter"></bean>
+	
+	<bean id="propertyConfigurer"
+		class="com.ca.framework.security.DecryptPropertyConfigurer">
+		<property name="locations">
+			<list>
+				<value>file:${db.properties}</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="taskExecutor" class="com.ca.framework.core.task.executor.CustomTaskExecutor">
+		<property name="corePoolSize" value="5" />
+		<property name="maxPoolSize" value="10" />
+		<property name="waitForTasksToCompleteOnShutdown" value="true" />
+	</bean>
+	
+	<!-- JMX -->
+	<context:mbean-server />
+	<context:mbean-export registration="ignoreExisting"
+		default-domain="spring.application" />
+
+	<!-- Codahale Metrics -->
+	<!-- Registry should be defined in only one context XML file -->
+	<metrics:metric-registry id="metrics" />
+
+	<!-- annotation-driven must be included in all context files -->
+	<metrics:annotation-driven metric-registry="metrics" />
+
+	<!-- (Optional) Registry should be defined in only one context XML file -->
+	<metrics:reporter id="hazelCastReporter" type="hazelcast"
+		metric-registry="metrics" period="1000ms" cache-ref="cacheRegistry" />
+
+	<!-- (Optional) The metrics in this example require the metrics-jvm jar -->
+	<metrics:register metric-registry="metrics">
+		<bean metrics:name="jvm.gc"
+			class="com.codahale.metrics.jvm.GarbageCollectorMetricSet" />
+		<bean metrics:name="jvm.memory" class="com.codahale.metrics.jvm.MemoryUsageGaugeSet" />
+		<bean metrics:name="jvm.thread-states"
+			class="com.codahale.metrics.jvm.ThreadStatesGaugeSet" />
+		<bean metrics:name="jvm.fd.usage"
+			class="com.codahale.metrics.jvm.FileDescriptorRatioGauge" />
+	</metrics:register>
+	
+	<bean id="poolDao" class="com.ca.pool.dao.PoolDAOImpl" />
+	
+	<bean id="poolObjectsLoader" class="com.ca.pool.PoolObjectsLoaderImpl" >
+		<property name="poolDao" ref="poolDao"/>
+		<property name="cacheRegistry" ref="cacheRegistry"/>
+	</bean>	
+	
+	<bean id="rModelDAO" class="com.ca.framework.core.rmodel.dao.RModelDAOImpl">
+		<property name="sysParam" ref="systemParam"/>
+	</bean>
+	
+	<bean id="objectSizeCalculator" class="com.ca.framework.object.size.util.ObjectSizeCalculator">
+		<property name="sysParam" ref="systemParam"/>
+	</bean>
+			
+    <bean id="poolManager" class="com.ca.pool.PoolManagerImpl">
+		<property name="rModelDAO" ref="rModelDAO" />		
+		<property name="systemModeletConfig" ref="systemModeletConfig"/>
+	</bean>
+
+	<bean id="modeletRegistry" class="com.ca.umg.me2.util.ModeletRegistry">
+		<property name="poolManager" ref="poolManager" />
+	</bean>
+	
+	<bean id="tenantDataContainerListener"
+		class="com.ca.framework.core.tenant.TenantDataContainerListener"
+		init-method="init">
+		<property name="cacheRegistry" ref="cacheRegistry" />
+	</bean>
+
+	<!--<bean id="notificationDao" class="com.ca.umg.notification.dao.NotificationDaoImpl" 
+		/> -->
+
+	<bean id="notificationTriggerDelegate"
+		class="com.ca.umg.notification.notify.NotificationTriggerDelegateImpl" />
+
+	<bean id="modeletPoolSyncScheduler"
+		class="com.ca.umg.rt.modelet.sync.scheduler.ModeletPoolSyncScheduler">
+		<!-- <property name="enableScheduling" value="${modelet.enable.schedule}"></property>	 -->
+	</bean>
+		
+	<bean id="modeletPoolSyncProcessor" class="com.ca.umg.rt.modelet.sync.processor.ModeletPoolSyncProcessor"/>
+
+	<task:scheduled-tasks scheduler="modeletPoolSchedular">
+		<task:scheduled ref="modeletPoolSyncScheduler" method="schedule"
+			fixed-delay="${modelet.sync.rate}" />
+	</task:scheduled-tasks>
+
+	<task:scheduler id="modeletPoolSchedular" />
+	
+
+</beans>

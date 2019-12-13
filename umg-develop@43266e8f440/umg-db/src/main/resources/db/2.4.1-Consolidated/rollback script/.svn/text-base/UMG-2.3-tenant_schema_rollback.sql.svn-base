@@ -1,0 +1,7 @@
+-- USE 'tenant schema';
+USE LOCALHOST;
+
+DROP TABLE IF EXISTS USAGE_SEARCH_REQUEST_CANCEL;
+ALTER TABLE umg_runtime_transaction DROP INDEX umg_runtime_transaction_index_1;
+
+COMMIT;

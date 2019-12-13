@@ -1,0 +1,1 @@
+mysql --host=raprod-mysql1.altidev.net --user=umgprod --password='Prod#2014' < main.sql

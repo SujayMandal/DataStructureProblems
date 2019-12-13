@@ -1,0 +1,2 @@
+use umg_admin;
+ALTER TABLE TENANT ADD COLUMN `AUTH_TOKEN` VARCHAR(64) NOT NULL COMMENT 'Generated Authentication Token' COLLATE 'utf8_bin' AFTER `TENANT_TYPE`;

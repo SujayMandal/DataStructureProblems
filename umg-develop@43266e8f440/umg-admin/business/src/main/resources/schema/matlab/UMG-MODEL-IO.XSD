@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://com.ca.umg.matlab.io/xml/ns/umg-model-io"
+	targetNamespace="http://com.ca.umg.matlab.io/xml/ns/umg-model-io"
+	elementFormDefault="qualified">
+
+	<xs:element name="umg-model-io" type="umg-model-io">
+		<xs:annotation>
+			<xs:documentation>UMG Matlab Input Output Interface Specification
+			</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+
+	<xs:complexType name="umg-model-io">
+		<xs:annotation>
+			<xs:documentation>
+				Universal Model Gateway i/o description for matlab
+				language. This is used to data type conversion between java and
+				matlab.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="metadata" type="metadata" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="input" type="record" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="output" type="record" minOccurs="1"
+				maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="metadata">
+		<xs:annotation>
+			<xs:documentation>Define model metadata.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="model-name" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="model-version" type="xs:string"
+				minOccurs="1" maxOccurs="1" />
+			<xs:element name="model-publisher" type="xs:string"
+				minOccurs="1" maxOccurs="1" />
+			<xs:element name="model-class" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="model-method" type="xs:string"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="record">
+		<xs:sequence>
+			<xs:element name="parameter" type="parameter" minOccurs="0"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="parameter">
+		<xs:sequence>
+			<xs:element name="datatype" type="fieldType" minOccurs="1"
+				maxOccurs="1" />
+		</xs:sequence>
+		<xs:attribute name="sequence" type="xs:positiveInteger"
+			use="required" />
+		<xs:attribute name="apiName" type="xs:string" use="required" />
+		<xs:attribute name="name" type="xs:string" use="optional"/>
+		<xs:attribute name="modelParamName" type="xs:string"
+			use="optional" />
+		<xs:attribute name="description" type="xs:string"
+			use="required" />
+		<xs:attribute name="mandatory" type="xs:boolean" use="required" />
+		<xs:attribute name="syndicate" type="xs:boolean" use="required" />
+		<xs:attribute name="nativeDataType" type="xs:string"
+			use="optional" />		
+		<xs:attribute name="acceptableValues" type="xs:string" use="optional" />		
+	</xs:complexType>
+
+	<xs:complexType name="fieldType">
+		<xs:choice>
+			<xs:element name="object" type="object" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="integer" type="integer" minOccurs="1"
+				maxOccurs="1" />
+            <xs:element name="long" type="long" minOccurs="1"
+                        maxOccurs="1" />
+            <xs:element name="biginteger" type="biginteger" minOccurs="1"
+                        maxOccurs="1" />
+            <xs:element name="bigdecimal" type="bigdecimal" minOccurs="1"
+                        maxOccurs="1" />
+			<xs:element name="double" type="double" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="string" type="string" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="boolean" type="boolean" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="date" type="date" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="array" type="array" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="datetime" type="datetime" minOccurs="1"
+				maxOccurs="1" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="dimensions">
+		<xs:sequence>
+			<xs:element name="dim" type="xs:integer" minOccurs="1"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="array">
+		<xs:sequence>
+			<xs:element name="dimensions" type="dimensions" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="type" type="fieldType" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="defaultValue" type="xs:string"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element name="length" type="xs:string" minOccurs="0"
+				maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="object">
+		<xs:sequence>
+			<xs:element name="properties" type="properties" minOccurs="1"
+				maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="properties">
+		<xs:sequence>
+			<xs:element name="parameter" type="parameter" minOccurs="1"
+				maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="string">
+		<xs:attribute name="defaultValue" type="xs:string" />
+		<xs:attribute name="pattern" type="xs:string" />
+		<xs:attribute name="length" type="xs:string" />
+		<xs:attribute name="minLength" type="xs:positiveInteger" />
+		<xs:attribute name="maxLength" type="xs:positiveInteger" />
+	</xs:complexType>
+
+	<xs:complexType name="double">
+		<xs:attribute name="defaultValue" type="xs:decimal" />
+		<xs:attribute name="maxExclusive" type="xs:decimal" />
+		<xs:attribute name="maxInclusive" type="xs:decimal" />
+		<xs:attribute name="minExclusive" type="xs:decimal" />
+		<xs:attribute name="minInclusive" type="xs:decimal" />
+		<xs:attribute name="length" type="xs:string" />
+		<xs:attribute name="fractionDigits" type="xs:positiveInteger" />
+	</xs:complexType>
+
+    <xs:complexType name="bigdecimal">
+        <xs:attribute name="defaultValue" type="xs:decimal" />
+        <xs:attribute name="maxExclusive" type="xs:decimal" />
+        <xs:attribute name="maxInclusive" type="xs:decimal" />
+        <xs:attribute name="minExclusive" type="xs:decimal" />
+        <xs:attribute name="minInclusive" type="xs:decimal" />
+        <xs:attribute name="length" type="xs:string" />
+        <xs:attribute name="fractionDigits" type="xs:positiveInteger" />
+    </xs:complexType>
+
+	<xs:complexType name="integer">
+		<xs:attribute name="defaultValue" type="xs:integer" />
+		<xs:attribute name="maxExclusive" type="xs:integer" />
+		<xs:attribute name="maxInclusive" type="xs:integer" />
+		<xs:attribute name="minExclusive" type="xs:integer" />
+		<xs:attribute name="minInclusive" type="xs:integer" />
+		<xs:attribute name="length" type="xs:string" />
+	</xs:complexType>
+
+    <xs:complexType name="long">
+        <xs:attribute name="defaultValue" type="xs:integer" />
+        <xs:attribute name="maxExclusive" type="xs:integer" />
+        <xs:attribute name="maxInclusive" type="xs:integer" />
+        <xs:attribute name="minExclusive" type="xs:integer" />
+        <xs:attribute name="minInclusive" type="xs:integer" />
+        <xs:attribute name="length" type="xs:string" />
+    </xs:complexType>
+
+    <xs:complexType name="biginteger">
+        <xs:attribute name="defaultValue" type="xs:integer" />
+        <xs:attribute name="maxExclusive" type="xs:integer" />
+        <xs:attribute name="maxInclusive" type="xs:integer" />
+        <xs:attribute name="minExclusive" type="xs:integer" />
+        <xs:attribute name="minInclusive" type="xs:integer" />
+        <xs:attribute name="length" type="xs:string" />
+    </xs:complexType>
+
+	<xs:complexType name="boolean">
+		<xs:attribute name="defaultValue" type="xs:boolean" />
+		<xs:attribute name="length" type="xs:string" />
+	</xs:complexType>
+
+	<xs:complexType name="date">
+		<xs:attribute name="defaultValue" type="xs:date" />
+		<xs:attribute name="maxExclusive" type="xs:date" />
+		<xs:attribute name="maxInclusive" type="xs:date" />
+		<xs:attribute name="minExclusive" type="xs:date" />
+		<xs:attribute name="minInclusive" type="xs:date" />
+		<xs:attribute name="pattern" type="datePattern" />
+		<xs:attribute name="length" type="xs:string" />
+	</xs:complexType>
+
+	<xs:complexType name="datetime">
+		<xs:attribute name="defaultValue" type="xs:string" />
+		<xs:attribute name="pattern" type="xs:string" />
+		<xs:attribute name="length" type="xs:string" />
+		<xs:attribute name="minLength" type="xs:positiveInteger" />
+		<xs:attribute name="maxLength" type="xs:positiveInteger" />
+	</xs:complexType>
+
+	<xs:simpleType name="datePattern">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="DD-MM-YYYY" />
+			<xs:enumeration value="DD-MMM-YYYY" />
+			<xs:enumeration value="MMM-DD-YYYY" />
+			<xs:enumeration value="MM-DD-YYYY" />
+			<xs:enumeration value="YYYY-MM-DD" />
+			<xs:enumeration value="YYYY-MMM-DD" />
+			<xs:enumeration value="DD/MM/YYYY" />
+			<xs:enumeration value="DD/MMM/YYYY" />
+			<xs:enumeration value="MMM/DD/YYYY" />
+			<xs:enumeration value="MM/DD/YYYY" />
+			<xs:enumeration value="YYYY/MM/DD" />
+			<xs:enumeration value="YYYY/MMM/DD" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:simpleType name="dateTimePattern">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d" />
+		</xs:restriction>
+	</xs:simpleType>
+		
+	
+</xs:schema>

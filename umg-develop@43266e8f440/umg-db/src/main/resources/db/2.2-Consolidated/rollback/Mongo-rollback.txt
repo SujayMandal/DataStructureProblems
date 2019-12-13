@@ -1,0 +1,2 @@
+use ra_transaction_documents;
+db.dropDatabase();

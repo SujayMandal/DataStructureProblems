@@ -1,0 +1,30 @@
+
+	<div class="col-md-12" style="padding-top: 10px;">
+		<div class="col-md-8">
+			<button id="TransactionDashboard_search" type="button"
+				class="btn btn-primary" ng-click="downloadSelectedItems()">
+				Download I/O in JSON
+			</button>
+							
+			<button id="TransactionDashboard_downldusgrprt" style="margin-left:2%;"  
+				class="btn btn-primary"  
+				data-toggle="modal" data-target="#dwnldUsgRprt" ng-click="downloadUsageReportModalShow()">
+				Download Usage Report
+			</button>
+			
+			<button id="TransactionDashboard_exprtForRerun" style="margin-left:2%;" 
+				class="btn btn-primary"  ng-click="exportForRerunShow()" tooltip="Can be used for Re-run">Download I/O in Excel
+			</button>
+			
+			<button id="ExecutionDashboard_downldusgrprt" style="margin-left:2%;"  
+				class="btn btn-primary"  
+				data-toggle="modal" data-target="#dwnldExecRprt" ng-show="sysAdmin" ng-click="downloadExecutionReportModalShow()">
+				Download Execution Report
+			</button>
+		</div>
+	</div>
+<script>
+$(document).ready(function(){
+    permissionMapping();
+});
+</script>

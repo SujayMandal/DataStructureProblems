@@ -1,0 +1,14 @@
+<div class="container-fluid">
+  <div class="section-wrapper break-word" style="text-align: left" *ngIf=errorFlag>
+    <label style="color:red">
+      {{error}}
+    </label>
+  </div>
+  <div class="section-wrapper grid-view">
+    <ag-grid-angular [style.height.px]="gridHeight" class="ag-theme-balham" [gridOptions]="gridOptions" [rowData]="rowData">
+    </ag-grid-angular>
+    <div class="buttons-group grid-button">
+      <button type="button" class="btn btn-primary" (click)="onDownload()">Download</button>
+    </div>
+  </div>
+</div>

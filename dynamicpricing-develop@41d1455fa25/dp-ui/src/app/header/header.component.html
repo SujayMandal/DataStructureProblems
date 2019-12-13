@@ -1,0 +1,62 @@
+<header class="main-section">
+  <div class="container-fluid">
+    <div class="positioner">
+      <div class="logo">
+        <a><img src="assets/images/logo-altisource.svg" /></a>
+      </div>
+      <div class="title">
+        <div class="header-wrapper">
+          <h1 class="navbar-text">Dynamic Pricing App</h1>
+        </div>
+      </div>
+      <div class="primary-nav">
+        <!-- \/ MOBILE NAV STARTS \/ -->
+        <div id="nav-menu" class="collapse navbar-collapse">
+          <div>
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+              <ul class="nav navbar-nav">
+                <li routerLinkActive="active"><a [routerLink]="['/reports']">Reports</a></li>
+                <li routerLinkActive="active"><a [routerLink]="['/search']">Search</a></li>
+                <li dropdown routerLinkActive="active">
+                  <a dropdownToggle class="dropdown-toggle" aria-controls="dropdown-basic">
+                    Vacant
+                    <span class="caret"></span></a>
+                  <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li routerLinkActive="active"><a [routerLink]="['/week0']">Week 0</a></li>
+                    <li routerLinkActive="active"> <a [routerLink]="['/weekN']">Week N</a></li>
+                  </ul>
+                </li>
+                <li dropdown routerLinkActive="active">
+                  <a dropdownToggle class="dropdown-toggle" aria-controls="dropdown-basic">
+                    SOP
+                    <span class="caret"></span></a>
+                  <ul *dropdownMenu class="dropdown-menu" role="menu">
+                    <li routerLinkActive="active"> <a [routerLink]="['/SOPweek0']">Week 0</a></li>
+                    <li routerLinkActive="active"> <a [routerLink]="['/SOPweekN']">Week N</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="col-sm-2"></div>
+          </div>
+          <ul class="nav navbar-nav navbar-right">
+            <li dropdown>
+              <a dropdownToggle class="dropdown-toggle" aria-controls="dropdown-basic">
+                {{username}}
+                <span class="caret"></span></a>
+              <ul *dropdownMenu class="dropdown-menu" role="menu">
+                <li role="menuitem" class="pointer"><a class="dropdown-item" (click)="onSignOut()">Sign Out</a></li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+<div class="container-fluid" *ngIf=errorFlag>
+  <div style="text-align: center;">
+    <label style="color:red">{{errorMsg}}</label>
+  </div>
+</div>

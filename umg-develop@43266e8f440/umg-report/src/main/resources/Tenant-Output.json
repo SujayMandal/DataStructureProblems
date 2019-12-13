@@ -1,0 +1,21 @@
+{
+  "header" : {
+    "modelName" : "Reporting_Testing_demo",
+    "majorVersion" : 1,
+    "minorVersion" : 0,
+    "date" : "2016-01-05T07:36:00.000",
+    "transactionId" : "07b67d5a-c982-4c70-8144-a658928769f3",
+    "umgTransactionId" : "590a61dc-89b6-4f3a-acb7-efe3c21f90fa",
+    "success" : true
+  },
+  "data" : {
+    "matrix_output_primitive" : {
+      "integerNumeric" : 1,
+      "doubleNumeric" : 1.1,
+      "string" : "string",
+      "date" : "29-07-2015",
+      "boolean" : true,
+      "integer" : 1
+    }
+  }
+}

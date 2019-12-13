@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:integration="http://www.springframework.org/schema/integration"
+	xmlns:file="http://www.springframework.org/schema/integration/file"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-ftp="http://www.springframework.org/schema/integration/ftp"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration 
+		http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/file 
+		http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration/ftp 
+		http://www.springframework.org/schema/integration/ftp/spring-integration-ftp.xsd">
+
+	<integration:publish-subscribe-channel id="${tenant_code}_batchEntryChannel" />
+	<int:channel id="${tenant_code}_putInFTPChannel"/>
+	<int:channel id="${tenant_code}_batchFinalization"/>
+	<int:channel id="${tenant_code}_ftpRejectHandler"/>
+	<int:channel id="${tenant_code}_ftpOutputHandler"/>
+	
+	<bean id="${tenant_code}_${WRAPPER_TYPE}_filter" class="com.ca.umg.rt.file.filter.RemoteLockFilter">
+		<property name="cacheRegistry" ref="cacheRegistry"></property>
+		<property name="name" value="${tenant_code}"></property>
+		<property name="transportType" value="${WRAPPER_TYPE}"></property>
+	</bean>
+	
+	<bean id="${tenant_code}_ftp_finalizer" class="com.ca.umg.rt.batching.ftp.FTPOutputHandler">
+		<property name="cacheRegistry" ref="cacheRegistry"></property>
+		<property name="name" value="${tenant_code}"></property>
+		<property name="transportType" value="${WRAPPER_TYPE}"></property>
+	</bean>
+	
+
+	<bean id="${tenant_code}_ftpClientFactory"
+		class="org.springframework.integration.ftp.session.DefaultFtpsSessionFactory">
+		<property name="host" value="${FTP_HOST}" />
+		<property name="port" value="${FTP_PORT}" />
+		<property name="username" value="${FTP_USER_NAME}" />
+		<property name="password" value="${FTP_PASSWORD}" />
+		<property name="useClientMode" value="true"/>
+		<property name="sessionCreation" value="true"/>
+    	<property name="protocols" value="SSLv3, TLSv1"/>
+    	<!-- <property name="clientMode" value="1"/> -->
+    	<property name="protocol" value="TLSv1"/>
+    	<!-- <property name="implicit" value="true"/> -->
+	</bean>
+
+	<bean id="${tenant_code}_cachingSessionFactory"
+		class="org.springframework.integration.file.remote.session.CachingSessionFactory">
+		<constructor-arg ref="${tenant_code}_ftpClientFactory" />
+		<constructor-arg value="${FTP_SESSION_POOL_SIZE}" />
+		<property name="sessionWaitTimeout" value="${FTP_SESSION_CONN_TIMEOUT}" />
+	</bean>
+	
+	<!-- put the ftp file from ftp-input folder to ftp-scan-folder start-->
+	<int-ftp:inbound-channel-adapter id="ftpInbound"
+		channel="ftpChannel" 
+		session-factory="${tenant_code}_cachingSessionFactory"
+		auto-create-local-directory="true" 
+		delete-remote-files="false"
+		remote-directory="${FTP_INPUT_FOLDER}" 
+		local-directory="${SAN_PATH}${FILE_SEPERATOR}${BATCH_FOLDER}${FILE_SEPERATOR}${FTP_LOCAL_SCAN_FOLDER}" 
+		filter="${tenant_code}_${WRAPPER_TYPE}_filter"
+		temporary-file-suffix=".writing"
+		local-filename-generator-expression="#this.substring(0, #this.lastIndexOf('.')) + '_'+ 'FTP_'  + T(java.lang.System).currentTimeMillis() + #this.substring(#this.lastIndexOf('.'), #this.length())">
+		<int:poller fixed-rate="${FTP_POLL_INTRVL}" max-messages-per-poll="-1" />
+	</int-ftp:inbound-channel-adapter>
+	<!-- put the ftp file from ftp-input folder to ftp-scan-folder end-->
+	
+	<int:chain id="pre-processor-chain" input-channel="ftpChannel"
+		output-channel="${tenant_code}_batchEntryChannel">
+		<int:header-enricher>
+			<int:header name="tenant_code" value="${tenant_code}" type="java.lang.String" />
+		</int:header-enricher>
+		<int:service-activator ref="ftp_handler"/>
+	</int:chain>
+
+	<!-- moving the ftp-input file from ftp-input folder to ftp-archive start-->
+	<int-ftp:outbound-gateway id="gatewayMv"
+		session-factory="${tenant_code}_cachingSessionFactory" 
+		request-channel="${tenant_code}_batchEntryChannel"
+		command="mv" 
+		command-options="" 
+		expression="headers['file_remoteDirectory'] + T(java.io.File).separator + headers['file_remoteFile']" 
+		rename-expression="headers['file_renameTo'] + T(java.io.File).separator + headers['file_umg_name']"
+		reply-channel="logChannel"/>
+	<!-- moving the ftp-input file from ftp-input folder to ftp-archive start-->
+		
+	<file:outbound-gateway id="moverToBatchInput" delete-source-files="true" request-channel="${tenant_code}_batchEntryChannel" 
+		mode="FAIL" directory="${SAN_PATH}${FILE_SEPERATOR}${BATCH_FOLDER}${FILE_SEPERATOR}input" reply-channel="logChannel"/>
+		
+	<!-- reading the header for transport mode and set the flag -->	
+	<int:header-enricher input-channel="${tenant_code}_batchOutputChannel" output-channel="ftpRouterChannel">
+			<int:header name="ACCEPT"
+                expression="headers['UMG_TRANSPORT'] == '${WRAPPER_TYPE}' ? true : false"/>
+	</int:header-enricher>
+	
+	<int:recipient-list-router input-channel="ftpRouterChannel">
+		<int:recipient channel="${tenant_code}_batchFinalization" selector-expression="!headers.ACCEPT" />
+		<int:recipient channel="${tenant_code}_ftpOutputHandler" selector-expression="headers.ACCEPT" />
+	</int:recipient-list-router>
+	
+	<!-- putting the batch-output-response file to ftp-output folder start-->
+	<int-ftp:outbound-gateway id="gatewayPut"
+		session-factory="${tenant_code}_cachingSessionFactory" 
+		request-channel="${tenant_code}_ftpOutputHandler"
+		command="put" 
+		command-options="" 
+		remote-directory-expression="'${FTP_OUTPUT_FOLDER}'" 
+		expression="'${FTP_OUTPUT_FOLDER}'"		
+		reply-channel="${tenant_code}_batchFinalization"/>
+		<!-- putting the batch-output-response file to ftp-output folder end-->
+		
+	<int:service-activator input-channel="${tenant_code}_batchFinalization" ref="${tenant_code}_ftp_finalizer"/>	
+
+	<!-- Service Activator to check if file is lockable. If yes pass to the 
+		batch input channel and delete or just delete -->
+
+</beans>

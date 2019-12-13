@@ -1,0 +1,69 @@
+<div class="box box-primary">
+
+	<div class="box-header">{{queryLaunchInfo.tidName}}</div>
+
+	<div class="box-body" style="padding-left:0px; padding-right: 0px;">
+
+		<div id="ql_queryViewGridOptions"
+			class="umg-grid query-data_gr center-div"
+			ng-grid="queryViewGridOptions"></div>
+
+		<!-- <div ag-grid="queryViewGridOptions" style="width:inherit; height: 100%;" class="ag-fresh"></div> -->
+
+
+
+	</div>
+	<div class="box-footer query-container center-div rd-corner5"
+		style="padding-top: 50px;">
+		<div id="ql_btnSet" class="btn-set">
+			<button id="ql_updateSequence" type="button"
+				class="btn btn-primary rd-corner5" data-toggle="modal"
+				data-target="#myModal" ng-click="sequencing()">Update
+				Sequence</button>
+			<button id="ql_showTidMapping" type="button"
+				class="btn btn-primary rd-corner5" ng-click="showMapping()">
+				Show TID Mapping</button>
+			<br> <br>
+		</div>
+		<div ng-class="meassageClass" class="message-box txt-corner5"
+			ng-bind-html="meassage"></div>
+		<br>
+	</div>
+
+	<!-- dialog box  for sequence definition    -->
+	<div class="modal modal-default fade" id="myModal" tabindex="-1"
+		role="dialog" aria-labelledby="myModalLabel" style="display:none;">
+		<div class="modal-dialog" style="margin-top: 10%">
+			<div class="modal-content">
+				<div class="modal-header" style="background-color: #3C8DBC;color:white;">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">x</span>
+					</button>
+					<h3 class="modal-title">Update Sequence</h3>
+				</div>
+				<div class="modal-body">
+					<div class="col-sm-12">
+						<div class="col-sm-4">Query Name</div>
+						<div class="col-sm-5">Description</div>
+						<div class="col-sm-3">Old Sequence</div>
+					</div>
+					<ul id="sortable">
+						<li ng-repeat="item in sortableArray">
+							<div class="col-sm-12">
+								<div class="col-sm-4">{{item.name}}</div>
+								<div class="col-sm-5">{{item.description}}</div>
+								<div class="col-sm-3">{{item.execSequence}}</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-primary rounded-corner"
+						data-dismiss="modal" id="ql_saveSequence" ng-click="saveSequence()">Save</button>
+				</div>
+			</div>
+		</div>
+	</div>

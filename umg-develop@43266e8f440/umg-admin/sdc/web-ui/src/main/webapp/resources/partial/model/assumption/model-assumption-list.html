@@ -1,0 +1,161 @@
+
+<style>
+.content {
+	height: 542px;
+}
+ polygon,rect {
+     fill  : #fff;
+  }
+  
+</style>
+
+
+<div class="col-sm-12" style="padding: 0px;">
+	<div class="box box-primary header-form-background">
+		<div class="box-body header-form-padding">
+			<form class="form">
+
+				<div id="vl_topPanelFormGroup" class="form-group">
+					<!-- <label for="inputEmail3" class="col-sm-1 control-label"></label> -->
+					<div class="col-sm-9">
+						
+
+						<div id="search_container" class="col-sm-3">
+							<label style="font-weight: 600;">Search</label> <input
+								type="search" auto-suggest ui-items="containerNames" class="form-control" id="free_search_text" 
+								ng-model="pageInfo.searchText">
+						</div>
+
+
+						<!-- Date and time range -->
+
+						<div class="col-sm-3">
+							<label style="font-weight: 600;">Active From</label>
+							<div class='input-group date' id='datetimepicker1'>
+								<input type="text" class="form-control"
+									ng-model="pageInfo.fromDate" date-time-picker
+									format="dateFormat" /> <span class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</span>
+							</div>
+
+						</div>
+
+						<div class="col-sm-3">
+							<label style="font-weight: 600;">Active Till</label>
+							<div class='input-group date' id='datetimepicker2'>
+								<input type="text" class="form-control"
+									ng-model="pageInfo.toDate" date-time-picker format="dateFormat" />
+								<span class="input-group-addon"> <span
+									class="glyphicon glyphicon-calendar"></span>
+								</span>
+							</div>
+						</div>
+					</div>
+
+					<div class="col-sm-3" style="padding-top: 25px; padding-left:">
+						<div style="width: 90%;">
+							<button id="search" type="submit" class="btn btn-primary"
+								ng-click="searchContainers()"
+								style="width: 40%; margin-right: 40px;">Search</button>
+
+							<button id="reset" type="reset" class="btn btn-primary"
+								ng-click="clearFilters()" style="width: 40%;">Reset</button>
+						</div>
+					</div>
+
+
+				</div>
+
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="col-sm-12" style="padding: 0px;" id="gridbody"
+	ng-show="pagedContainerData.length > 0">
+
+	
+	<div class="box box-primary" style="margin-bottom:0px; box-shadow:none;">
+	
+		<div class="row" style="margin-top: 10px;margin-left: 0px; margin-right: 0px;">
+			<div id="ma-errorMsg" ng-show="msg.length > 0"
+									ng-animate="{show: 'show'}" class={{clazz}}
+									style="padding: 8px; margin-bottom: 10px;">
+									<strong>{{msg}}</strong>
+								</div>
+		</div>
+		<div class="box-body"
+			style="height: 364px;padding:0px;">
+			<br>
+			<div class="row result-row">
+				<strong class="result-header">Results</strong>
+			</div>
+			<div class="headSpace"></div>
+			<div id="dashGrid"  ag-grid="gridOptions" class="ag-blue"
+				style="height: 300px;"></div>
+						
+			<div class="box" align=left
+				style="border-top: 0px; background: none; box-shadow: none;">
+				<div class="box-body" style="padding-left: 0px;">
+					<a id="add_vinc{{$index}}"
+						ng-click="addNewVersion(selectedContainerVersion.containerName)"
+						class="btn btn-app btn-sm design-button" tooltip="Add"
+						tooltip-placement="top" tooltip-trigger="mouseenter"> <i
+						id="addContainer" title="Add" class="fa fa-plus"></i></a> <a id="editVersion"
+						ng-disabled="selectedItems.length==0"
+						ng-click="editVersionInfo(selectedContainerVersion)"
+						class="btn btn-app btn-sm design-button" tooltip="Edit"
+						tooltip-placement="top" tooltip-trigger="mouseenter"> <i
+						id="edit_version{{$index}}" title="Allows activation date changes" class="fa fa-edit"></i>
+					</a><a id="deleteVersion" ng-disabled="selectedItems.length==0"
+						ng-click="deleteVersion(selectedContainerVersion)"
+						class="btn btn-app btn-sm design-button" tooltip="Delete"
+						tooltip-placement="top" tooltip-trigger="mouseenter"> <i
+						id="delete_version{{$index}}" title="Delete" class="fa fa-remove"></i>
+					</a> <a id="downloadVersion" ng-disabled="selectedItems.length==0"
+						href="syndicateData/version/template/{{selectedContainerVersion.containerName}}/{{selectedContainerVersion.versionId}}/{{selectedContainerVersion.versionName}}"
+						class="btn btn-app btn-sm design-button" tooltip="Data Download"
+						tooltip-placement="top" tooltip-trigger="mouseenter"> <i
+						id="download_version{{$index}}" title="Data Download"
+						class="fa fa-download"></i>
+					</a> <a id="downloadDefinition" href="syndicateData/version/definition/{{selectedContainerVersion.containerName}}"
+						class="btn btn-app btn-sm design-button"
+						tooltip="Definition Download" tooltip-placement="top"
+						tooltip-trigger="mouseenter"> <i
+						id="download_definition{{$index}}" title="Definition Download"
+						class="glyphicon glyphicon-download-alt"></i>
+					</a>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- <div id="noSDFound" class="col-lg-12" ng-show="pageInfo.searchText == '' && totalContainer == 0" align="center">
+	<div class="box" style="border-top:0px;box-shadow:0px;background-color: hsla(191, 16%, 26%, 0.2);">
+		<div class="box-body">
+              <h3>No Syndicate Data Found ...</h3>
+              <p></p>
+              <p><a class="btn btn-primary btn-large" ui-sref="syndicateDataCrud" >Add New Container</a></p>
+         </div>
+    </div>
+</div>
+ -->
+<!-- When Search Data is Not Present -->
+
+<div id="noSearchFound" class="col-lg-12"
+	ng-show="pagedContainerData.length == 0  && ready" align="center">
+	<div class="box box-default" style="padding-top: 15px;">
+		<div class="box-body" style="text-align: center; background-color: #e0e0e0;">
+			<p>
+				<h3 >No Lookup Data Found For This Search Criteria ... </h3>
+			</p>
+		</div>
+	</div>
+</div>
+<script>
+        $(document).ready(function(){
+        	permissionMapping();
+        });
+    </script>     

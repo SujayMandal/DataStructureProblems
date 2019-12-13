@@ -1,0 +1,80 @@
+<!-- Upload R Model -->
+<div style="width: 100%">
+	<div class="box box-primary">
+		<form id="r_uploadForm">
+			<div class="box-body">
+				<div class="col-sm-12">
+
+					<div class="form-group">
+
+						<span class="col-sm-9 control-label pull-left" style="margin-left: -15px;padding-bottom: 5px;" for="exampleInputEmail1">R model tar.gz<font
+							color="red">*</font></span>
+						<div class="row">
+							<div class="col-sm-9">
+								<div class="input-group">
+									<input class="form-control" id="r_lib" name="rLib" type="text"
+										value={{rModel.tar.name}} readonly> <span
+										class="input-group-addon btn btn-file"
+										tooltip="Upload tar.gz file" tooltip-placement="top"
+										tooltip-trigger="mouseenter">
+										<i class="glyphicon glyphicon-search"></i><input id="r_tar"
+										name="tar" type="file" file-model="rModel.tar"
+										ng-model="rModel.tar" accept=".tar.gz" />
+									</span>
+								</div>
+							</div>
+
+							<div class="col-sm-3">
+								<select id="r_version" name="rVersion"
+									style="width: 60%; margin-left: 17%; height: 30px;" ng-model="rModel.version"
+									ng-options="ver for ver in versions"></select>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<!-- <label for="exampleInputEmail1">CheckSum<font color="red">*</font></label> -->
+						<span class="col-sm-9 control-label pull-left" style="margin-left: -15px;padding-bottom: 5px;" for="exampleInputEmail1">CheckSum<font
+							color="red">*</font></span>
+						<div class="row">
+							<input type="text" id="r_checksum" name="checksum"
+								class="form-control" style="margin-left: 15px; max-width: 92%;"
+								ng-model="rModel.checksum" placeholder="Enter Checksum Value" />
+						</div>
+					</div>
+
+
+					<div ng-show="progressVisible">
+						<label id="r_loadupdate" for="exampleInputEmail1" ng-show="loaded">{{loaded}}
+							/ {{total}}</label>
+						<div class="row">
+							
+							<div class="progress progress-striped active">
+								<div ng-class="err ? 'progress-bar progress-bar-danger' : 'progress-bar progress-bar-success'"
+									ng-style="{'width': progress+'%'}"><span id="percent">{{progress}}%</span></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="box-footer">
+				<div class="col-sm-12">
+					<div class="col-sm-6">
+						<span ng-class="err ? 'alert-error' : 'alert-success'"
+							ng-show="msg"><strong>{{msg}}</strong></span>
+					</div>
+					<div class="col-sm-6">
+						<div id="r_btnSetFinal" class="pull-right">
+							<button type="reset" id="r_clean" class="btn btn-primary" style="width:60px; margin-right:3px;"
+								ng-click="resetRUploadForm()" ng-disabled="progressVisible">Clear</button>
+							<button type="submit" id="r_uploadTar" class="btn btn-primary" style="width:60px"
+								ng-click="validateServerSide()" ng-disabled="progressVisible">Upload</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+	</div>
+</div>

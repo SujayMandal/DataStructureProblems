@@ -1,0 +1,20 @@
+CREATE TABLE MODEL_DEFINITION_AUDIT (
+	ID CHAR(36) NOT NULL, 
+	TENANT_ID CHAR(36) NULL COMMENT 'Tenant code for the record',
+	IO_TYPE VARCHAR(50) COMMENT 'Type of model definition text/xml or application/json',
+	IO_DEFINITION BLOB COMMENT 'The actual input output defintion for the model.', 
+	MODEL_ID CHAR(36) COMMENT 'The model to which this definition belongs.',
+	REV INT(11) NOT NULL,
+  	REVTYPE TINYINT(4) DEFAULT NULL,
+  	  CREATED_BY CHAR(100) NOT NULL ,
+	  CREATED_ON BIGINT(20) NOT NULL,
+	  LAST_UPDATED_BY CHAR(100) NULL,
+	  LAST_UPDATED_ON BIGINT(20) NULL,
+	PRIMARY KEY (ID,REV),
+  	KEY IDX_MODEL_DEFINITION_AUDIT_REVINFO (REV),
+  	CONSTRAINT FK_MODEL_DEFINITION_AUDIT_REVINFO FOREIGN KEY (REV) REFERENCES REVINFO (REV)
+)
+COMMENT='The table which contains the individual model definitions audit'
+DEFAULT CHARSET=utf8
+COLLATE='utf8_bin'
+ENGINE=InnoDB;

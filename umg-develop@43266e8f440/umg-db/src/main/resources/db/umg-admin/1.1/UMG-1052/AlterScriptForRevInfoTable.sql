@@ -1,0 +1,1 @@
+alter table REVINFO ADD column `REVBY` varchar(100) ;

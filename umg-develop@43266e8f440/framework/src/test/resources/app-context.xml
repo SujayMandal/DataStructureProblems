@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+	<description>Example configuration to get you started.</description>
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="${entitymanager.packages.to.scan}" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="generateDdl" value="${db.generateDdl}" />
+				<property name="databasePlatform" value="${db.dialect}" />
+				<property name="showSql" value="${db.showSql}" />
+			</bean>
+		</property>
+		<property name="persistenceProvider" ref="persistanceProvider" />
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.format_sql">${db.format_sql}</prop>
+			</props>
+		</property>
+		<property name="persistenceUnitManager">
+			<bean
+				class="org.springframework.data.jpa.support.MergingPersistenceUnitManager">
+				<property name="persistenceXmlLocations">
+					<list>
+						<value>classpath*:META-INF/*persistence*.xml</value>
+					</list>
+				</property>
+				<property name="defaultDataSource" ref="dataSource" />
+			</bean>
+		</property>
+		<property name="persistenceUnitName" value="spring-jpa" />
+	</bean>
+
+	<bean id="persistanceProvider"
+		class="com.ca.framework.core.persistance.HibernatePersistenceProviderMT" />
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="jpaDialect">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+		</property>
+	</bean>
+
+	<bean id="umgAdminDataSource" class = "com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${db.driver}" />
+        <property name="jdbcUrl" value="${db.url}" />
+        <property name="user" value="${db.username}" />
+        <property name="password" value="${db.password}" /> 
+	 </bean>
+	 
+	 
+	<!-- <bean id="adminDataSource" class="com.jolbox.bonecp.BoneCPDataSource">
+		<property name="driverClass" value="${db.driver}" />
+		<property name="jdbcUrl" value="${db.url}" />
+		<property name="username" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+	</bean> -->
+
+	<bean id="dataSource"
+		class="com.ca.framework.core.db.persistance.TenantRoutingDataSource">
+		<property name="defaultTargetDataSource" ref="adminDataSource"></property>
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<jpa:auditing auditor-aware-ref="auditorAwareBean" />
+
+	<bean id="auditorAwareBean" class="com.ca.framework.core.db.domain.AuditorAwareImpl" />
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+</beans>

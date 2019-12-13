@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://com.ca.umg.matlab.io/xml/ns/umg-matlab-io" targetNamespace="http://com.ca.umg.matlab.io/xml/ns/umg-matlab-io" elementFormDefault="qualified">
+	<xs:complexType name="umg-matlab-io">
+		<xs:annotation>
+			<xs:documentation>Root Complex Type</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="input" type="matlab-record" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="output" type="matlab-record" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="matlab-record">
+		<xs:all>
+			<xs:element name="nativefieldlist" type="nativefieldlist" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="fieldlist" type="fieldlist" minOccurs="1" maxOccurs="1"/>
+		</xs:all>
+	</xs:complexType>  
+  <xs:complexType name="nativefieldlist">
+		<xs:sequence>
+			<xs:element name="native-field" type="native-field" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+  <xs:complexType name="native-field">
+		<xs:choice>
+			<xs:element name="mwstructarray" type="mwstructarray" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="mwchararray" type="mwchararray" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="mwnumericarray" type="mwnumericarray" minOccurs="1" maxOccurs="1"/>
+		</xs:choice>
+		<xs:attribute name="sequence" type="xs:positiveInteger"/>
+		<xs:attribute name="Name" type="xs:string"/>
+		<xs:attribute name="Description" type="xs:string"/>
+		<xs:attribute name="required" type="xs:boolean"/>
+		<xs:attribute name="collection" type="xs:boolean"/>
+	</xs:complexType>
+	<xs:complexType name="mwstructarray">
+		<xs:sequence>
+			<xs:element name="dimensions" type="dimensions" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="fields" type="fields" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="dimensions">
+		<xs:sequence>
+			<xs:element name="dim" type="xs:positiveInteger" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="fields">
+		<xs:sequence>
+			<xs:element name="field" type="field" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="mwchararray">		
+	</xs:complexType>
+	<xs:complexType name="mwnumericarray">
+		<xs:sequence>
+			<xs:element name="datatype" type="datatype" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="field">
+		<xs:sequence>
+			<xs:element name="fieldName" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="fieldType" type="fieldType" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+  
+  <xs:complexType name="fieldType">
+		<xs:choice>
+			<xs:element name="mwstructarray" type="mwstructarray" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="mwchararray" type="mwchararray" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="mwnumericarray" type="mwnumericarray" minOccurs="1" maxOccurs="1"/>
+      		<xs:element name="simple" type="datatype" minOccurs="1" maxOccurs="1"/>
+		</xs:choice>
+	</xs:complexType>
+  
+  <xs:complexType name="fieldlist">
+		<xs:sequence>
+			<xs:element name="simplefield" type="simplefield" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="simplefield">
+		<xs:attribute name="sequence" type="xs:positiveInteger"/>
+		<xs:attribute name="Name" type="xs:string"/>
+		<xs:attribute name="Description" type="xs:string"/>
+		<xs:attribute name="datatype" type="datatype"/>
+		<xs:attribute name="size" type="xs:positiveInteger"/>
+		<xs:attribute name="precision" type="xs:positiveInteger"/>
+		<xs:attribute name="required" type="xs:boolean"/>
+		<xs:attribute name="collection" type="xs:boolean"/>
+	</xs:complexType>
+  
+	<xs:element name="umg-matlab-io" type="umg-matlab-io">
+		<xs:annotation>
+			<xs:documentation>UMG Matlab Input Output Interface Specification</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:simpleType name="datatype">
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="INTEGER"/>
+			<xs:enumeration value="BOOLEAN"/>
+			<xs:enumeration value="DECIMAL"/>
+			<xs:enumeration value="STRING"/>
+			<xs:enumeration value="double"/>
+			<xs:enumeration value="string"/>
+			<xs:enumeration value="integer"/>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

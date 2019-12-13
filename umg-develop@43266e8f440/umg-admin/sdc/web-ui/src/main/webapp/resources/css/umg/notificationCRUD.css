@@ -1,0 +1,109 @@
+/*common Add/Edit/Manage css*/
+.rowStyle{
+	margin-top: 10px;
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.paddingZero{
+	padding:0px! important;
+}
+
+.paddingLeftZero{
+	padding-left: 0px! important;
+}
+
+/*notification Manage screen*/
+.manageMainBoxDiv{
+	margin-bottom:0px;
+	box-shadow:none;
+}
+
+.manageBoxBodyheight{
+	height: 250px;
+	padding:0px;
+}
+
+.manageGridHeight{
+	height: 220px;
+}
+
+.manageButtonDivBox{
+	border-top: 0px; 
+	background: none; 
+	box-shadow: none;
+}
+
+/* notification add/edit screen */
+.padding10px{
+	padding:10px;
+}
+
+.boxBorderColor{
+	border-color:#D2D6DE! important;
+}
+
+.boxHeaderStyle{
+	padding: 5px;
+	text-align:center;
+}
+
+.boxTitleAlign{
+	vertical-align:middle;
+}
+
+.subBoxBodyDiv1{
+	height:auto;
+	overflow:auto;
+	max-height:200px;
+}
+
+.modelListStyle{
+	width:100%;
+	white-space:normal;
+	word-break:break-all;
+	background-color:#eee! important;
+}
+
+.subBoxBodyHeight{
+	height: 243px;
+}
+
+.marginTop5px{
+	margin-top: 5px;
+}
+
+.mandatoryMarker{
+	color: red;
+}
+
+.mailSubjectDiv{
+	height: 130px; 
+	max-height: 130px; 
+	min-width: 100%; 
+	max-width: 100%; 
+	overflow:auto;
+}
+
+.mailBodyDiv{
+	height: 220px; 
+	max-height: 220px; 
+	min-width: 100%; 
+	max-width: 100%; 
+	overflow:auto; 
+	cursor:auto! important;
+}
+
+.addEditBtnDiv{
+	padding:10px; 
+	text-align: center;
+}
+
+.saveBtn{
+	width: 120px;
+	margin-right: 50px;
+}
+
+.cancelBtn{
+	width: 120px;
+}

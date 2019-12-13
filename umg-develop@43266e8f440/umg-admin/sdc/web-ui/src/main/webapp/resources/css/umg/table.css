@@ -1,0 +1,8 @@
+.synd-elem-table {
+		width:100%;
+}
+
+.synd-elem-table td {
+	padding: 3px;
+	text-align: right;
+}

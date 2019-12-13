@@ -1,0 +1,36 @@
+{  
+   "partials":[  
+      {  
+         "mappingParam":"InputParameter1",
+         "mappedTo":"InputParameter1"
+      },
+      {  
+         "mappingParam":"InputParameter2",
+         "mappedTo":"InputParameter2"
+      },
+      {  
+         "mappingParam":"InputParameter3",
+         "mappedTo":"InputParameter3"
+      },
+      {  
+         "mappingParam":"InputParameter4",
+         "mappedTo":"InputParameter4"
+      },
+      {  
+         "mappingParam":"InputParameter5",
+         "mappedTo":"InputParameter5"
+      },
+      {  
+         "mappingParam":"InputParameter6",
+         "mappedTo":"InputParameter6"
+      },
+      {  
+         "mappingParam":"InputParameter7",
+         "mappedTo":"InputParameter7"
+      },
+      {  
+         "mappingParam":"A",
+         "mappedTo":"A"
+      }
+   ]
+}

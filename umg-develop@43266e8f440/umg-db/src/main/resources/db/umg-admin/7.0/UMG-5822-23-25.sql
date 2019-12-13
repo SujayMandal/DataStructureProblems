@@ -1,0 +1,46 @@
+
+use umg_admin;
+
+set @CREATED_BY = 'SYSTEM';
+
+set @CREATED_ON = '1401344421';
+
+set @TENANT_LOCALHOST = 'ocwen';
+
+set @EMAIL = 'Anand.Kumar@altisource.com';
+
+INSERT INTO NOTIFICATION_EVENT(ID, NAME, DESCRIPTION, CREATED_BY, CREATED_ON)
+	VALUES ('9FE824C2-5FB4-4C97-AB47-4FA2E33A1C6B', 'New Tenant Added Event', 'Mail will be sent when new tenant get added', @CREATED_BY, @CREATED_ON);
+
+INSERT INTO NOTIFICATION_EVENT(ID, NAME, DESCRIPTION, CREATED_BY, CREATED_ON)
+	VALUES ('9FE824C2-5FB4-4C97-AB47-4FA2E33A1C5B', 'Auth Token Resend Event', 'Mail will be sent when request for resend auth token', @CREATED_BY, @CREATED_ON);
+
+	
+INSERT INTO NOTIFICATION_EMAIL_TEMPLATE(ID, NAME, DESCRIPTION, BODY_DEFINITION, SUBJECT_DEFINITION, MAIL_CONTENT_TYPE, CREATED_BY, CREATED_ON)
+	VALUES ('1D5ED0C3-C206-4AD3-81CB-896FCCFD8D84', 'NEW TENANT ADDED EVENT TEMPLATE', 'NEW TENANT ADDED EVENT TEMPLATE', '<html><body>Hi,<br>Following Tenant has been onboarded in $environment<br>Tenant Name: $tenantName<br>Tenant Code : $tenantCode <br>Batch Enabled:$batchEnabled<br>Bulk Enabled : $bulkEnabled<br>Email Notifications Enabled : $emailNotificationsEnabled<br>Authentication Code: $authenticationCode<br>Active From $activeFrom<br>Active Until: $activeUntil<br>Tenant Onboarded on : $tenantOnboardedOn<br>Tenant Onboarded by : $tenantOnboardedBy<br>Regards,<br>REALAnalytics Team</body></html>', 'REALAnalytics $environment: Tenant $tenantName added', 'MIME', 'System', 1234567890);
+ 	
+INSERT INTO NOTIFICATION_EMAIL_TEMPLATE(ID, NAME, DESCRIPTION, BODY_DEFINITION, SUBJECT_DEFINITION, MAIL_CONTENT_TYPE, CREATED_BY, CREATED_ON)
+	VALUES ('1D5ED0C3-C206-4AD3-81CB-896FCCFD8D85', 'AUTH TOKEN RESEND EVENT TEMPLATE', 'AUTH TOKEN RESEND EVENT TEMPLATE', '<html><body>Hi,<br>Please find the requested Auth token details for $tenantName in $environment. <br>Authentication Code:$authenticationCode<br>Active From :$activeFrom<br>Active Until: $activeUntil<br>Reset For : $resetReason <br>Reset By : $resetBy<br><br>Regards,<br>REALAnalytics Team</body></html>', 'REALAnalytics $environment: Auth Token for $tenantName.', 'MIME', 'System', 1234567890);
+
+	
+INSERT INTO NOTIFICATION_EVENT_TEMPLATE_MAPPING (ID, NOTIFICATION_EVENT_ID, NOTIFICATION_TEMPLATE_ID, NOTIFICATION_TYPE_ID, TENANT_ID, TO_ADDRESS,   FROM_ADDRESS, CC_ADDRESS, BCC_ADDRESS, CREATED_BY, CREATED_ON)
+	VALUES ('9245ecf2-cd13-4e7a-9c25-b5afb45bb404', '9FE824C2-5FB4-4C97-AB47-4FA2E33A1C5B', '1D5ED0C3-C206-4AD3-81CB-896FCCFD8D85', '07E1739D-467E-42BE-8882-DAD8EDB7465B', @TENANT_LOCALHOST, @EMAIL, @EMAIL, @EMAIL, @EMAIL, @CREATED_BY, @CREATED_ON);
+	
+INSERT INTO NOTIFICATION_EVENT_TEMPLATE_MAPPING (ID, NOTIFICATION_EVENT_ID, NOTIFICATION_TEMPLATE_ID, NOTIFICATION_TYPE_ID, TENANT_ID, TO_ADDRESS, FROM_ADDRESS, CC_ADDRESS, BCC_ADDRESS, CREATED_BY, CREATED_ON)
+	VALUES ('9245ecf2-cd13-4e7a-9c25-b5afb45bb405', '9FE824C2-5FB4-4C97-AB47-4FA2E33A1C6B', '1D5ED0C3-C206-4AD3-81CB-896FCCFD8D84', '07E1739D-467E-42BE-8882-DAD8EDB7465B', @TENANT_LOCALHOST, @EMAIL, @EMAIL, @EMAIL, @EMAIL, @CREATED_BY, @CREATED_ON);
+	
+	
+	
+INSERT INTO SYSTEM_PARAMETER (`ID`, `SYS_KEY`, `DESCRIPTION`, `SYS_VALUE`, `IS_ACTIVE`, `CREATED_BY`, `CREATED_ON`, `LAST_UPDATED_BY`, `LAST_UPDATED_ON`) 
+	VALUES ('af5e85e1-47k5-4ahc-106bdda18d79x', 'fromAddress', 'From address for tenant added', @EMAIL, 'Y', 'system', 1417439330020, 'system', 1417439330020);
+	
+INSERT INTO SYSTEM_PARAMETER (`ID`, `SYS_KEY`, `DESCRIPTION`, `SYS_VALUE`, `IS_ACTIVE`, `CREATED_BY`, `CREATED_ON`, `LAST_UPDATED_BY`, `LAST_UPDATED_ON`) 
+	VALUES ('af5e85e1-47k5-4ahc-106bdda18d78x', 'toAddress', 'TO Address for tenant added', @EMAIL, 'Y', 'system', 1417439330020, 'system', 1417439330020);
+	
+INSERT INTO SYSTEM_PARAMETER_AUDIT (`ID`, `SYS_KEY`, `DESCRIPTION`, `SYS_VALUE`, `IS_ACTIVE`, `CREATED_BY`, `CREATED_ON`, `LAST_UPDATED_BY`, `LAST_UPDATED_ON`) 
+	VALUES ('af5e85e1-47k5-4ahc-106bdda18d79x', 'fromAddress', 'From address for tenant added', @EMAIL, 'Y', 'system', 1417439330020, 'system', 1417439330020);
+	
+INSERT INTO SYSTEM_PARAMETER_AUDIT (`ID`, `SYS_KEY`, `DESCRIPTION`, `SYS_VALUE`, `IS_ACTIVE`, `CREATED_BY`, `CREATED_ON`, `LAST_UPDATED_BY`, `LAST_UPDATED_ON`) 
+	VALUES ('af5e85e1-47k5-4ahc-106bdda18d78x', 'toAddress', 'TO Address for tenant added', @EMAIL, 'Y', 'system', 1417439330020, 'system', 1417439330020);
+
+COMMIT;

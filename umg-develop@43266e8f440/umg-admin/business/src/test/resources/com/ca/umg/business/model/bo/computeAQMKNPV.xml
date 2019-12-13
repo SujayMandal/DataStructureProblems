@@ -1,0 +1,675 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umg-matlab-io xmlns="http://com.ca.umg.matlab.io/xml/ns/umg-matlab-io" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <metadata>
+    <model-name>AQMKNPV</model-name>
+    <model-version>V1</model-version>
+    <model-publisher>CA Modelling Team - 4c81723e4b9f00d3179cd2edf74b77c4</model-publisher>
+    <model-class>computeAQMKNPV.computeAQMKNPV</model-class>
+    <model-method>computeAQMKNPV</model-method>
+  </metadata>
+  <input>
+    <parameter sequence="1" name="FclsFeeStartPeriod" description="FclsFeeStartPeriod" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>
+    <parameter sequence="2" name="FclsRemainingPeriod" description="FclsRemainingPeriod" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>
+    <parameter sequence="3" name="MarketingPeriodRemaining" description="MarketingPeriodRemaining" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>
+    <parameter sequence="4" name="MaximumLoanTerm" description="MaximumLoanTerm" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>
+    <parameter sequence="5" name="ProjectedLegalFees" description="ProjectedLegalFees" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>
+    <parameter sequence="6" name="ProjectedLegalCost" description="ProjectedLegalCost" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>
+    <parameter sequence="7" name="RepairCost" description="RepairCost" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>        
+    <parameter sequence="8" name="ProjectedMntcCost" description="ProjectedMntcCost" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>        
+    <parameter sequence="9" name="ProjectedUtilityCost" description="ProjectedUtilityCost" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>        
+    <parameter sequence="10" name="BrokerFees" description="BrokerFees" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>        
+    <parameter sequence="11" name="ClosingCost" description="ClosingCost" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>        
+    <parameter sequence="12" name="MonthlyTaxes" description="MonthlyTaxes" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>        
+    <parameter sequence="13" name="MonthlyInsurance" description="MonthlyInsurance" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>        
+    <parameter sequence="14" name="MonthlyHoaFee" description="MonthlyHoaFee" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>        
+    <parameter sequence="15" name="litCashFlow" description="litCashFlow" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>        
+    <parameter sequence="16" name="miCashFlow" description="miCashFlow" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>        
+    <parameter sequence="17" name="miscCashFlow" description="miscCashFlow" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>        
+    <parameter sequence="18" name="taxCashFlow" description="taxCashFlow" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>        
+    <parameter sequence="19" name="legalCashFlow" description="legalCashFlow" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>        
+    <parameter sequence="20" name="HpaFactorArray"  description="HpaFactorArray" mandatory="true" syndicate="true">
+      <datatype>
+        <array>
+          <dimensions>
+            <dim>-1</dim>
+          </dimensions>
+          <type>
+            <double/>
+          </type>
+        </array>
+      </datatype>
+    </parameter>
+    <parameter sequence="21" name="ReoStigmaCoefficientsArray"  description="ReoStigmaCoefficientsArray" mandatory="true" syndicate="true">
+      <datatype>
+        <array>
+          <dimensions>
+            <dim>-1</dim>
+          </dimensions>
+          <type>
+            <double/>
+          </type>
+        </array>
+      </datatype>
+    </parameter>
+    <parameter sequence="22" name="litCashFlowStartDate" description="litCashFlowStartDate" mandatory="true" syndicate="false">
+      <datatype>
+        <date pattern="MM/DD/YYYY"/>
+      </datatype>
+    </parameter>  
+    <parameter sequence="23" name="litCashFlowMonthsDifference" description="litCashFlowMonthsDifference" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>  
+    <parameter sequence="24" name="miCashFlowStartDate" description="miCashFlowStartDate" mandatory="true" syndicate="false">
+      <datatype>
+        <date pattern="MM/DD/YYYY" />
+      </datatype>
+    </parameter>  
+    <parameter sequence="25" name="miCashFlowMonthsDifference" description="miCashFlowMonthsDifference" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>      
+    <parameter sequence="26" name="miscCashFlowStartDate" description="miscCashFlowStartDate" mandatory="true" syndicate="false">
+      <datatype>
+        <date pattern="MM/DD/YYYY" />
+      </datatype>
+    </parameter>  
+    <parameter sequence="27" name="miscCashFlowMonthsDifference" description="miscCashFlowMonthsDifference" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>
+    <parameter sequence="28" name="taxCashFlowStartDate" description="taxCashFlowStartDate" mandatory="true" syndicate="false">
+      <datatype>
+        <date pattern="MM/DD/YYYY" />
+      </datatype>
+    </parameter> 
+    <parameter sequence="29" name="taxCashFlowMonthsDifference" description="taxCashFlowMonthsDifference" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter> 
+    <parameter sequence="30" name="legalCashFlowStartDate" description="legalCashFlowStartDate" mandatory="true" syndicate="false">
+      <datatype>
+        <date pattern="MM/DD/YYYY" />
+      </datatype>
+    </parameter>
+    <parameter sequence="31" name="legalCashFlowMonthsDifference" description="legalCashFlowMonthsDifference" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>     
+    <parameter sequence="32" name="CurrentPropertyVal" description="CurrentPropertyVal" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>     
+    <parameter sequence="33" name="DiscountRate" description="DiscountRate" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>     
+    <parameter sequence="34" name="TotalDebt" description="TotalDebt" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>     
+    <parameter sequence="35" name="PayoffAmount" description="PayoffAmount" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>     
+    <parameter sequence="36" name="MinBrokerFees" description="MinBrokerFees" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter> 
+    <parameter sequence="37" name="StartDateNonMods" description="StartDateNonMods" mandatory="true" syndicate="false">
+      <datatype>
+        <date pattern="MM/DD/YYYY" />
+      </datatype>
+    </parameter> 
+    <parameter sequence="38" name="LitigationDelay" description="LitigationDelay" mandatory="true" syndicate="false">
+      <datatype>
+        <double/>
+      </datatype>
+    </parameter>
+    <parameter sequence="39" name="ServicerData"  description="ServicerData" mandatory="true" syndicate="false">
+        <datatype>
+				<array>
+					<dimensions>
+						<dim>1</dim>
+						<dim>1</dim>
+					</dimensions>
+					<type>
+						<object>
+							<properties>
+								<parameter sequence="1" name="propertyInfo" description="Exapmle property info parameter." mandatory="true" syndicate="false">
+									<datatype>
+										<object>
+											<properties>
+												<parameter sequence="1" name="valuationDate" description="Exapmle valuation date." mandatory="true" syndicate="false">
+													<datatype>
+														<date pattern="MM/DD/YYYY"/>
+													</datatype>
+												</parameter>
+												<parameter sequence="2" name="valuationType" description="Exapmle valuation type." mandatory="true" syndicate="false">
+													<datatype>
+														<string/>
+													</datatype>
+												</parameter>
+												<parameter sequence="3" name="propertyZip" description="Exapmle property zip." mandatory="true" syndicate="false">
+													<datatype>
+														<string/>
+													</datatype>
+												</parameter>
+												<parameter sequence="4" name="propertyState" description="Exapmle property state." mandatory="true" syndicate="false">
+													<datatype>
+														<string/>
+													</datatype>
+												</parameter>
+												<parameter sequence="5" name="delinquentTaxes" description="Exapmle delinquent taxes." mandatory="true" syndicate="false">
+													<datatype>
+														<double/>
+													</datatype>
+												</parameter>
+											</properties>
+										</object>
+									</datatype>
+								</parameter>
+								<parameter sequence="2" name="loanInputs" description="Exapmle loan inputs parameter." mandatory="true" syndicate="false">
+									<datatype>
+										<object>
+											<properties>												
+												<parameter sequence="1" name="preModRateSLien" description="Exapmle pre Mod Rate SLien." mandatory="true" syndicate="false">
+													<datatype>
+														<double/>
+													</datatype>
+												</parameter>
+												<parameter sequence="2" name="preModTermSlien" description="Exapmle pre Mod Term SLien." mandatory="true" syndicate="false">
+													<datatype>
+														<double/>
+													</datatype>
+												</parameter>
+												<parameter sequence="3" name="preModRate" description="Exapmle pre Mod Rate." mandatory="true" syndicate="false">
+													<datatype>
+														<double/>
+													</datatype>
+												</parameter>
+												<parameter sequence="4" name="preModTerm" description="Exapmle pre Mod Term." mandatory="true" syndicate="false">
+													<datatype>
+														<double/>
+													</datatype>
+												</parameter>
+											</properties>
+										</object>
+									</datatype>
+								</parameter>
+								<parameter sequence="3" name="servicerInputs" description="Exapmle servicer inputs." mandatory="true" syndicate="false">
+									<datatype>
+										<object>
+											<properties>
+												<parameter sequence="1" name="servicerOwnedFlag" description="Exapmle servicer owned flag." mandatory="true" syndicate="false">
+													<datatype>
+														<double/>
+													</datatype>
+												</parameter>
+											</properties>
+										</object>
+									</datatype>
+								</parameter>
+							</properties>
+						</object>
+					</type>
+				</array>
+			</datatype>
+    </parameter>
+  </input>
+  <output>
+    <parameter sequence="1" name="output1" description="output1" mandatory="true" syndicate="false">
+      <datatype>
+        <object>
+          <properties>
+            <parameter sequence="1" name="firstLienNPV" description="firstLienNPV" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="2" name="secondLienNPV" description="secondLienNPV" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="3" name="NPVVector" description="NPVVector" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="4" name="totalDebtNPV" description="totalDebtNPV" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="5" name="totalDebtNPVSecondLien" description="totalDebtNPVSecondLien" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+          </properties>
+        </object>
+      </datatype>
+    </parameter>
+    <parameter sequence="2" name="output2" description="output2" mandatory="true" syndicate="false">
+      <datatype>
+        <object>
+          <properties>
+            <parameter sequence="1" name="period" description="period" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>              
+            <parameter sequence="2" name="calendarString" description="calendarString" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="3" name="legalFees" description="legalFees" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>              
+            <parameter sequence="4" name="legalCosts" description="legalCosts" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="5" name="repairCosts" description="repairCosts" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>              
+            <parameter sequence="6" name="maintenanceCosts" description="maintenanceCosts" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="7" name="utilityCosts" description="utilityCosts" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>              
+            <parameter sequence="8" name="brokerFees" description="brokerFees" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="9" name="closingCosts" description="closingCosts" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>              
+            <parameter sequence="10" name="taxes" description="taxes" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="11" name="insurances" description="insurances" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>              
+            <parameter sequence="12" name="salesProceeds" description="salesProceeds" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="13" name="netCashFlows" description="netCashFlows" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>              
+            <parameter sequence="14" name="expectedPropertyValue" description="expectedPropertyValue" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="15" name="hpaFactor" description="hpaFactor" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>              
+            <parameter sequence="16" name="rates" description="rates" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="17" name="hoa" description="hoa" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>              
+            <parameter sequence="18" name="litigationCosts" description="litigationCosts" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="19" name="MICosts" description="MICosts" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>              
+            <parameter sequence="20" name="misc1Costs" description="misc1Costs" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="21" name="misc2Costs" description="misc2Costs" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+            <parameter sequence="22" name="misc3Costs" description="misc3Costs" mandatory="true" syndicate="false">
+              <datatype>
+                <array>
+                  <dimensions>
+                    <dim>-1</dim>
+                    <dim>-1</dim>
+                  </dimensions>
+                  <type>
+                    <double/>
+                  </type>
+                </array>
+              </datatype>
+            </parameter>
+          </properties>
+        </object>
+      </datatype>
+    </parameter>
+  </output>
+</umg-matlab-io>

@@ -1,0 +1,366 @@
+<!-- form start -->
+<form role="form" name="mpForm" novalidate>
+	<!-- <div class="col-md-12"> -->
+	<div ng-include
+		src="'resources/partial/model/publish/model-publish-common.html'"></div>
+
+	<div align="center" ng-show="!showAdditionalArtifactsForm">
+		<div class="col-sm-1">
+			<!-- <label class="btn btn-sm" style="width: 140px;"> <span
+				for="pl" class="control-label"
+				ng-show="!showAdditionalArtifactsForm && versionFailed"
+				style="margin-left: -25px;">Status : </span> {{versionStatus}}
+			</label> -->
+		</div>
+		<div class="col-sm-8 center-block" style="width:100%;">
+			<div class="center-block" 	data-toggle="buttons">
+				
+
+				<button type="submit" class="btn btn-primary"
+					ng-hide="activeTab == 'CreateNewModel'"
+					ng-disabled="(mpForm.modelName_fv_sel.$dirty && mpForm.modelName_fv_sel.$invalid) || (mpForm.verType.$dirty && mpForm.verType.$invalid) || (mpForm.pr_lng.$dirty && mpForm.pr_lng.$invalid) || (mpForm.pr_lng_version.$dirty && mpForm.pr_lng_version.$invalid) ||(mpForm.version_desc_fv.$dirty && mpForm.version_desc_fv.$invalid) || angular.isUndefined(smp.mapping.model.documentationName) || smp.mapping.model.documentationName == null  || smp.mapping.model.documentationName == '' || smp.modelLibrary.programmingLanguage == '' || smp.modelLibrary.executionLanguage == ''"
+					id="add_artifacts_btn1" ng-click="validateModelName();">Next
+					: Add Artifacts</button>
+
+				<button type="submit" class="btn btn-primary "
+					ng-hide="activeTab == 'CreateNewVersion'"
+					ng-disabled="(mpForm.modelName_fv.$dirty && mpForm.modelName_fv.$invalid) || (mpForm.model_desc_fv.$dirty && mpForm.model_desc_fv.$invalid) || (mpForm.pr_lng.$dirty && mpForm.pr_lng.$invalid) || (mpForm.pr_lng_version.$dirty && mpForm.pr_lng_version.$invalid) || angular.isUndefined(smp.mapping.model.documentationName) || smp.mapping.model.documentationName == null  || smp.mapping.model.documentationName == '' || smp.modelLibrary.programmingLanguage == '' || smp.modelLibrary.executionLanguage == '' || smp.name == ''"
+					id="add_artifacts_btn" ng-click="validateModelName();">Next
+					: Add Artifacts</button>
+				<button type="submit" class="btn btn-primary"
+				style="margin-left:5px;"
+					ng-disabled="!mpForm.$dirty && smp.mapping.model.documentationName == ''"
+					ng-click="clearForm();" id="clr_btn">Clear</button>	
+			</div>
+		</div>
+		<div class="col-sm-3">
+			<!-- ng-show="!showAdditionalArtifactsForm && versionFailed">
+			<a id="viewLogsInitial" ng-click="expandOutput();">View Logs </a> -->
+		</div>
+	</div>
+
+	<div class="box-body">
+		<div class="form-horizontal" ng-show="showAdditionalArtifactsForm">
+			<div class="box-header with-border"  style="border-top: 2px solid #AAAAAA; border-bottom-width: 0px; margin-left: -10px; margin-right: -10px;">
+				<span class="sub-heading-1" style="font-weight: 600;">2. Add Model Artifacts</span>
+			</div>
+			<div style="padding-top: 10px;"></div>
+			<div class="form-group"
+				ng-show="smp.modelLibrary.executionLanguage.indexOf('R') != -1">
+				<span for="tar" class="col-sm-3 control-label">R Model tar.gz/zip
+					<font color="red">*</font>
+				</span>
+				<div class="col-sm-3" style="width: 30%;"
+					ng-show="!versionImportInProgress && !pickExistingLib">
+					<input style="background-color: white;" class="form-control input-sm" type="text" id="r_tar_txt"
+						name="tar" value="{{smp.modelLibrary.jar.name}}" readonly>
+				</div>
+				<div class="col-sm-3" style="width: 30%;"
+					ng-show="versionImportInProgress || pickExistingLib">
+					<input style="background-color: white;" class="form-control input-sm" type="text"
+						id="r_tar_txt_import" name="tar"
+						ng-model="smp.modelLibrary.jarName" readonly>
+				</div>
+				<div class="col-sm-3" style="text-align: left; padding-left: 0px;">
+					<span class="btn btn-primary btn-sm btn-file" style="width: 60px"
+						tooltip="Upload tar.gz/zip file" tooltip-placement="top"
+						tooltip-trigger="mouseenter">Browse<input type="file"
+						ng-click="resetPickLibFlag(); resetR_tar_upload_btn();" file-model="smp.modelLibrary.jar"
+						id="r_tar_upload_btn"
+						ng-disabled="versionImportInProgress || versionSaved" name="tar"
+						ng-model="smp.modelLibrary.jar" accept=".tar.gz,.zip">
+					</span> <a id="pick_existing-r" ng-click="launchExistingLibDialog();"
+						ng-hide="versionImportInProgress || versionSaved"
+						data-toggle="modal" data-target="#libModal"
+						style="padding-left: 10px; cursor: pointer;">| Select Existing</a>
+				</div>
+			</div>
+
+			<div class="form-group"
+				ng-show="smp.modelLibrary.executionLanguage.indexOf('Matlab') != -1">
+				<span for="jar" class="col-sm-3 control-label">Matlab Model
+					Jar <font color="red">*</font>
+				</span>
+				<div class="col-sm-3" style="width: 30%;"
+					ng-show="!versionImportInProgress && !pickExistingLib">
+					<input style="background-color: white;" class="form-control input-sm" type="text"
+						value="{{smp.modelLibrary.jar.name}}" id="matlab_jar_txt"
+						name="jar" readonly>
+				</div>
+				<div class="col-sm-3" style="width: 30%;"
+					ng-show="versionImportInProgress || pickExistingLib">
+					<input style="background-color: white;" class="form-control input-sm" type="text"
+						ng-model="smp.modelLibrary.jarName" id="matlab_jar_txt_import"
+						name="jar" readonly>
+				</div>
+				<div class="col-sm-3" style="text-align: left; padding-left: 0px;">
+					<span class="btn btn-primary btn-sm btn-file" style="width: 60px"
+						tooltip="Upload .jar file" tooltip-placement="top"
+						tooltip-trigger="mouseenter">Browse<input type="file"
+						ng-click="resetPickLibFlag(); resetMatlab_jar_upload_btn();" file-model="smp.modelLibrary.jar"
+						id="matlab_jar_upload_btn" name="jar"
+						ng-model="smp.modelLibrary.jar"
+						ng-disabled="versionImportInProgress || versionSaved"
+						accept=".jar">
+					</span> <a id="pick_existing-matlab" ng-click="launchExistingLibDialog();"
+						ng-hide="versionImportInProgress || versionSaved"
+						data-toggle="modal" data-target="#libModal"
+						style="padding-left: 10px; cursor: pointer;">| Select Existing</a>
+				</div>
+				<!-- <div class="col-sm-2" style="text-align: left; padding-left: 0px;">
+					<a href="plugin/downloadModelTemplate/Matlab"
+						ng-show="smp.modelLibrary.executionLanguage.indexOf('Matlab') != -1"
+						tooltip="Download Matlab Model Template" tooltip-placement="top"
+						tooltip-trigger="mouseenter"> <span for="template"
+						class="control-label" style="padding-left: 10px;">IO
+							Template</span> <i class="fa fa-fw fa-file-excel-o" id="template_fv_1"></i>
+					</a>
+				</div> -->
+
+				<!-- <div class="col-md-2"></div> -->
+			</div>
+			
+				<div class="form-group"
+				ng-show="smp.modelLibrary.executionLanguage.indexOf('Excel') != -1">
+				<span for="jar" class="col-sm-3 control-label">Excel Model<font color="red">*</font>
+				</span>
+				<div class="col-sm-3" style="width: 30%;"
+					ng-show="!versionImportInProgress && !pickExistingLib">
+					<input style="background-color: white;" class="form-control input-sm" type="text"
+						value="{{smp.modelLibrary.jar.name}}" id="excel_jar_txt"
+						name="excel" readonly>
+				</div>
+				<div class="col-sm-3" style="width: 30%;"
+					ng-show="versionImportInProgress || pickExistingLib">
+					<input style="background-color: white;" class="form-control input-sm" type="text"
+						ng-model="smp.modelLibrary.jarName" id="excel_jar_txt_import"
+						name="excel" readonly>
+				</div>
+				<div class="col-sm-3" style="text-align: left; padding-left: 0px;">
+					<span class="btn btn-primary btn-sm btn-file" style="width: 60px"
+						tooltip="Upload .xls,.xlsx,.xlsm file" tooltip-placement="top"
+						tooltip-trigger="mouseenter">Browse<input type="file"
+						ng-click="resetPickLibFlag(); resetExcel_upload_btn();" file-model="smp.modelLibrary.jar"
+						id="excel_upload_btn" name="jar"
+						ng-model="smp.modelLibrary.jar"
+						ng-disabled="versionImportInProgress || versionSaved"
+						accept=".xlsx,.xls,.xlsm">
+					</span> <a id="pick_existing-excel" ng-click="launchExistingLibDialog();"
+						ng-hide="versionImportInProgress || versionSaved"
+						data-toggle="modal" data-target="#libModal"
+						style="padding-left: 10px; cursor: pointer;">| Select Existing</a>
+				</div>
+				<!-- <div class="col-sm-2" style="text-align: left; padding-left: 0px;">
+					<a href="plugin/downloadModelTemplate/Matlab"
+						ng-show="smp.modelLibrary.executionLanguage.indexOf('Matlab') != -1"
+						tooltip="Download Matlab Model Template" tooltip-placement="top"
+						tooltip-trigger="mouseenter"> <span for="template"
+						class="control-label" style="padding-left: 10px;">IO
+							Template</span> <i class="fa fa-fw fa-file-excel-o" id="template_fv_1"></i>
+					</a>
+				</div> -->
+
+				<!-- <div class="col-md-2"></div> -->
+			</div>
+			
+			
+
+			<div class="form-group"
+				ng-show="smp.modelLibrary.executionLanguage.indexOf('R') != -1">
+				<span for="mf" class="col-sm-3 control-label">Manifest File </span>
+				<div class="col-sm-3" style="width: 30%;"
+					ng-show="!versionImportInProgress &&  !pickExistingLib">
+					<input style="background-color: white;" class="form-control input-sm" type="text" id="manifest_txt"
+						name="r_manifest_file"
+						value={{smp.modelLibrary.manifestFile.name}} readonly>
+				</div>
+				<div class="col-sm-3" style="width: 30%;"
+					ng-show="versionImportInProgress || pickExistingLib">
+					<input style="background-color: white;" class="form-control input-sm" type="text"
+						id="manifest_txt_import" name="r_manifest_file"
+						ng-model="smp.modelLibrary.rmanifestFileName" readonly>
+				</div>
+				<div class="col-sm-3" style="text-align: left; padding-left: 0px;">
+					<span class="btn btn-primary btn-sm btn-file" style="width: 60px"
+						ng-disabled="versionImportInProgress || pickExistingLib || versionSaved"
+						tooltip="Upload .csv file" tooltip-placement="top"
+						tooltip-trigger="mouseenter">Browse<input type="file"
+						ng-click="resetManifestFile(); resetR_manifest_upload_btn();"
+						id="r_manifest_upload_btn" name="r_manifest_file"
+						file-model="smp.modelLibrary.manifestFile"
+						ng-model="smp.modelLibrary.manifestFile">
+					</span> <a id="pick_existing-r-manifest"
+						ng-hide="versionImportInProgress || versionSaved"
+						style="padding-left: 10px; cursor: pointer;">| Select Existing</a>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<span for="mdef" class="col-sm-3 control-label">Model IO
+					Definition <font color="red">*</font>
+				</span>
+				<div class="col-sm-1" style="width: 11%; padding-right: 0px;" ng-hide="versionSaved || versionImportInProgress">
+					<select class="form-control" ng-model="modelType" ng-change="updateModelType(modelType);" 
+					style="padding-left: 2px;padding-right: 0px;">
+						<option>Online</option>
+						<option ng-if="smp.modelLibrary.executionLanguage.indexOf('R') != -1">Bulk</option>
+					</select>	
+				</div>
+				<div class="col-sm-1" style="width: 11%; padding-right: 0px;" ng-show="versionSaved || versionImportInProgress">
+					<select class="form-control" 
+					style="padding-left: 2px;padding-right: 0px;" ng-disabled="versionSaved || versionImportInProgress || activeTab == 'CreateNewVersion'">
+						<option>{{versionSaved? versionImportInProgress? 'Online' : modelType : 'Online'}}</option>
+					</select>	
+				</div>
+				
+				<div class="col-sm-3" style="width: 19%; padding-left: 0px;"
+					ng-show="!versionImportInProgress && !pickExistingIODefn">
+					<input style="background-color: white;" class="form-control input-sm" type="text" id="mod_io_def"
+						name="io_defn_file" value="{{smp.mapping.model.excel.name}}"
+						readonly>
+				</div>
+				<div class="col-sm-3" style="width: 19%; padding-left: 0px;"
+					ng-show="versionImportInProgress || pickExistingIODefn">
+					<input style="background-color: white;" class="form-control input-sm" type="text"
+						id="manifest_txt_import" name="io_defn_file"
+						ng-model="smp.mapping.model.ioDefinitionName" readonly>
+				</div>
+				<div class="col-sm-5" style="text-align: left; padding-left: 0px;">
+					<span class="btn btn-primary btn-sm btn-file" style="width: 60px"
+						tooltip="Upload .xslx or .xml file" tooltip-placement="top"
+						tooltip-trigger="mouseenter">Browse<input type="file"
+						ng-click="resetPickIODefn(); resetIo_defn_upload_btn();" id="io_defn_upload_btn"
+						name="io_defn_file" file-model="smp.mapping.model.excel"
+						ng-disabled="versionImportInProgress || versionSaved"
+						ng-model="smp.mapping.model.excel">
+					</span> <a id="pick_model_io" ng-click="launchExistingIODefnDialog();"
+						data-toggle="modal" data-target="#defModal"
+						ng-hide="versionImportInProgress || versionSaved"
+						style="padding-left: 10px; cursor: pointer; padding-right: 15px;">| Select Existing</a> <a
+						href="plugin/downloadModelTemplate/R/{{modelType}}"
+						ng-show="smp.modelLibrary.executionLanguage.indexOf('R') != -1  && !versionImportInProgress && !versionSaved"
+						tooltip="Download R Model {{modelType}} Template" tooltip-placement="top"
+						tooltip-trigger="mouseenter">{{ modelType=='Bulk'? 'Bulk IO Template' : 'Online IO Template' }}<span for="template"
+						class="control-label glyphicon glyphicon-download-alt" style="padding-left: 4px;"></span>
+					</a> <a href="plugin/downloadModelTemplate/Matlab/{{modelType}}"
+						ng-show="smp.modelLibrary.executionLanguage.indexOf('Matlab') != -1 && !versionImportInProgress && !versionSaved"
+						tooltip="Download Matlab Model Template" tooltip-placement="top"
+						tooltip-trigger="mouseenter">{{modelType=='Bulk'? 'Bulk IO Template' : 'Online IO Template' }} <span for="template"
+						class="control-label glyphicon glyphicon-download-alt" style="padding-left: 2px;"></span>
+					</a>
+				</div>
+				<div class="col-md-1"></div>
+			</div>
+
+			<div class="form-group">
+                  <span for="rt" class="col-sm-3 control-label">Report Template </span>
+                  <div class="col-sm-3" style="width: 30%;" ng-show="!versionImportInProgress && !pickExistingReport">
+                         <input style="background-color: white;" class="form-control input-sm" type="text" id="rep_temp_txt_import"
+                                name="report_template"
+                                value="{{smp.reportTemplateInfo.reportTemplate.name}}" readonly>
+                  </div>
+                  <div class="col-sm-3" style="width: 30%;"
+					ng-show="versionImportInProgress || pickExistingReport">
+					<input style="background-color: white;" class="form-control input-sm" type="text"
+						id="rep_temp_txt" name="report_template"
+						ng-model="smp.reportTemplateInfo.reportTemplate" readonly>
+				</div>
+                  <div class="col-sm-3" style="text-align: left; padding-left: 0px;">
+                         <span class="btn btn-primary btn-sm btn-file" style="width: 60px"
+                                tooltip="Upload .jrxml file" tooltip-placement="top"
+                                tooltip-trigger="mouseenter">Browse<input type="file"
+                                ng-click="resetPickReportTemplateFlag(); resetReportTemplate_upload_btn();"
+                                id="reportTemplate_upload_btn" 
+                                ng-disabled="versionImportInProgress || versionSaved" name="reportTemplate_file"
+                                file-model="smp.reportTemplateInfo.reportTemplate"
+                                ng-model="smp.reportTemplateInfo.reportTemplate" accept=".jrxml">
+                          </span>
+						<a id="pick_existing-report" ng-click="launchExistingReportDialog();"
+						ng-hide="versionImportInProgress || versionSaved"
+						data-toggle="modal" data-target="#reportModal"
+						style="padding-left: 10px; cursor: pointer;">| Select Existing</a>
+                 </div>            
+             
+			</div>
+			<div class="form-group">
+				<span for="checksum" class="col-sm-3 control-label">CheckSums (SHA256)<font
+					color="red">*</font></span>
+				<div class="col-sm-4">
+					<input type="text" id="checksum_fv" name="checksum"
+						ng-disabled="pickExistingLib || versionImportInProgress || versionSaved"
+						class="form-control " ng-model="smp.modelLibrary.checksum"
+						placeholder="Enter Checksum Value" />
+				</div>
+				<div class="col-sm-3" style="text-align: left;">
+					<span for="checkbox control-label" style="padding-left: 10px;">Allow
+						Nulls </span> <span style="padding-left: 10px;"> <input
+						type="checkbox" id="allowNull_chkbox"
+						ng-model="smp.mapping.model.allowNull" ng-disabled="versionSaved || versionImportInProgress"
+						ng-checked="{{smp.mapping.model.allowNull}}" name="allowNull">
+					</span>
+				</div>
+				<div class="col-sm-2">
+					<!-- <div class="checkbox">
+						</div> -->
+				</div>
+			</div>
+		</div>
+
+		<div class="col-sm-8 center-block" ng-show="showAdditionalArtifactsForm" style="width: 100%;">
+			<div class="center-block" data-toggle="buttons">
+
+				<!--UMG-4337 <label class="btn btn-sm" style="width: 140px;" ng-show="versionSaved || versionFailed"> 
+					<span for="pl" class="control-label"  style="margin-left: -25px;">
+					Status 	: {{versionStatus}} </span> 
+				</label> -->
+				<div class="col-md-4"></div>
+				<div class="col-md-2" ng-hide="versionSaved">
+				<button type="submit" class="btn btn-primary"
+					style="width: 100px;"
+					ng-hide="activeTab == 'CreateNewVersion' || versionSaved"
+					ng-disabled="(mpForm.modelName_fv.$dirty && mpForm.modelName_fv.$invalid) || (mpForm.model_desc_fv.$dirty && mpForm.model_desc_fv.$invalid) || (mpForm.pr_lng.$dirty && mpForm.pr_lng.$invalid) || (mpForm.pr_lng_version.$dirty && mpForm.pr_lng_version.$invalid) || angular.isUndefined(smp.mapping.model.documentationName) || smp.mapping.model.documentationName == '' || angular.isUndefined(smp.mapping.model.documentationName) || smp.mapping.model.documentationName == null  || smp.mapping.model.documentationName == '' || smp.modelLibrary.programmingLanguage == '' || smp.modelLibrary.executionLanguage == '' || angular.isUndefined(smp.modelLibrary.checksum) || smp.modelLibrary.checksum == '' ||  (smp.modelLibrary.jar == '' && smp.modelLibrary.jarName == '') || (smp.mapping.model.excel == '' && smp.mapping.model.ioDefinitionName == '') || smp.name == '' || smp.description == ''"
+					id="saveVersionBtn" ng-click="scrollToTop();saveVersion();">Validate &
+					Save</button>
+
+				<button type="submit" class="btn btn-primary"
+					style="width: 100px;"
+					ng-hide="activeTab == 'CreateNewModel' || versionSaved"
+					ng-disabled="(mpForm.modelName_fv_sel.$dirty && mpForm.modelName_fv_sel.$invalid) || (mpForm.verType.$dirty && mpForm.verType.$invalid) || (mpForm.pr_lng.$dirty && mpForm.pr_lng.$invalid) || (mpForm.pr_lng_version.$dirty && mpForm.pr_lng_version.$invalid) ||(mpForm.version_desc_fv.$dirty && mpForm.version_desc_fv.$invalid) || angular.isUndefined(smp.mapping.model.documentationName) || smp.mapping.model.documentationName == '' || angular.isUndefined(smp.mapping.model.documentationName) || smp.mapping.model.documentationName == null || smp.mapping.model.documentationName == '' || smp.modelLibrary.programmingLanguage == '' || smp.modelLibrary.executionLanguage == '' || angular.isUndefined(smp.modelLibrary.checksum) || smp.modelLibrary.checksum == '' || (smp.modelLibrary.jar == '' && smp.modelLibrary.jarName == '') || (smp.mapping.model.excel == '' && smp.mapping.model.ioDefinitionName == '')"
+					id="saveVersionBtn1" ng-click="decideManifestStatus();decideReportStatus();scrollToTop();saveVersion();">Validate &
+					Save</button>
+				</div>
+				<div class="col-md-2" ng-show="txnId !=null && txnId !='' && (versionSaved || versionFailed)">
+				<span ng-show="txnId !=null && txnId !=''&& versionSaved"> <a
+					class="btn btn-primary btn-sm" id="downloadIOSuccess"
+					ng-click="downloadIO('success');">Download IO </a>
+				</span> 
+				<span ng-show="txnId != null && txnId != '' && versionFailed">
+					<a class="btn btn-primary btn-sm" ng-click="downloadIO('error');"
+					id="downloadIOFailed"> Download IO </a>
+				</span>
+				</div>
+				<div class="col-md-2" ng-show="versionSaved">
+				 <a id="manageModelLink" ui-sref="umgVersionView"
+					ng-show="versionSaved" style="padding-left: 10px;"> Manage
+					Model </a> 
+				</div>
+				<div class="col-md-2" ng-hide = "versionSaved">
+				<button type="submit" class="btn  btn-primary"
+					style="width: 50px;"
+					ng-hide="versionImportInProgress || versionSaved"
+					ng-disabled="versionSaved" ng-click="clearForm();" id="clr_btn_1">Clear</button>
+				<button type="submit" class="btn  btn-primary"
+					style="width: 50px;"
+					ng-hide="!versionImportInProgress || versionSaved"
+					ng-click="cancelForm();" id="cancel_btn">Cancel</button>
+				</div>
+					<!-- UMG-4337 <a id="viewLogs" ng-click="expandOutput();"
+					ng-show="versionFailed" style="padding-left: 10px;">View Logs </a> -->
+
+			</div>
+		</div>
+
+	</div>
+</form>
+<!-- form end -->
+

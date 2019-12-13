@@ -1,0 +1,177 @@
+
+<div id="updateTenantSucMsg" ng-class="messageClass"
+	ng-show="showMessage" align="center" ng-bind-html="message"></div>
+
+<!-- form starts -->
+<form id="updateTenantForm" name="updateTenantForm" autocomplete="off">
+	<div class="col-md-12">
+		<div class="box box-primary">
+			<div class="form-horizontal">
+				<div class="box-body">
+					<div class="col-md-6 form-group">
+						<span for=tenant.code class="col-sm-5 control-label">Tenant
+							Code</span>
+						<div class="col-sm-7">
+							<input type="text" id="tenant.code" name="tenantCode"
+								ng-model="tenant.code" ng-disabled='true' class="form-control" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=tenant.name class="col-sm-5 control-label">Tenant
+							Name</span>
+						<div class="col-sm-7">
+							<input type="text" id="tenant.name" name="tenantName"
+								ng-model="tenant.name" ng-disabled='true' class="form-control" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group" ng-if="tenant.activeAuthToken != null">
+						<span for=tenant.activeAuthToken class="col-sm-5 control-label">Auth 
+						Token</span>
+						<div class="col-sm-7">
+							<input type="text" id="tenant.activeAuthToken" name="authToken"
+								ng-model="tenant.activeAuthToken" class="form-control" ng-disabled='true'>
+						</div>
+					</div>
+					<div class="col-md-6 form-group" ng-if="tenant.activeUntil != null">
+						<span for=tenant.activeUntil class="col-sm-5 control-label">Expiry 
+						Date</span>
+						<div class="col-sm-7">
+							<input type="text" id="tenant.activeUntil" name="tenantType"
+								ng-model="tenant.activeUntil" class="form-control" ng-disabled='true'>
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=tenant.description class="col-sm-5 control-label">Tenant
+							Description</span>
+						<div class="col-sm-7">
+							<textarea rows="1" cols="40" id="tenant.description"
+								name="tenantDesc" ng-model="tenant.description"
+								style="resize: none" class="form-control" ></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12" ng-repeat='address in tenant.addresses'>
+		<div class="box box-primary">
+			<div class="form-horizontal">
+				<div class="box-body">
+					<div class="col-md-6 form-group">
+						<span for=address.address1 class="col-sm-5 control-label">Address1</span>
+						<div class="col-sm-7">
+							<input type="text" id="address.address1" name="address1"
+								ng-model="address.address1" class="form-control" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=address.address2 class="col-sm-5 control-label">Address2</span>
+						<div class="col-sm-7">
+							<input type="text" id="address.address2" name="address2"
+								ng-model="address.address2" class="form-control" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=address.city class="col-sm-5 control-label">City</span>
+						<div class="col-sm-7">
+							<input type="text" id="address.city" name="city"
+								ng-model="address.city" class="form-control" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=address.state class="col-sm-5 control-label">State</span>
+						<div class="col-sm-7">
+							<input type="text" id="address.state" name="state"
+								ng-model="address.state" class="form-control" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=address.country class="col-sm-5 control-label">Country</span>
+						<div class="col-sm-7">
+							<input type="text" id="address.country" name="counntry"
+								ng-model="address.country" class="form-control" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=address.zip class="col-sm-5 control-label">Zip</span>
+						<div class="col-sm-7">
+							<input type="text" id="address.zip" name="zip"
+								ng-model="address.zip" class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<div class="box box-primary">
+			<div class="form-horizontal">
+				<div class="box-body" ng-repeat='tenantConfig in tenant.tenantConfigs'>
+					<div class="col-md-6 form-group">
+						<span for=tenantConfig.value class="col-sm-5 control-label"
+							ng-if="tenantConfig[0].systemKey.key != '' && tenantConfig[0].systemKey.key != undefined">
+							<strong>{{tenantConfig[0].systemKey.key}}</strong> [
+							{{tenantConfig[0].systemKey.type}} ]
+						</span>
+						<div class="col-sm-7"
+ng-if="tenantConfig[0].systemKey.key.indexOf('ENABLED') == -1  && tenantConfig[0].systemKey.key.indexOf('PASSWORD') == -1 && tenantConfig[0].systemKey.key != 'EXCEL' && tenantConfig[0].systemKey.key != 'ModelOutput_Validation' && tenantConfig[0].systemKey.key != 'AcceptableValues'">
+							<input type="text" id="tenantConfig.value"
+								name="tenantConfig.value" ng-model="tenantConfig[0].value"
+								ng-minlength="2" maxlength="500"
+								ng-disabled="(tenantConfig[0].role  == null  || tenantConfig[0].role  == '' || tenantConfig[0].role  == 'tenant')"
+								class="form-control" />
+						</div>
+						<div class="col-sm-7"
+	ng-if="tenantConfig[0].systemKey.key.indexOf('ENABLED') != -1 || tenantConfig[0].systemKey.key == 'EXCEL' || tenantConfig[0].systemKey.key == 'ModelOutput_Validation' || tenantConfig[0].systemKey.key == 'AcceptableValues'">
+							<input type="checkbox" ng-model="tenantConfig[0].value" ng-true-value="'true'" ng-false-value="'false'"/>
+						</div>
+						<div class="col-sm-7"
+							ng-if="tenantConfig[0].systemKey.key.indexOf('PASSWORD') != -1">
+							<input type="password" ng-model="tenantConfig[0].value"
+								ng-minlength="2" maxlength="500"
+								ng-disabled="(tenantConfig[0].role  == null  || tenantConfig[0].role  == '' || tenantConfig[0].role  == 'tenant')"
+								class="form-control" />
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=tenantConfig.value class="col-sm-5 control-label"
+							ng-if="tenantConfig[1].systemKey.key != '' && tenantConfig[1].systemKey.key != undefined">
+							<strong>{{tenantConfig[1].systemKey.key}}</strong> [
+							{{tenantConfig[1].systemKey.type}} ]
+						</span>
+						<div class="col-sm-7"
+							ng-if="tenantConfig[1].systemKey.key != undefined 
+								&& tenantConfig[1].systemKey.key.indexOf('ENABLED') == -1  
+									&& tenantConfig[1].systemKey.key.indexOf('PASSWORD') == -1 
+										&& tenantConfig[1].systemKey.key != 'EXCEL' 
+											&& tenantConfig[1].systemKey.key != 'ModelOutput_Validation' && tenantConfig[1].systemKey.key != 'AcceptableValues'">
+							<input type="text" id=tenantConfig.value
+								" name="tenantConfig.value" ng-model="tenantConfig[1].value"
+								ng-minlength="2" maxlength="500"
+								ng-disabled="(tenantConfig[1].role  ==  null || tenantConfig[1].role  == '' || tenantConfig[1].role  == 'tenant')"
+								class="form-control" />
+						</div>
+						<div class="col-sm-7"
+							ng-if="(tenantConfig[1].systemKey.key != undefined 
+								&& tenantConfig[1].systemKey.key.indexOf('ENABLED') != -1) 
+									|| tenantConfig[1].systemKey.key == 'EXCEL' 
+										|| tenantConfig[1].systemKey.key == 'ModelOutput_Validation' || tenantConfig[1].systemKey.key == 'AcceptableValues'">
+							<input type="checkbox" ng-model="tenantConfig[1].value"  ng-true-value="'true'" ng-false-value="'false'"/>
+						</div>
+						<div class="col-sm-7"
+							ng-if="tenantConfig[1].systemKey.key != undefined && tenantConfig[1].systemKey.key.indexOf('PASSWORD') != -1">
+							<input type="password" ng-model="tenantConfig[1].value"
+								ng-minlength="2" maxlength="500"
+								ng-disabled="(tenantConfig[1].role  ==  null || tenantConfig[1].role  == '' || tenantConfig[1].role  == 'tenant')"
+								class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div align="center">
+		<button style="width: 120px" type="button" id="save"
+				class="btn btn-primary" ng-click="update(tenant)">Save</button>
+	</div>
+</form>

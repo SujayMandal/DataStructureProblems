@@ -1,0 +1,14 @@
+<app-header></app-header>
+<router-outlet>
+    <span *ngIf="showLoader" style="background: transparent url(assets/images/new_loader.gif) center no-repeat;" class="loading"></span>
+    <span *ngIf="showLoader" class="loading-text"> {{loadingMessage}} </span>
+</router-outlet>
+
+<footer class="main-section" style="z-index: 5000;">
+    <div class="container-fluid">
+        <div class="positioner">
+            <div class="version">Dynamic Pricing App, {{appVersion}}</div>
+            <div class="timestamp"><span class="date" current-time></span></div>
+        </div>
+    </div>
+</footer>

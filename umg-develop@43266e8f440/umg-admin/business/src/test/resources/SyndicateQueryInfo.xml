@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<configuration>
+		<custom-converters>
+			<converter type="com.ca.umg.business.syndicatedata.query.SyndicateDataQueryCustomConverter">
+				<class-a>com.ca.umg.business.syndicatedata.info.SyndicateDataQueryInfo</class-a>
+				<class-b>com.ca.umg.business.syndicatedata.entity.SyndicateDataQuery</class-b>
+			</converter>
+		</custom-converters>
+	</configuration>
+</mappings>

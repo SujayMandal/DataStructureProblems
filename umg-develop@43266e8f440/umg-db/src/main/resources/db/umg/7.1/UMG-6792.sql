@@ -1,0 +1,5 @@
+use Ocwen;
+
+ALTER TABLE `UMG_RUNTIME_TRANSACTION` ADD COLUMN `OP_VALIDATION` TINYINT(4) NOT NULL DEFAULT '0' COMMENT 'Flag to allow model output validation' COLLATE 'utf8_bin' AFTER `IS_TEST`;
+
+commit;

@@ -1,0 +1,84 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+	<changeSet author="SYSTEM" id="version_3_1_Tag">
+		<tagDatabase tag="version_3_1" />
+	</changeSet>
+
+	<changeSet author="SYSTEM" id="version_3_1-1">
+
+		<sqlFile dbms="mysql" encoding="utf8" path="version-3-1_1.sql"
+			relativeToChangelogFile="true" splitStatements="true" stripComments="true" />
+
+		<rollback>
+			<sqlFile dbms="mysql" encoding="utf8" path="version-3-1_1-rollback.sql"
+				relativeToChangelogFile="true" splitStatements="true" stripComments="true" />
+		</rollback>
+
+	</changeSet>
+
+	<changeSet author="SYSTEM" id="version_3_1-2">
+
+		<sqlFile dbms="mysql" encoding="utf8" path="version-3-1_2.sql"
+			relativeToChangelogFile="true" splitStatements="true" stripComments="true" />
+
+		<rollback>
+			<sqlFile dbms="mysql" encoding="utf8" path="version-3-1_2-rollback.sql"
+				relativeToChangelogFile="true" splitStatements="true" stripComments="true" />
+		</rollback>
+
+	</changeSet>
+
+	<changeSet author="SYSTEM" id="version_3_1-3">
+
+		<sqlFile dbms="mysql" encoding="utf8" path="version-3-1_3.sql"
+			relativeToChangelogFile="true" splitStatements="true" stripComments="true" />
+
+		<rollback>
+			<sqlFile dbms="mysql" encoding="utf8" path="version-3-1_3-rollback.sql"
+				relativeToChangelogFile="true" splitStatements="true" stripComments="true" />
+		</rollback>
+
+	</changeSet>
+
+	<changeSet author="SYSTEM" id="version_3_1-4">
+
+		<sqlFile dbms="mysql" encoding="utf8" path="version-3-1_4.sql"
+			relativeToChangelogFile="true" splitStatements="true" stripComments="true" />
+
+		<rollback>
+			<sqlFile dbms="mysql" encoding="utf8" path="version-3-1_4-rollback.sql"
+				relativeToChangelogFile="true" splitStatements="true" stripComments="true" />
+		</rollback>
+
+	</changeSet>
+
+	<changeSet author="SYSTEM" id="version_3_1-5">
+
+		<sqlFile dbms="mysql" encoding="utf8" path="version-3-1_5.sql"
+			relativeToChangelogFile="true" splitStatements="true" stripComments="true" />
+
+		<rollback>
+			<sqlFile dbms="mysql" encoding="utf8" path="version-3-1_5-rollback.sql"
+				relativeToChangelogFile="true" splitStatements="true" stripComments="true" />
+		</rollback>
+
+	</changeSet>
+
+	<changeSet author="SYSTEM" id="version_3_1-6">
+
+		<sqlFile dbms="mysql" encoding="utf8" path="version-3-1_6.sql"
+			relativeToChangelogFile="true" splitStatements="true" stripComments="true" />
+
+		<rollback>
+			<sqlFile dbms="mysql" encoding="utf8" path="version-3-1_6-rollback.sql"
+				relativeToChangelogFile="true" splitStatements="true" stripComments="true" />
+		</rollback>
+
+	</changeSet>
+
+
+</databaseChangeLog>

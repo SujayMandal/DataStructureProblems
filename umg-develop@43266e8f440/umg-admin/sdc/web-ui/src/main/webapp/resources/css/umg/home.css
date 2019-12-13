@@ -1,0 +1,118 @@
+#loaderDiv {
+   position: fixed;
+   top: 0;
+   right: 0;
+   bottom: 0;
+   left: 0;
+   z-index: 1100;
+   background-color: white;
+   opacity: .6;
+}
+
+.ajax-loader {
+   position: absolute;
+   left: 50%;
+   top: 50%;
+   margin-left: -32px; /* -1 * image width / 2 */
+   margin-top: -32px; /* -1 * image height / 2 */
+   display: block;
+}
+
+.pagination li a input {
+       padding: 0;
+       margin: -5px 0;
+       color: #666;
+}
+.tenant-logo{
+ 	float: left;
+    width: 37px;
+    height: 37px;
+    border: solid white 2px;
+    border-radius: 16%;
+    margin-left: 57%;
+    margin-top: 16%;
+}
+
+.tenant-logo-collapse{
+    float: left;
+    width: 37px;
+    height: 37px;
+    border: solid white 2px;
+    border-radius: 16%;
+    margin-left: 11%;
+    margin-top: 11%;
+}
+.sidebar-mini.sidebar-collapse .main-footer {
+    margin-left: 50px!important;
+    z-index: 99999;
+}
+.sidebar-scroll {
+    position: absolute;
+    display: block;
+    overflow: auto;
+    width: 100%;
+    height: 90%;
+    max-width: 100%;
+    max-height: 90%;
+}
+.skin-blue .main-header .navbar {
+    /* background-color: #3c8dbc; */
+    background-image: url("../../images/header-v1.png");
+    /* border: 1px solid #000; */
+    box-shadow: 2px 2px 2px #888888;
+    background-color: #085b94;
+    background-size: 45% 290%;
+    background-repeat: no-repeat;
+}
+
+.skin-blue .main-header li.user-header {
+    background-color: #11406A;
+}
+
+.skin-blue .main-header .logo {
+  background-image: url("../../images/header-side.png");
+   background-size: 100% 100%;
+    background-repeat: no-repeat;
+}
+
+.content-wrapper, .right-side {
+ /*   background-image: url("../../images/backgroung-image.jpg");
+   background-size: 100% 100%;
+    background-repeat: repeat; */
+    background-color: #feffff;
+    z-index: 800;
+    
+}
+
+.main-footer {
+	position: fixed;
+	bottom: 0px;
+	overflow: hidden;
+	z-index: 999999;
+	height: 20px;
+	left: 0px;
+	right: 0px;
+	background-image: url("../../images/img_footer.png");
+	background-color: #1e272c;
+	background-size: 11% 100%;
+	background-position: right;
+	background-repeat: no-repeat;
+	border-top: 0px solid #d2d6de;
+	color: white;
+	padding: 0px;
+	box-shadow:  2px 2px 2px 2px #111111;
+}
+
+	
+.skin-blue .main-header .navbar .sidebar-toggle {
+    color: #27556E;
+}
+
+.skin-blue .main-header .navbar .sidebar-toggle:hover {
+    color: initial;
+    background: transparent;
+}
+
+.treeview>a>span {
+	font-size:14px;
+}

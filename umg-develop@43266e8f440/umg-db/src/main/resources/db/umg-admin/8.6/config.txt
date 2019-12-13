@@ -1,0 +1,7 @@
+#Add below configuration properties
+
+#Adding modelet synching rate 15 minutes
+modelet.sync.rate=900000
+
+#Enable or disable configuration for modelet scheduling
+modelet.enable.schedule=true

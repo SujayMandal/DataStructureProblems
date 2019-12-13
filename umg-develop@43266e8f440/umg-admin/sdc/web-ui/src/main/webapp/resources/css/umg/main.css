@@ -1,0 +1,64 @@
+#two{
+	/* width: 0;
+	height: 0;
+	border-left: 42px solid transparent;
+	border-right: 42px solid transparent;
+	border-bottom: 50px solid #ed6b00; */
+	background-image: url("../../images/triangle.png");
+	background-size:56px 50px;
+	background-repeat:no-repeat;
+	/* padding: 5%; */
+}
+
+.sub-heading-1{
+	font-size:15px;
+	font-weight:bold;
+	color:#337ab7
+	}
+	
+.success-heading {
+	background-color:#61DD39;
+}
+.error-heading {
+	background-color:#DD3939;	
+}
+
+ .ngHeaderSortColumn .ngHeaderText {
+    white-space: normal;
+}
+.col-md-6 .ngHeaderSortColumn .ngHeaderText  {
+   padding-top: 4px;
+   line-height: 1.2;
+}
+.grid .ngHeaderScroller .ngHeaderCell {
+	background: #073389;
+}
+.download_img{
+    height: 16px;
+    width: 16px;
+    text-align: center;
+    margin: 0 auto;
+    margin-top: 4px;
+    cursor: pointer;
+}
+.download_img img{
+	width:100%;
+}
+.cell_template {
+	white-space: nowrap;
+	width: 100%; 
+	overflow: hidden;
+	text-overflow:ellipsis;
+	padding-top:4px;
+	color: #495463;
+	padding-left:4px;
+}
+.error_code {
+	color: #6f99cc;
+	cursor: pointer;
+	padding-top:4px;
+	padding-left:4px;
+}
+.modal-title {
+    color: #fff ! important;
+}

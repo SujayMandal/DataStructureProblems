@@ -1,0 +1,47 @@
+<umg-matlab-io xmlns="http://com.ca.umg.matlab.io/xml/ns/umg-matlab-io" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<input>
+		<nativefieldlist>
+			<native-field sequence="2" Name="String" Description="String" required="true">
+				<mwstructarray>
+					<dimensions>
+						<dim>2</dim>
+					</dimensions>
+					<fields>
+						<field>
+							<fieldName>String</fieldName>
+							<fieldType>
+								<mwchararray/>
+							</fieldType>
+						</field>
+					</fields>
+				</mwstructarray>
+			</native-field>
+		</nativefieldlist>
+		<fieldlist>
+			<somefield sequence="2" Name="String" Description="String" datatype="BOOLEAN" size="2" precision="2" required="true"/>
+		</fieldlist>
+	</input>
+	<output>
+		<nativefieldlist>
+			<native-field sequence="2" Name="String" Description="String" required="true">
+				<mwstructarray>
+					<dimensions>
+						<dim>2</dim>
+					</dimensions>
+					<fields>
+						<field>
+							<fieldName>String</fieldName>
+							<fieldType>
+								<mwchararray/>
+							</fieldType>
+						</field>
+					</fields>
+				</mwstructarray>
+			</native-field>
+		</nativefieldlist>
+		<fieldlist>
+			<simplefield sequence="2" Name="String" Description="String" datatype="DECIMAL" size="2" precision="2" required="true"/>
+		</fieldlist>
+	</output>
+</umg-matlab-io>

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+			/WEB-INF/spring/message-resources.xml
+			/WEB-INF/spring/db-context.xml
+		    /WEB-INF/spring/root-context.xml
+    	</param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.ca.umg.rt.metrics.listener.MetricsServletListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.ca.framework.core.web.listener.ContextFinalizer</listener-class>
+	</listener>
+
+	<filter>
+		<filter-name>requestMarkerFilter</filter-name>
+		<filter-class>com.ca.umg.rt.web.filter.RequestMarkerFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>requestMarkerFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>instrumentedFilter</filter-name>
+		<filter-class>com.codahale.metrics.servlet.InstrumentedFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>instrumentedFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<filter>
+		<filter-name>UMGCorsFilter</filter-name>
+		<filter-class>com.ca.umg.rt.web.filter.UMGRuntimeCorsFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>UMGCorsFilter</filter-name>
+		<url-pattern>/runtime/*</url-pattern>
+	</filter-mapping>
+	
+ 	<filter>
+		<filter-name>umgSecurityFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>umgSecurityFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<servlet>
+		<servlet-name>httpTransportHandler</servlet-name>
+		<servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>httpTransportHandler</servlet-name>
+		<url-pattern>/runtime/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>adminServlet</servlet-name>
+		<servlet-class>com.codahale.metrics.servlets.AdminServlet</servlet-class>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>adminServlet</servlet-name>
+		<url-pattern>/admin/*</url-pattern>
+	</servlet-mapping>
+	<error-page>
+		<error-code>401</error-code>
+		<location>/WEB-INF/views/401.json</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/views/403.json</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/404.json</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/views/500.json</location>
+	</error-page>
+</web-app>

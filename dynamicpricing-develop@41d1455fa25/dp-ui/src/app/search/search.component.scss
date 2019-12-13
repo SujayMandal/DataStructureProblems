@@ -1,0 +1,32 @@
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+
+.futureTable{
+    margin: 0 auto;
+    white-space: nowrap;
+    border: 1px solid #adadad !important;
+    background: white;
+    padding-top: 4px; 
+   
+}
+table.futureTable td {
+  border:1px solid #adadad ;
+  text-align: left;
+  padding: 8px;
+  width:25%;
+}
+.space {
+  background-image: linear-gradient(-180deg, #F3F2F2 0%, #D4D3D4 100%);
+  width: 1% !important;
+  border-bottom-color: #D4D3D4 !important;
+}
+/* .excludeBtn{
+  margin-right: 232px !important;
+} */
+
+tr:nth-child(even) {
+  background-color: lavender;
+}

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://com.ca.umg.matlab.io/xml/ns/umg-matlab-io" targetNamespace="http://com.ca.umg.matlab.io/xml/ns/umg-matlab-io"           elementFormDefault="qualified">
+  
+	<xs:element name="umg-matlab-io" type="umg-matlab-io">
+		<xs:annotation>
+			<xs:documentation>UMG Matlab Input Output Interface Specification</xs:documentation>
+		</xs:annotation>
+	</xs:element>	
+  
+	<xs:complexType name="umg-matlab-io">
+		<xs:annotation>
+			<xs:documentation>Universal Model Gateway i/o description for matlab language. This is used to data type conversion between java and matlab.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+      <xs:element name="metadata" type="metadata" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="input" type="record" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="output" type="record" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+  
+  <xs:complexType name="metadata">
+    <xs:annotation>
+			<xs:documentation>Define model metadata.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="model-name" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="model-version" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="model-publisher" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="model-class" type="xs:string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="model-method" type="xs:string" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType> 
+	<xs:complexType name="record">
+		<xs:sequence>
+			<xs:element name="parameter" type="parameter" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>  
+  <xs:complexType name="parameter">
+		<xs:sequence>
+			<xs:element name="dataType" type="fieldType" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+    <xs:attribute name="sequence" type="xs:positiveInteger" use="required"/>
+		<xs:attribute name="name" type="xs:string" use="required"/>
+		<xs:attribute name="description" type="xs:string" use="required"/>
+    <xs:attribute name="mandatory" type="xs:boolean" use="required"/>
+	</xs:complexType>
+  
+  <xs:complexType name="fieldType">
+		<xs:choice>
+			<xs:element name="mwstructarray" type="mwstructarray" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="mwchararray" type="mwchararray" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="mwnumericarray" type="mwnumericarray" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="integer" type="integer" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="double" type="double" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="string" type="string" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="boolean" type="boolean" minOccurs="1" maxOccurs="1"/>
+      <xs:element name="date" type="date" minOccurs="1" maxOccurs="1"/>
+		</xs:choice>
+	</xs:complexType>
+  
+	<!-- Matlab specific data types -->
+    
+  <xs:complexType name="mwchararray">		
+	</xs:complexType>
+	
+  <xs:complexType name="mwnumericarray">
+		<xs:sequence>
+			<xs:element name="dataType" type="fieldType" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+ 
+	<xs:complexType name="mwstructarray">
+		<xs:sequence>
+			<xs:element name="dimensions" type="dimensions" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="fields" type="fields" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+  <xs:complexType name="dimensions">
+		<xs:sequence>
+			<xs:element name="dim" type="xs:positiveInteger" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	
+  <xs:complexType name="fields">
+		<xs:sequence>
+			<xs:element name="field" type="field" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+  
+  <xs:complexType name="field">
+		<xs:sequence>
+			<xs:element name="fieldName" type="xs:string" minOccurs="1" maxOccurs="1"/>
+			<xs:element name="fieldType" type="fieldType" minOccurs="1" maxOccurs="1"/>
+		</xs:sequence>
+	</xs:complexType>
+  
+  <xs:complexType name="string">  
+      <xs:attribute name="defaultValue" type="xs:string"/>
+  </xs:complexType>
+  
+  <xs:complexType name="double">
+     <xs:attribute name="defaultValue" type="xs:decimal"/>
+  </xs:complexType>
+  
+  <xs:complexType name="integer">  
+    <xs:attribute name="defaultValue" type="xs:integer"/>
+  </xs:complexType>
+  
+  <xs:complexType name="boolean">  
+    <xs:attribute name="defaultValue" type="xs:boolean"/>
+  </xs:complexType>
+  
+  <xs:complexType name="date">
+    <xs:attribute name="defaultValue" type="xs:date"/>
+  </xs:complexType>
+  
+</xs:schema>

@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:int-http="http://www.springframework.org/schema/integration/http"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+	xmlns:int-xml="http://www.springframework.org/schema/integration/xml"
+	xmlns:int-script="http://www.springframework.org/schema/integration/scripting"
+	xmlns:int-jmx="http://www.springframework.org/schema/integration/jmx"
+	xmlns:int-mongodb="http://www.springframework.org/schema/integration/mongodb"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+		http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+		http://www.springframework.org/schema/integration/xml http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/script http://www.springframework.org/schema/integration/scripting/spring-integration-scripting.xsd
+		http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm.xsd
+		http://www.springframework.org/schema/integration/jmx http://www.springframework.org/schema/integration/jmx/spring-integration-jmx.xsd
+		http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration/scripting http://www.springframework.org/schema/integration/scripting/spring-integration-scripting.xsd
+		http://www.springframework.org/schema/integration/mongodb http://www.springframework.org/schema/integration/mongodb/spring-integration-mongodb.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+
+	<!-- Async mongo logging -->
+	<int:publish-subscribe-channel id="mongochannel"
+		task-executor="taskExecutor" />
+	<task:executor id="taskExecutor" pool-size="25"
+		keep-alive="120" />
+	<int:outbound-channel-adapter channel="mongochannel"
+		method="log" ref="logadapter" />
+
+
+	<int:channel id="requestChannel">
+		<!-- <int:interceptors> <int:wire-tap channel="audit-channel" /> </int:interceptors> -->
+	</int:channel>
+
+	<int:channel id="responseChannel" />
+	<int:channel id="transaction-log-channel" />
+
+	<int:chain input-channel="preResponseChannel" output-channel="responseChannel">
+		<!-- <int:transformer expression="payload.tenantResponse" /> -->
+		<int:transformer
+			expression="headers['MONGO_ACTION'] == 'ERROR' ? payload.tenantRestResponse : payload.tenantResponse" />
+	</int:chain>
+
+	<int:publish-subscribe-channel id="preResponseChannel">
+		<!--<int:interceptors> <int:wire-tap channel="transaction-channel"/> </int:interceptors> -->
+	</int:publish-subscribe-channel>
+
+	<int-http:inbound-gateway id="requestGateWay"
+		supported-methods="POST" request-channel="requestChannel"
+		reply-channel="responseChannel" mapped-response-headers="Content-Type"
+		path="/runtime" reply-timeout="5000" message-converters="jsonConverter"
+		request-payload-type="java.util.Map" convert-exceptions="true"
+		error-channel="failed-messages">
+		<int-http:header name="SAN_PATH"
+			expression="T(org.springframework.web.context.request.RequestContextHolder).requestAttributes.request.getAttribute('SAN_PATH')" />
+		<int-http:header name="FILE_NAME"
+			expression="T(org.springframework.web.context.request.RequestContextHolder).requestAttributes.request.getAttribute('FILE_NAME')" />
+		<int-http:header name="batchId"
+			expression="T(org.springframework.web.context.request.RequestContextHolder).requestAttributes.request.getAttribute('BATCH_ID')" />
+		<int-http:header name="channel"
+			expression="T(org.springframework.web.context.request.RequestContextHolder).requestAttributes.request.getAttribute('CHANNEL')" />
+		<int-http:header name="IO_TIMESTAMP"
+			expression="T(org.springframework.web.context.request.RequestContextHolder).requestAttributes.request.getAttribute('IO_TIMESTAMP')" />
+	</int-http:inbound-gateway>
+	<!-- 2 gateway is a problem need to re-engineer later -->
+	<int:gateway id="testGateWay" error-channel="failed-messages"
+		default-reply-channel="responseChannel" default-request-channel="testRequestChannel"
+		service-interface="com.ca.umg.rt.flows.container.TestGateway" />
+	<int:channel id="testRequestChannel" />
+	<int:header-enricher input-channel="testRequestChannel"
+		output-channel="requestChannel">
+		<int:header name="isTest" value="1" type="java.lang.Integer" />
+	</int:header-enricher>
+
+	<int:channel id="filesIn" />
+	<int:channel id="filesOut" />
+	<int:channel id="filesInprogress" />
+	<int:channel id="filesArchive" />
+	<int:publish-subscribe-channel id="filePresentHandler"></int:publish-subscribe-channel>
+
+	<int:chain id="pre-processor-chain" input-channel="requestChannel"
+		output-channel="filesIn">
+		<int:header-enricher>
+			<int:header name="runtimeCallStart" expression="T(java.lang.System).currentTimeMillis()" />
+			<int:header name="flowContainerName" value="${flowContainerName}" />
+			<int:header name="modelName" value="${modelName}" />
+			<int:header name="modelLibraryName" value="${modelLibraryName}" />
+			<int:header name="modelLibraryVersionName" value="${modelLibraryVersionName}" />
+			<int:header name="majorVersion"
+				expression="T(java.lang.Integer).parseInt(${majorVersion})" />
+			<int:header name="minorVersion"
+				expression="T(java.lang.Integer).parseInt(${minorVersion})" />
+			<int:header name="versionString" value="${versionString}" />
+			<int:header name="tenantCode" value="${tenantCode}" />
+			<int:header name="test"
+				expression="headers['isTest'] != null ? headers['isTest'] : 0" type="java.lang.Integer" />
+			<int:header name="transactionId" expression="payload.header.transactionId" />
+			<int:header name="umgTransactionId" expression="T(org.slf4j.MDC).get('TRANSACTION_ID')" />
+		</int:header-enricher>
+	</int:chain>
+
+	<int:recipient-list-router input-channel="filesIn">
+		<int:recipient channel="filePresentHandler"
+			selector-expression="headers['FILE_NAME'] != null" />
+		<int:recipient channel="filesOut" selector-expression="headers['FILE_NAME'] == null" />
+	</int:recipient-list-router>
+
+	<!-- Writing files in ARCHIVE folder START -->
+	<int:outbound-channel-adapter channel="filePresentHandler"
+		method="copyToArchive" ref="moveFileAdapter">
+	</int:outbound-channel-adapter>
+	<!-- Writing files in ARCHIVE folder END -->
+
+
+	<!-- Writing files in IN-PROGRESS folder START -->
+	<int:outbound-channel-adapter channel="filePresentHandler"
+		method="moveToInPrgrsAndDelInpt" ref="moveFileAdapter">
+	</int:outbound-channel-adapter>
+	<!-- Writing files in IN-PROGRESS folder END -->
+
+	<int:transformer ref="bulkFileTransformer"
+		input-channel="filePresentHandler" output-channel="filesOut" />
+
+	<int:chain id="pre-request-transformer" input-channel="filesOut"
+		output-channel="${first-connection-channel}">
+		<int:transformer ref="requestToMapTransformer" />
+		<int:transformer ref="contentEnricher" />
+		<int:transformer ref="requestValidator" />
+		<int:transformer ref="customValidator" />
+	</int:chain>
+
+	${stuffer}
+
+	<int:chain id="request-transformer-chain" input-channel="${last-connection-channel}"
+		output-channel="enricher-me2-in">
+		<int:transformer ref="mappingInputTransformer" />
+		<int:transformer ref="modelRequestTransformer" />
+		<int:header-enricher>
+			<int:header name="status" value="Queued" />
+			<int:header name="INSERT_REQUEST" value="SUCCESS" />
+			<int:header name="MONGO_ACTION" value="TENANT_AND_MODEL_REQUEST_SAVE" />
+		</int:header-enricher>
+	</int:chain>
+
+	<!-- Outbound enricher -->
+	<!--<int:channel id="enricher-me2-in" /> -->
+	<int:publish-subscribe-channel id="enricher-me2-in" />
+	<int:channel id="enricher-me2-out" />
+
+	<int:bridge input-channel="enricher-me2-in" output-channel="mongochannel" />
+
+	<int:chain id="enricher-me2-chain" input-channel="enricher-me2-in"
+		output-channel="enricher-me2-out">
+		<int:header-enricher>
+			<int:header name="modelCallStart" expression="T(java.lang.System).currentTimeMillis()" />
+		</int:header-enricher>
+		<int:service-activator ref="me2Executor" />
+		<int:header-enricher>
+			<int:header name="modelCallEnd" expression="T(java.lang.System).currentTimeMillis()" />
+		</int:header-enricher>
+	</int:chain>
+
+	<int:gateway id="modelResponseTransformerGateway"
+		default-request-channel="model-response-transformer-channel" />
+	<int:channel id="model-response-transformer-channel" />
+	<int:chain input-channel="model-response-transformer-channel">
+		<int:transformer expression="payload.me2Response.response" />
+		<int:json-to-object-transformer type="java.lang.Object" />
+	</int:chain>
+	<!-- Validate ME2 response - End -->
+
+	<!-- Output mapping components start -->
+	<int:publish-subscribe-channel id="mapping-output-transformer-channel" />
+
+	<int:chain id="mapping-response-transformer-chain"
+		input-channel="enricher-me2-out" output-channel="preResponseChannel">
+		<int:transformer ref="modelResponseTransformer" />
+		<int:transformer ref="mappingOutputTransformer" />
+		<int:header-filter header-names="MONGO_ACTION, status" />
+		<int:header-enricher>
+			<int:header name="status" value="Success" />
+			<int:header name="runtimeCallEnd" expression="T(java.lang.System).currentTimeMillis()" />
+			<int:header name="MONGO_ACTION" value="TENANT_AND_MODEL_RESPONSE_SAVE" />
+			<int:header name="INSERT_RESPONSE" value="SUCCESS" />
+		</int:header-enricher>
+	</int:chain>
+
+	<int:bridge input-channel="preResponseChannel"
+		output-channel="mongochannel" />
+
+	<!-- Output mapping components end -->
+	<!-- Main flow ends here -->
+
+	<!-- Placeholder for injecting environment properties dynamically.Uses Spring 
+		Environment in FlowContainer class -->
+	<context:property-placeholder />
+
+	<!-- Error processing starts. Messages are tapped from responseChannel -->
+	<int:channel id="failed-messages" />
+	<int:channel id="errorChannel" />
+	<int:chain input-channel="failed-messages" output-channel="preResponseChannel">
+		<int:transformer ref="errorUnWrapper" />
+		<int:header-filter header-names="MONGO_ACTION, status" />
+		<int:header-enricher>
+			<int:header name="status" value="Error" />
+			<int:header name="runtimeCallEnd" expression="T(java.lang.System).currentTimeMillis()" />
+			<int:header name="MONGO_ACTION" value="ERROR"></int:header>
+		</int:header-enricher>
+	</int:chain>
+	<int:chain input-channel="errorChannel" output-channel="preResponseChannel">
+		<int:transformer ref="errorUnWrapper" />
+		<int:header-filter header-names="MONGO_ACTION, status" />
+		<int:header-enricher>
+			<int:header name="status" value="Error" />
+			<int:header name="MONGO_ACTION" value="ERROR"></int:header>
+		</int:header-enricher>
+	</int:chain>
+	<!-- Error processing ends -->
+
+	<!-- Audit processing starts -->
+	<int:channel id="audit-channel" />
+	<int:logging-channel-adapter id="audit-channel-adpater"
+		channel="audit-channel" logger-name="${auditLoggerName}" level="ERROR" />
+	<!-- Audit processing ends -->
+
+	<!-- Transaction log processing starts here. Messages are tapped from responseChannel. -->
+	<int:channel id="transaction-channel" />
+
+	<bean id="transactionTransformer" class="com.ca.umg.rt.transformer.TransactionTransformer" />
+
+	<int:service-activator ref="logMongoHandler"
+		input-channel="transaction-channel" />
+</beans>

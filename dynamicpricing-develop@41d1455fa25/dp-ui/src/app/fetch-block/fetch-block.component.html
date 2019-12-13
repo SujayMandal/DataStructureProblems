@@ -1,0 +1,38 @@
+<div class="container-fluid">
+  <div class="section-wrapper">
+    <div class="col-sm-6">
+      <label for="fileFetch">{{viewWeek}} Data Fetch</label>
+    </div>
+    <div class="col-sm-2">
+      <label>Select date</label>
+    </div>
+    <div class="col-sm-2">
+      <div class="icon-positioner">
+        <input type="date" class="form-control" id="selectedDate" [ngModel]="selectedDate | date:'yyyy-MM-dd'" (ngModelChange)="selectedDate = $event"
+          name="selectedDate" (keydown)="onKeyInput()">
+      </div>
+    </div>
+    <div class="buttons-group">
+      <button type="button" class="btn btn-primary" [disabled]="isDisabled()" (click)="onFetch()">Fetch</button>
+    </div>
+  </div>
+
+  <div class="section-wrapper break-word" style="text-align: center" *ngIf=errorFlag>
+    <label style="color:red">
+      {{errorMsg}}
+    </label>
+  </div>
+  <div class="section-wrapper break-word" style="text-align: center" *ngIf="showSuccessMsg && successFlag">
+    <label style="color:#94bb1e">{{successMsg}}</label>
+  </div>
+
+  <div class="section-wrapper grid-view" *ngIf=successFlag>
+    <ag-grid-angular [style.height.px]="gridHeight" class="ag-theme-balham" [rowData]="rowData" [columnDefs]="columnDefs" [enableSorting]="true"
+      [enableFilter]="true" [suppressMenuHide]="true" [enableColResize]="true" [headerHeight]="40" (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+    <div class="buttons-group grid-button">
+      <button type="button" class="btn btn-primary" [disabled]="!enableDownload" (click)="onDownload()">Download</button>
+    </div>
+  </div>
+
+</div>

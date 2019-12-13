@@ -1,0 +1,119 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	
+	
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.ca.umg</groupId>
+	<artifactId>umg-notification</artifactId>
+	<version>develop-${bambooBuildNumber}-SNAPSHOT</version>
+	<parent>
+		<groupId>com.ca.umg</groupId>
+		<artifactId>umg-parent</artifactId>
+		<version>develop-${bambooBuildNumber}-SNAPSHOT</version>
+	</parent>
+	
+	<name>Universal Model Gateway - UMG Notification</name>
+	
+	<packaging>jar</packaging>
+	
+	<properties>
+		<javamail.version>1.4.3</javamail.version>
+		<mysql.connector.version>5.1.31</mysql.connector.version>
+		<junit.version>4.9</junit.version>
+		<log4j.version>1.2.17</log4j.version>
+		<activation.version>1.1</activation.version>
+		<velocity.version>1.7</velocity.version>
+		<joda-time.version>2.3</joda-time.version>
+	</properties>
+	
+	<dependencies>
+		<dependency>
+			<groupId>com.ca</groupId>
+			<artifactId>ca-framework</artifactId>
+			<version>develop-${bambooBuildNumber}-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>${javamail.version}</version>
+		</dependency>
+		
+		<!-- <dependency>
+		  	<groupId>mysql</groupId>
+		  	<artifactId>mysql-connector-java</artifactId>
+		  	<version>${mysql.connector.version}</version>
+		</dependency>		 -->
+	
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>${activation.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>${velocity.version}</version>
+		</dependency>
+				
+		<dependency>
+	      	<groupId>joda-time</groupId>
+	      	<artifactId>joda-time</artifactId>
+	      	<version>${joda-time.version}</version>
+	      	<scope>compile</scope>
+    	</dependency>	
+	
+	</dependencies>
+
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${compileSource}</source>
+					<target>${compileTarget}</target>
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.10</version>
+			</plugin>
+			
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.1.2</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>	
+</project>

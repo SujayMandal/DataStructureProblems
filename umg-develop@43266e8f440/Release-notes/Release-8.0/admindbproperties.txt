@@ -1,0 +1,4 @@
+Add below properties in admin db.properties file:
+ 
+defaultPageSize=5000
+maxDisplayRecordsSize=50000

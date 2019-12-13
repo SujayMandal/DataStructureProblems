@@ -1,0 +1,31 @@
+<div class="form-horizontal">
+	<div class="box-body">
+		<div class="form-group">
+			<span for="versionZipFile" class="col-sm-4 control-label">Zip
+				File<font color="red">*</font>
+			</span>
+			<div class="col-md-4">
+				<input style="background-color: white;" class="form-control input-sm" id="version_zip_1"
+					name="versionZipFile" type="text"
+					value="{{versionImport.versionZipFile.name}}" readonly>
+			</div>
+			<div class="col-md-2">
+				<span class="btn btn-primary btn-sm btn-file" style="width: 60px"
+					tooltip="Upload Zip File" tooltip-placement="top"
+					tooltip-trigger="mouseenter">Browse<input
+					id="version_zip_browse" ng-click="resetImportVersion();"
+					name="versionZipFile" type="file"
+					file-model="versionImport.versionZipFile"
+					ng-model="versionImport.versionZipFile" accept=".zip">
+				</span>
+			</div>
+		</div>
+	</div>
+</div>
+<div align="center">
+	<button type="button" class="btn btn-primary" data-dismiss="modal" ui
+		ng-click="versionZipFile = ''; cancelForm();">Cancel</button>
+	<button type="button" class="btn btn-primary"
+		ng-disabled="angular.isUndefined(versionImport.versionZipFile) || versionImport.versionZipFile == ''"
+		ng-click="extractVersionPackage();">Upload</button>
+</div>

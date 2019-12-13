@@ -1,0 +1,21 @@
+<div class="container-fluid">
+  <!--<div class="section-wrapper break-word" style="text-align: center" *ngIf=errorFlag>
+        <label style="color:red" *ngFor="let error of errorMsg">
+      {{error}}
+    </label><br />
+      </div>-->
+  <div class="section-wrapper break-word skin-shade" style="text-align: left" *ngIf=successFlag>
+    <label id="header">{{filterHeader}}</label><br>
+    <label>{{summery}}</label><br>
+    <label style="color:red" *ngIf=errorFlag>
+      {{error}}
+    </label>
+  </div>
+  <div class="section-wrapper grid-view" *ngIf=successFlag>
+    <ag-grid-angular [style.height.px]="errorFlag ? gridMinHeight : fileSelected.filter == 'Processed' ? gridMaxHeight : gridMidHeight" class="ag-theme-balham" [gridOptions]="gridOptions" [rowData]="rowData">
+    </ag-grid-angular>
+    <div class="buttons-group grid-button">
+      <button type="button" class="btn btn-primary" (click)="onReProcess()" *ngIf="isAvailable()">Save & Process</button>
+    </div>
+  </div>
+</div>

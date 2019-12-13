@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/task 
+		http://www.springframework.org/schema/task/spring-task-3.1.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop.xsd">	
+	<context:component-scan base-package="com.ca.umg.plugin.commons" />
+
+	<bean id="mockMappingDelegate" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="com.ca.umg.business.mapping.delegate.MappingDelegate" />
+	</bean>
+
+	<bean id="mockTenantDelegate" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg value="com.ca.umg.business.tenant.delegate.TenantDelegate" />
+	</bean>
+
+	<bean id="mockVersionDelegate" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="com.ca.umg.business.version.delegate.VersionDelegate" />
+	</bean>
+	<bean id="mockVersionTestDelegate" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="com.ca.umg.business.versiontest.delegate.VersionTestDelegate" />
+	</bean>
+
+	<bean id="mockRequestContext" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg value="com.ca.framework.core.requestcontext.RequestContext" />
+	</bean>
+	<bean id="versionTestController" class="com.ca.umg.sdc.rest.controller.VersionTestController" />
+	
+	
+	
+	<bean id="mockBatchingDelegate" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="com.ca.umg.business.batching.delegate.BatchingDelegate" />
+	</bean>
+	
+	<bean id="dataSource"  class="org.mockito.Mockito"
+		factory-method="mock">		
+		<constructor-arg
+			value="com.ca.framework.core.db.persistance.TenantRoutingDataSource" />	
+	</bean>  
+	<bean id="cacheRegistry"
+		class="com.ca.framework.core.cache.registry.impl.DefaultCacheRegistry">
+		<constructor-arg name="configFile" value="hazelcast-config.xml" />
+	</bean>
+	<bean id="transactionDelegate" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="com.ca.umg.business.transaction.delegate.TransactionDelegate" />
+	</bean>
+	
+	<bean id="modelDelegate" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="com.ca.umg.business.model.delegate.ModelDelegate" />
+	</bean>
+	
+	
+	<bean id="reportService" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg
+			value="com.ca.umg.report.service.ReportService" />
+	</bean>
+	
+
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>locale/business-messages</value>
+				<value>locale/framework-messages</value>
+			</list>
+		</property>
+	</bean>
+</beans>

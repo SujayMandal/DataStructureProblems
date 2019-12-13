@@ -1,0 +1,26 @@
+<div class="container-fluid">
+  <div class="section-wrapper">
+   <!--  <div class="col-sm-4">
+      <label for="permanentReportExclusion">Permanent Report Exclusion</label>
+    </div> -->
+    <div class="col-sm-6">
+      <label>Select Client</label>
+    </div>
+    <div class="col-sm-3" id="client">
+            <ng-multiselect-dropdown id="clientName" name="clientName" [data]="possibleClients" [(ngModel)]="selectedClient"
+              [settings]="clientDropdownSettings">
+            </ng-multiselect-dropdown>
+    </div>
+    <div class="buttons-group" id="fetchPermtReport">
+        <button type="button" class="btn btn-primary" [disabled]="isDisabled()" (click)="onSearch()">Fetch</button>
+      </div>
+      <label style="color:red"  *ngIf="errorFlag">{{error}}</label>
+  </div>
+  <div class="section-wrapper grid-view" *ngIf=successFlag>
+      <ag-grid-angular [style.height.px]="errorFlag ? gridMinHeight : gridMaxHeight" class="ag-theme-balham" [columnDefs]="columnDefs" [gridOptions]="gridOptions" [rowData]="rowData">
+      </ag-grid-angular>
+      <div class="buttons-group grid-button">
+        <button type="button" class="btn btn-primary" *ngIf=enableDownload (click)="onDownload()">Download</button>
+      </div>
+    </div>
+  </div>

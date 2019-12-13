@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="com.ca.framework, com.ca.umg, com.ca.umg.report" />
+
+	<bean id="cacheRegistry"
+		class="com.ca.framework.core.cache.registry.impl.DefaultCacheRegistry">
+		<constructor-arg name="configFile" value="hazelcast-config.xml" />
+		<constructor-arg name="client" value="true" />
+	</bean>
+
+	<bean id="systemParam"
+		class="com.ca.framework.core.systemparameter.SystemParameterProviderImpl"
+		init-method="init">
+	</bean>
+
+	<bean id="propertyConfigurer"
+		class="com.ca.framework.security.DecryptPropertyConfigurer">
+		<property name="locations">
+			<list>
+				<value>file:${db.properties}</value>
+				<value>file:${applicationContextSecurity.properties}</value>
+			</list>
+		</property>
+	</bean>
+	
+
+	<aop:aspectj-autoproxy />
+
+	<bean id="httpFileUploadtHandler" class="com.ca.umg.sdc.rest.handler.HttpFileUploadTransformer" />
+
+	<!-- Aspect -->
+	<bean id="synidcatedDataAspect"
+		class="com.ca.umg.business.syndicatedata.util.SyndicatedDataAspect" />
+	<bean id="tenantAspect" class="com.ca.umg.business.tenant.util.TenantAspect" />
+
+	<bean id="umgSecurityFilter" class="com.ca.sdc.webui.core.filter.UMGSecurityFilter"></bean>
+
+
+	<bean id="taskExecutor" class="com.ca.framework.core.task.executor.CustomTaskExecutor">
+		<property name="corePoolSize" value="5" />
+		<property name="maxPoolSize" value="10" />
+		<property name="waitForTasksToCompleteOnShutdown" value="true" />
+	</bean>
+
+	<bean id="migrateTransactionListener"
+		class="com.ca.umg.business.transaction.migrate.listener.MigrateTransactionListener"
+		init-method="init">
+		<property name="cacheRegistry" ref="cacheRegistry" />
+		<property name="stopMigrateTransaction" ref="stopMigrateTransaction"></property>
+	</bean>
+	
+	<bean id="tenantDataContainerListener"
+		class="com.ca.framework.core.tenant.TenantDataContainerListener"
+		init-method="init">
+		<property name="cacheRegistry" ref="cacheRegistry" />
+	</bean>
+	
+	<bean id="poolDao" class="com.ca.pool.dao.PoolDAOImpl" />
+	
+	<bean id="poolObjectsLoader" class="com.ca.pool.PoolObjectsLoaderImpl" >
+		<property name="poolDao" ref="poolDao"/>
+		<property name="cacheRegistry" ref="cacheRegistry"/>
+	</bean>	
+	<bean id="systemModeletConfig"
+          class="com.ca.systemmodelet.SystemModeletConfigImpl" init-method="init">
+	</bean>
+</beans>

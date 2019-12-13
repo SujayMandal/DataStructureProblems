@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<!-- <bean class="org.dozer.DozerBeanMapper" /> -->
+	<context:component-scan base-package="com.ca.umg.plugin.commons.*.java" />
+	<bean id="excelReader" class="com.ca.umg.plugin.commons.excel.reader.ExcelReader" /> 	
+	<bean id="excelReadHelper" class="com.ca.umg.plugin.commons.excel.reader.ExcelReadHelper" />
+	<bean id="rdDataSheet" class="com.ca.umg.plugin.commons.excel.reader.ReadDataSheet" />
+	<bean id="rdSheet" class="com.ca.umg.plugin.commons.excel.reader.ReadSheet" />
+	<bean id="rdHeaderSheet" class="com.ca.umg.plugin.commons.excel.reader.ReadHeaderSheet" />
+	<bean id="excelValidator" class="com.ca.umg.plugin.commons.excel.validator.ExcelValidator" />
+	<bean id="exceptionCodeParameters" class="com.ca.umg.plugin.commons.excel.reader.exception.codes.ExceptionCodeParameters" />
+
+	
+
+	<bean id="dataSource" class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg
+			value="com.ca.framework.core.db.persistance.TenantRoutingDataSource" />
+	</bean>
+
+
+	 	
+</beans>

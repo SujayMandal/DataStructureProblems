@@ -1,0 +1,36 @@
+<div class="container-fluid">
+  <div class="section-wrapper">
+    <div class="col-sm-2">
+      <label for="fileUpload">{{viewWeek}} File Upload</label>
+    </div>
+    <div class="col-sm-7">
+      <input class="form-control" type="text" id="fileName" name="fileName" [(ngModel)]="fileName" readonly />
+    </div>
+    <div class="buttons-group">
+      <div class="btn btn-primary" (click)="fileChooser()">
+        Browse<input type="file" style="display:none" id="fileChooser" accept=".xls,.xlsx" [disabled]="!browseEnable"
+          (change)="onSelectFile($event)" />
+      </div>
+      <button type="button" class="btn btn-primary" [disabled]="!enableUpload" (click)="onUpload()">Upload</button>
+    </div>
+  </div>
+
+  <div class="section-wrapper break-word skin-shade" *ngIf=errorFlag>
+    <label style="color:red">
+      {{errorMsg}}
+    </label><br />
+  </div>
+  <div class="section-wrapper break-word skin-shade" *ngIf="showSuccessMsg && successFlag">
+    <label>{{successMsg}}</label>
+  </div>
+
+  <div class="section-wrapper grid-view" *ngIf=successFlag>
+    <ag-grid-angular [style.height.px]="showSuccessMsg ? gridMinHeight : gridMaxHeight" class="ag-theme-balham" [rowData]="rowData" [columnDefs]="columnDefs" [enableSorting]="true"
+      [enableFilter]="true" [suppressMenuHide]="true" [enableColResize]="true" [headerHeight]="40" (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+    <div class="buttons-group grid-button">
+      <button type="button" class="btn btn-primary" [disabled]="!enableProcess" (click)="onProcess()">Process</button>
+    </div>
+  </div>
+
+</div>

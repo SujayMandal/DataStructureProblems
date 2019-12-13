@@ -1,0 +1,7 @@
+use umg_admin;
+
+SET SQL_SAFE_UPDATES = 0;
+
+update POOL SET WAIT_TIMEOUT = 60000 where WAIT_TIMEOUT IS null or WAIT_TIMEOUT IS NULL or WAIT_TIMEOUT <> 90000;
+
+commit;

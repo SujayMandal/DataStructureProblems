@@ -1,0 +1,41 @@
+<div class="box">
+	<div class="col-sm-12" style="padding-top: 10px;">
+		
+		<div class="col-sm-6">
+			<div class="pull-left">
+			<strong>Total Records : {{totalResultItems}}</strong>
+			</div>
+		</div>	
+		
+		<div class="col-sm-5">
+			<ul class="pagination pull-right" style="margin-bottom: 0px; margin-top: 0px;">
+
+				<li><a id="firstPage"
+						title="First Page" ng-click="pageToFirst()" ng-disabled="cantPageBackward()">First</a></li>
+				<li><a id="previousPage"
+						 title="Previous Page"
+						ng-click="pageBackward()" ng-disabled="cantPageBackward()">&lt;</a></li>
+
+
+				<li><a id="sp_currentPage"><input type="text" min="1" max="{{currentMaxPages}}"
+					ng-model="pagingOptions.currentPage" style="width: 50px; text-align: center; margin-top: -2px;" class="pages-textbox" /><span class="ngGridMaxPagesNumber ng-binding" ng-show="maxPages() > 0">  of {{currentMaxPages}}</span></a></li>
+
+				<li><a id="nextPage"
+						 title="Next Page"
+						ng-click="pageForward()" ng-disabled="cantPageForward()">&gt;</a></li>
+				<li><a id="sp_lastPage"
+						title="Last Page" ng-click="goToLastPage()" ng-disabled="cantPageToLast()">Last</a></li>
+
+			</ul>
+		</div>
+
+		<div class="col-sm-1">
+			<div class="pull-right">
+				<select id="pageSize" class="pageSizeMenu" ng-click="setPaging()" ng-model="pagingOptions.pageSize">
+				<option ng-repeat="size in pagingOptions.pageSizes" value="{{size}}" ng-selected="size==pagingOptions.pageSize">{{size}}</option>
+			</select>
+			</div>
+		</div>
+
+	</div>
+</div>

@@ -1,0 +1,16 @@
+<div ng-switch on="row.entity.status">
+	<div ng-switch-when="SUCCESS">
+	SUCCESS
+	</div>
+	<div ng-switch-when="FAILED">
+		<div ng-show="row.entity.errorCode" ng-click="showErrorDetails(row.entity)" style="color: blue;" >{{row.entity.errorCode}}</div>
+		<div ng-show="!row.entity.errorCode" ng-click="showErrorDetails(row.entity)" style="color: blue;" >{{row.entity.status}}</div>
+	</div>
+	<div ng-switch-when="ERROR">
+		<div ng-show="row.entity.errorCode" ng-click="showErrorDetails(row.entity)" style="color: blue;" >{{row.entity.errorCode}}</div>
+		<div ng-show="!row.entity.errorCode" ng-click="showErrorDetails(row.entity)" style="color: blue;" >{{row.entity.status}}</div>
+	</div>	
+	<div ng-switch-default>
+		<div ng-click="showErrorDetails(row.entity)" style="color: blue;" >{{row.entity.status}}</div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+{  
+   "header":{  
+      "modelName":"computeAQMKNPV",
+      "majorVersion":1,
+      "minorVersion":12,
+      "date":"10/10/2012"
+   },
+   "data":{  
+      "name":"name",
+      "age":22,
+      "myArray":[  
+         1,
+         2,
+         3
+      ],
+      "address":{  
+         "city":"city",
+         "state":"state"
+      }
+   },
+   "trailer":{  
+      "future":"reserved for future purpose"
+   }
+}

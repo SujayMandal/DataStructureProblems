@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Dynamic Pricing</title>
+
+  <!--for Tomcat -->
+  <base href="/dp/">
+
+  <!--for Node-->
+  <!--   <base href="/">  -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="assets/images/ra_icon_Mh6_icon.ico">
+  <script type="text/javascript">
+	function noiFrame() {
+		try {
+			if (window.top !== window.self) {
+				document.write = "";
+				window.top.location = window.self.location;
+				setTimeout(function() {
+					document.body.innerHTML = '';
+				}, 0);
+				window.self.onload = function() {
+					document.body.innerHTML = '';
+				};
+			}
+		} catch (err) {
+		}
+	}
+	noiFrame();
+</script>
+
+</head>
+
+<body>
+<app-root></app-root>
+</body>
+
+</html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN"
+	packages="com.ca.framework.core.logging.appender">
+	<Appenders>
+		<RollingRandomAccessFile name="rollingRandomAccessFile"
+			fileName="/usr/local/umg-logs/umg.log" filePattern="/usr/local/umg-logs/umg-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="5 MB" />
+			</Policies>
+		</RollingRandomAccessFile>
+		<TenantAwareAsync name="FileAsync">
+			<AppenderRef ref="rollingRandomAccessFile" />
+		</TenantAwareAsync>
+	</Appenders>
+	<Loggers>
+		<Logger name="org.jgroups" level="error" additivity="false">
+			<AppenderRef ref="FileAsync" />
+		</Logger>
+		<Root level="error">
+			<AppenderRef ref="FileAsync" />
+		</Root>
+	</Loggers>
+</Configuration>

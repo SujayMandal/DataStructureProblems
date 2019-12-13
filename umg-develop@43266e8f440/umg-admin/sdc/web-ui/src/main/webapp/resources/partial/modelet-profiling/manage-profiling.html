@@ -1,0 +1,557 @@
+<!-- <div style="width: 93%; padding-left: 100px"> -->
+<style>
+    .errorMsgDiv {
+        margin-bottom: -17px;
+    }
+</style>
+
+<!-- Grid Header -->
+<div id="sp_gridheader" class="box box-primary">
+
+    <div class="box-body" style="padding-top: 5px;">
+
+        <!-- Body Portion Of Grid -->
+        <div id="sp_gridbody">
+            <button class="btn btn-primary" ng-click="openNewModelAdd()" data-toggle="modal" data-target="#newModal"
+                data-backdrop="static" data-keyboard="false">Add Profile
+            </button>
+            <label style="float: right;"><input class="form-control" ng-model="searchText" placeholder="Search Modelet"
+                    style="width: 188px;" /></label>
+
+            <div ng-if="dataParams.length == 0 || (filtered = (dataParams|filter:searchText)).length == 0" class="lead text-left text-muted">
+                There is no Profile.
+            </div>
+
+            <div ng-if="dataParams.length > 0 && (filtered = (dataParams|filter:searchText)).length > 0">
+                <table style="width: 100%;" height="200px; overflow:y;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="ng-footer grid-tree-header">
+                                    <table class="table" style="margin-bottom: 5px;">
+                                        <tr>
+                                            <td style="border-top: 0px;width: 20%"><strong>Profile</strong></td>
+                                            <td style="border-top: 0px;width: 40%"><strong>Description</strong></td>
+                                            <td style="border-top: 0px;width: 20%"><strong>Execution Environment</strong></td>
+                                            <td style="border-top: 0px;width: 15%"><strong>Action</strong></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>
+                                    <table class="table table-striped table-condensed table-hover" style="margin-bottom: 2px;">
+                                        <tr ng-repeat="profiles in dataParams|filter : searchText">
+                                            <td style="width: 20%" align="left">{{profiles.name}}</td>
+                                            <td style="width: 40%" align="left">{{profiles.description}}</td>
+                                            <td style="width: 20%" align="left">{{profiles.executionEnvironment}}
+                                                - {{profiles.environmentVersion}}</td>
+                                            <td style="width: 15%;">
+                                                <div class="pull-leftt">
+                                                    <a class="btn btn-app btn-sm" id="sp_update" ng-click="showModeletProfileEditnPopup(profiles.id)"
+                                                        data-toggle="modal" data-target="#myModal" tooltip="Edit"
+                                                        data-backdrop="static" data-keyboard="false" tooltip-placement="right"
+                                                        style="padding-top: 5px; padding-right: 0px; min-width: 40px; height: 25px; margin: 0px;">
+                                                        <i class="fa fa-edit" alt="edit"></i>
+                                                    </a>
+                                                    <button class="btn btn-box-tool" data-toggle="modal" data-target="#delModal"
+                                                        title="Drop Profile" data-original-title="Drop Pool"><i class="fa fa-trash-o"
+                                                            style="color: red; font-size: large;" ng-click="deleteProfileModal(profiles)"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Update Modelet Parameter Popup -->
+
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-show="showEditPopup">
+    <div class="modal-dialog" style="margin-top: 4%">
+        <div class="modal-content" style="width:1106px;margin-left: -239px;">
+            <div class="modal-header" style="background-color: #3C8DBC; color: white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">x</span>
+                </button>
+                <h3 class="modal-title">Edit Profile </h3>
+            </div>
+            <form class="form-horizontal" name="mpUpdationForm" autocomplete="off" ng-class="{'submitted': submitted}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" tooltip="Profile Name" tooltip-placement="top"
+                            tooltip-trigger="mouseenter">Profile Name :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">{{paramInfo.name}}</div>
+                        <label class="col-sm-2 control-label" for="gcconfig2" tooltip="Enable/Disable GC activity configuration"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">GC Configuration :</label>
+                        <div class="col-sm-4">
+                            <input type="checkbox" id="gcconfig2" name="X:+UseConcMarkSweepGC" ng-model="paramInfo.params['X:+UseConcMarkSweepGC']" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="description2">Description :</label>
+                        <div class="col-sm-4">
+                            <textarea type="text" id="description2" name="description" placeholder="Enter Description"
+                                ng-model="paramInfo.description" class="form-control" rows="3" style="resize: none"
+                                required>
+							</textarea>
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.description !== undefined && editErrorMsg.description.length > 0">
+                                <small class="error-msg">{{editErrorMsg.description}}</small>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="workspace2" tooltip="R workspace path"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Workspace :</label>
+                        <div class="col-sm-4">
+                            <textarea type="text" id="workspace2" name="workspace" placeholder="Parameter Value"
+                                ng-model="paramInfo.params.workspace" class="form-control" rows="3" style="resize: none"
+                                required>
+							</textarea>
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.params !== undefined && editErrorMsg.params.workspace !== undefined && editErrorMsg.params.workspace.length > 0">
+                                <small class="error-msg">{{editErrorMsg.params.workspace}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="useparnewgc1" tooltip="Enables GC configurations for newly created objects"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Use Par new GC Configuration Required
+                            :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <input type="checkbox" id="useparnewgc1" name="X:+UseParNewGC" ng-model="paramInfo.params['X:+UseParNewGC']" />
+                        </div>
+                        <label class="col-sm-2 control-label" for="maxPermSize1" tooltip="Maximum per gen value for the modelet process"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Max perm size :</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="maxPermSize1" name="X:MaxPermSize" ng-model="paramInfo.params['X:MaxPermSize']"
+                                placeholder="Max perm size" class="form-control" required />
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.params != undefined && editErrorMsg.params['X:MaxPermSize'] !== undefined && editErrorMsg.params['X:MaxPermSize'].length > 0">
+                                <small class="error-msg">{{editErrorMsg.params['X:MaxPermSize']}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="mxHeapFreeRatio1" tooltip="Max ratio at which GC kicks in"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Max Heap free ratio :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <input type="text" id="mxHeapFreeRatio1" name="X:MaxHeapFreeRatio" ng-model="paramInfo.params['X:MaxHeapFreeRatio']"
+                                placeholder="Enter Max Heap free ratio" class="form-control" required />
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.params != undefined && editErrorMsg.params['X:MaxHeapFreeRatio'] !== undefined && editErrorMsg.params['X:MaxHeapFreeRatio'].length > 0">
+                                <small class="error-msg">{{editErrorMsg.params['X:MaxHeapFreeRatio']}}</small>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="mx1" tooltip="xMx value for the modelet process"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Max Memory :</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="mx1" name="mx" ng-model="paramInfo.params['mx']" placeholder="Max Memory"
+                                class="form-control" required />
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.params != undefined && editErrorMsg.params['mx'] !== undefined && editErrorMsg.params['mx'].length > 0">
+                                <small class="error-msg">{{editErrorMsg.params['mx']}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="ms2" tooltip="xMs value for the modelet process"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Minimum Memory :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <input type="text" id="ms2" name="ms" ng-model="paramInfo.params['ms']" placeholder="Enter Minimum memory"
+                                class="form-control" required />
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.params != undefined && editErrorMsg.params['ms'] !== undefined && editErrorMsg.params['ms'].length > 0">
+                                <small class="error-msg">{{editErrorMsg.params['ms']}}</small>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="cms_init_ocup_only2">CMS Initiating occupancy only
+                            Required :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <input type="checkbox" id="cms_init_ocup_only2" name="X:+UseParNewGC" ng-model="paramInfo.params['X:+UseCMSInitiatingOccupancyOnly']" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="ldlib2" tooltip="R and rJava library path"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">LD_LIBRARY_PATH :</label>
+                        <div class="col-sm-4">
+                            <textarea id="ldlib2" name="ldlib" class="form-control" rows="3" placeholder="Enter LD_LIBRARY_PATH"
+                                ng-model="paramInfo.params.LD_LIBRARY_PATH" style="resize: none" required>
+							</textarea>
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.params != undefined && editErrorMsg.params !== undefined && editErrorMsg.params.LD_LIBRARY_PATH !== undefined && editErrorMsg.params.LD_LIBRARY_PATH.length > 0">
+                                <small class="error-msg">{{editErrorMsg.params.LD_LIBRARY_PATH}}</small>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="hazelcastConfig2" tooltip="File location of hazelcast configuration file"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Hazelcast Config :</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="hazelcastConfig2" name="hazelcastConfig" class="form-control"
+                                placeholder="Enter HazelcastConfig" ng-model="paramInfo.params['hazelcast.config']"
+                                style="resize: none" required />
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.params != undefined && editErrorMsg.params['hazelcast.config'] !== undefined && editErrorMsg.params['hazelcast.config'].length > 0">
+                                <small class="error-msg">{{editErrorMsg.params['hazelcast.config']}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="javahome2" tooltip="Java home directory"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">JAVA_HOME :</label>
+                        <div class="col-sm-4">
+                            <textarea id="javahome2" name="javahome" class="form-control" rows="3" placeholder="Enter JAVA_HOME"
+                                ng-model="paramInfo.params.JAVA_HOME" style="resize: none" required>
+							</textarea>
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.params != undefined && editErrorMsg.params.JAVA_HOME !== undefined && editErrorMsg.params.JAVA_HOME.length > 0">
+                                <small class="error-msg">{{editErrorMsg.params.JAVA_HOME}}</small>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="rhome2" tooltip="R home directory" tooltip-placement="top"
+                            tooltip-trigger="mouseenter">R_Home :</label>
+                        <div class="col-sm-4">
+                            <textarea id="rhome2" name="rhome" class="form-control" rows="3" placeholder="Enter R_HOME"
+                                ng-model="paramInfo.params.R_HOME" style="resize: none" required>
+							</textarea>
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.params != undefined && editErrorMsg.params.R_HOME !== undefined && editErrorMsg.params.R_HOME.length > 0">
+                                <small class="error-msg">{{editErrorMsg.params.R_HOME}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="lglevel2">Log Level :</label>
+                        <div class="col-sm-4">
+                            <select id="lglevel2" ng-model="paramInfo.params.loglevel" style="width: 140px;" required>
+                                <option ng-repeat="log in logLevelList" ng-selected="{{paramInfo.loglevel == log}}"
+                                    value="{{log}}">{{log}}</option>
+                            </select>
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.params != undefined && editErrorMsg.params.loglevel !== undefined && editErrorMsg.params.loglevel.length > 0">
+                                <small class="error-msg">{{editErrorMsg.params.loglevel}}</small>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="lglevel2">Execution Environment :</label>
+                        <div class="col-sm-4">
+                            <select ng-model="paramInfo.executionEnvironmentId" style="width: 140px;" required>
+                                <option ng-repeat="env in envList" ng-selected="{{paramInfo.executionEnvironmentId == env.id}}"
+                                    value="{{env.id}}">{{env.executionEnvironment}}--{{env.environmentVersion}}</option>
+                            </select>
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.executionEnvironmentId != undefined && editErrorMsg.executionEnvironmentId.length > 0">
+                                <small class="error-msg">{{editErrorMsg.executionEnvironmentId}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="cms_init_ocup_frac3">CMS Initiating occupancy only
+                            fraction :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <input type="text" id="cms_init_ocup_frac3" name="ms" ng-model="paramInfo.params['X:CMSInitiatingOccupancyFraction']"
+                                placeholder="CMS Initiating occupancy only fraction" class="form-control" required />
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.params != undefined && editErrorMsg.params['X:CMSInitiatingOccupancyFraction'] !== undefined && editErrorMsg.params['X:CMSInitiatingOccupancyFraction'].length > 0">
+                                <small class="error-msg">{{editErrorMsg.params['X:CMSInitiatingOccupancyFraction']}}</small>
+                            </div>
+                        </div>
+
+                        <label class="col-sm-2 control-label" for="cms_init_ocup_frac2" tooltip="http configuration file path"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Http Connection Pool Properties
+                            :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <input type="text" id="cms_init_ocup_frac2" name="ms" ng-model="paramInfo.params['httpConnectionPooling.properties']"
+                                placeholder="Http Connection Pool Properties" class="form-control" required />
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.params != undefined && editErrorMsg.params['httpConnectionPooling.properties'] !== undefined && editErrorMsg.params['httpConnectionPooling.properties'].length > 0">
+                                <small class="error-msg">{{editErrorMsg.params['httpConnectionPooling.properties']}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="execEnvironmentE">Execution Platform :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <select id="execEnvironmentE" ng-model="paramInfo.params.executionEnvironment" style="width: 140px;"
+                                required>
+                                <option ng-repeat="env in platformList" ng-selected="{{paramInfo.executionEnvironment == env}}"
+                                    value="{{env}}">{{env}}</option>
+                            </select>
+                            <div class="errorMsgDiv" ng-show="editErrorMsg !== undefined && editErrorMsg.params != undefined && editErrorMsg.params.executionEnvironment !== undefined && editErrorMsg.params.executionEnvironment.length > 0">
+                                <small class="error-msg">{{editErrorMsg.params.executionEnvironment}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="modal-footer">
+                    <!--  <button type="submit" id="update_mp" class="btn btn-primary" data-dismiss="modal" ng-click="submitted= true;">Update
+                    </button> -->
+                    <!--   <button type="submit" id="update_mp" class="btn btn-primary" data-dismiss="modal"
+                            ng-click="updateModProfileParam()">Update
+                    </button> -->
+                    <div class="row" style="padding-bottom: 5px;">
+                        <div class="col-sm-8">
+                            <div ng-show="message.length > 0" ng-animate="{show: 'show'}" class={{clazz}}><strong>{{message}}</strong></div>
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="button" id="update_mp" class="btn btn-primary" ng-click="updateModProfileParam()">Update</button>
+                            <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="newModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-show="showNewPopup">
+    <div class="modal-dialog" style="margin-top: 1%">
+        <div class="modal-content" style="width:1106px;margin-left: -239px;">
+            <div class="modal-header" style="background-color: #3C8DBC; color: white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="closeNewModal()">
+                    <span aria-hidden="true">x</span>
+                </button>
+                <h3 class="modal-title">Add New Modelet Profile </h3>
+            </div>
+            <form class="form-horizontal" name="newForm" autocomplete="off">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" placeholder="Enter Profile Name" for="modeletName"
+                            tooltip="Profile Name" tooltip-placement="top" tooltip-trigger="mouseenter">Profile
+                            Name :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <input type="text" id="modeletName" name="modeletName" placeholder="Enter Profile Name"
+                                ng-model="newModelet.name" class="form-control" style="resize: none" required />
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.name !== undefined && saveErrorMsg.name.length > 0">
+                                <small class="error-msg">{{saveErrorMsg.name}}</small>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="gcconfig" tooltip="Enable/Disable GC activity configuration"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">GC Configuration :</label>
+                        <div class="col-sm-4">
+                            <input type="checkbox" id="gcconfig" name="X:+UseConcMarkSweepGC" ng-model="newModelet.params['X:+UseConcMarkSweepGC']" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="description">Description :</label>
+                        <div class="col-sm-4">
+                            <textarea type="text" id="description" name="description" placeholder="Enter Description"
+                                ng-model="newModelet.description" class="form-control" rows="2" style="resize: none"
+                                required>
+							</textarea>
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.description !== undefined && saveErrorMsg.description.length > 0">
+                                <small class="error-msg">{{saveErrorMsg.description}}</small>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="workspace" tooltip="R workspace path"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Workspace :</label>
+                        <div class="col-sm-4">
+                            <textarea type="text" id="workspace" name="workspace" placeholder="Workspace Value"
+                                ng-model="newModelet.params.workspace" class="form-control" rows="2" style="resize: none"
+                                required>
+							</textarea>
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.params !== undefined && saveErrorMsg.params.workspace !== undefined && saveErrorMsg.params.workspace.length > 0">
+                                <small class="error-msg">{{saveErrorMsg.params.workspace}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="useparnewgc" tooltip="Enables GC configurations for  newly created objects"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Use Par new GC Configuration Required
+                            :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <input type="checkbox" id="useparnewgc" name="X:+UseParNewGC" ng-model="newModelet.params['X:+UseParNewGC']" />
+                        </div>
+                        <label class="col-sm-2 control-label" for="maxPermSize" tooltip="Maximum per gen value for the modelet process"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Max perm size :</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="maxPermSize" name="X:MaxPermSize" ng-model="newModelet.params['X:MaxPermSize']"
+                                placeholder="Max perm size" class="form-control" required />
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.params != undefined && saveErrorMsg.params['X:MaxPermSize'] !== undefined && saveErrorMsg.params['X:MaxPermSize'].length > 0">
+                                <small class="error-msg">{{saveErrorMsg.params['X:MaxPermSize']}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="mxHeapFreeRatio" tooltip="Max ratio at which GC kicks in"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Max Heap free ratio :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <input type="text" id="mxHeapFreeRatio" name="X:MaxHeapFreeRatio" ng-model="newModelet.params['X:MaxHeapFreeRatio']"
+                                placeholder="Conc Mark Sweep GC Configuration required?" class="form-control" required />
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.params != undefined && saveErrorMsg.params['X:MaxHeapFreeRatio'] !== undefined && saveErrorMsg.params['X:MaxHeapFreeRatio'].length > 0">
+                                <small class="error-msg">{{saveErrorMsg.params['X:MaxHeapFreeRatio']}}</small>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="mx" tooltip="xMx value for the modelet process"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Max Memory :</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="mx" name="mx" ng-model="newModelet.params['mx']" placeholder="Enter Max Memory"
+                                class="form-control" required />
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.params != undefined && saveErrorMsg.params['mx'] !== undefined && saveErrorMsg.params['mx'].length > 0">
+                                <small class="error-msg">{{saveErrorMsg.params['mx']}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="ms" tooltip="xMs value for the modelet process"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Minimum Memory :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <input type="text" id="ms" name="ms" ng-model="newModelet.params['ms']" placeholder="Minimum memory?"
+                                class="form-control" required />
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.params != undefined && saveErrorMsg.params['ms'] !== undefined && saveErrorMsg.params['ms'].length > 0">
+                                <small class="error-msg">{{saveErrorMsg.params['ms']}}</small>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="cms_init_ocup_only">CMS Initiating occupancy only
+                            Required :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <input type="checkbox" id="cms_init_ocup_only" name="X:+UseParNewGC" ng-model="newModelet.params['X:+UseCMSInitiatingOccupancyOnly']" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="ldlib" tooltip="R and rJava library path"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">LD_LIBRARY_PATH :</label>
+                        <div class="col-sm-4">
+                            <textarea id="ldlib" name="ldlib" class="form-control" rows="3" placeholder="Enter LD_LIBRARY_PATH"
+                                ng-model="newModelet.params.LD_LIBRARY_PATH" style="resize: none" required>
+							</textarea>
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.params != undefined && saveErrorMsg.params !== undefined && saveErrorMsg.params.LD_LIBRARY_PATH !== undefined && saveErrorMsg.params.LD_LIBRARY_PATH.length > 0">
+                                <small class="error-msg">{{saveErrorMsg.params.LD_LIBRARY_PATH}}</small>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="hazelcastConfig" tooltip="File location of hazelcast configuration file"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">Hazelcast Config :</label>
+                        <div class="col-sm-4">
+                            <input type="text" id="hazelcastConfig" name="hazelcastConfig" class="form-control" rows="3"
+                                placeholder="Enter HazelcastConfig" ng-model="newModelet.params['hazelcast.config']"
+                                style="resize: none" required />
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.params != undefined && saveErrorMsg.params['hazelcast.config'] !== undefined && saveErrorMsg.params['hazelcast.config'].length > 0">
+                                <small class="error-msg">{{saveErrorMsg.params['hazelcast.config']}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="javahome" tooltip="Java home directory"
+                            tooltip-placement="top" tooltip-trigger="mouseenter">JAVA_HOME :</label>
+                        <div class="col-sm-4">
+                            <textarea id="javahome" name="javahome" class="form-control" rows="2" placeholder="Enter JAVA_HOME"
+                                ng-model="newModelet.params.JAVA_HOME" style="resize: none" required>
+							</textarea>
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.params != undefined && saveErrorMsg.params.JAVA_HOME !== undefined && saveErrorMsg.params.JAVA_HOME.length > 0">
+                                <small class="error-msg">{{saveErrorMsg.params.JAVA_HOME}}</small>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="rhome" tooltip="R home directory" tooltip-placement="top"
+                            tooltip-trigger="mouseenter">R_Home :</label>
+                        <div class="col-sm-4">
+                            <textarea id="rhome" name="rhome" class="form-control" rows="3" placeholder="Enter R_HOME"
+                                ng-model="newModelet.params.R_HOME" style="resize: none" required>
+							</textarea>
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.params != undefined && saveErrorMsg.params.R_HOME !== undefined && saveErrorMsg.params.R_HOME.length > 0">
+                                <small class="error-msg">{{saveErrorMsg.params.R_HOME}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="loglevel">Log Level :</label>
+                        <div class="col-sm-4">
+                            <select id="loglevel" ng-model="newModelet.params.loglevel" style="width: 140px;" required>
+                                <option value="" selected disabled> Select Log Level </option>
+                                <option ng-repeat="log in logLevelList" value="{{log}}">{{log}}</option>
+                            </select>
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.params != undefined && saveErrorMsg.params.loglevel !== undefined && saveErrorMsg.params.loglevel.length > 0">
+                                <small class="error-msg">{{saveErrorMsg.params.loglevel}}</small>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label" for="loglevel">Execution Environment :</label>
+                        <div class="col-sm-4">
+                            <select required ng-model="newModelet.executionEnvironmentId" style="width: 140px;">
+                                <option value="" selected disabled> Select Environment </option>
+                                <option ng-repeat="env in envList" value="{{env.id}}">{{env.executionEnvironment}}--{{env.environmentVersion}}</option>
+                            </select>
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.executionEnvironmentId != undefined && saveErrorMsg.executionEnvironmentId.length > 0">
+                                <small class="error-msg">{{saveErrorMsg.executionEnvironmentId}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label" for="cms_init_ocup_frac">CMS Initiating occupancy only
+                            fraction :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <input type="text" id="cms_init_ocup_frac" name="ms" ng-model="newModelet.params['X:CMSInitiatingOccupancyFraction']"
+                                placeholder="CMS Initiating occupancy only fraction" class="form-control" required />
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.params != undefined && saveErrorMsg.params['X:CMSInitiatingOccupancyFraction'] !== undefined && saveErrorMsg.params['X:CMSInitiatingOccupancyFraction'].length > 0">
+                                <small class="error-msg">{{saveErrorMsg.params['X:CMSInitiatingOccupancyFraction']}}</small>
+                            </div>
+                        </div>
+                        <label class="col-sm-2 control-label" tooltip="http configuration file path" tooltip-placement="top"
+                            tooltip-trigger="mouseenter">Http Connection Pool Properties :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <input type="text" name="ms" ng-model="newModelet.params['httpConnectionPooling.properties']"
+                                placeholder="Http Connection Pool Properties" class="form-control" required />
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.params != undefined && saveErrorMsg.params['httpConnectionPooling.properties'] !== undefined && saveErrorMsg.params['httpConnectionPooling.properties'].length > 0">
+                                <small class="error-msg">{{saveErrorMsg.params['httpConnectionPooling.properties']}}</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">Execution Platform :</label>
+                        <div class="col-sm-4" style="margin-top: 6px;">
+                            <select required ng-model="newModelet.params.executionEnvironment" style="width: 140px;">
+                                <option value="" selected disabled> Select Platform </option>
+                                <option ng-repeat="env in platformList" ng-selected="{{newModelet.executionEnvironment == env}}"
+                                    value="{{env}}">{{env}}</option>
+                            </select>
+                            <div class="errorMsgDiv" ng-show="saveErrorMsg !== undefined && saveErrorMsg.params != undefined && saveErrorMsg.params.executionEnvironment !== undefined && saveErrorMsg.params.executionEnvironment.length > 0">
+                                <small class="error-msg">{{saveErrorMsg.params.executionEnvironment}}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="row" style="padding-bottom: 5px;">
+                        <div class="col-sm-8">
+                            <div ng-show="message.length > 0" ng-animate="{show: 'show'}" class={{clazz}}><strong>{{message}}</strong></div>
+                        </div>
+                        <div class="col-sm-4">
+                            <button type="button" ng-click="saveNewModeletProfile()" id="update_mp2" class="btn btn-primary">Save</button>
+                            <button type="button" class="btn btn-info" ng-click="closeNewModal()" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                    <!--   <button type="submit" id="update_mp2" class="btn btn-primary" data-dismiss="modal"
+                            ng-click="saveNewModeletProfile()">Save
+                    </button> -->
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Deletion modal -->
+<div class="modal" id="delModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-show="deleteModal">
+    <div class="modal-dialog" style="margin-top:4%">
+        <div class="modal-content" style="width:497px;border-radius: 15px;">
+            <div class="modal-header" style="background-color: #3C8DBC; color: white;border-top-left-radius: 15px;border-top-right-radius: 15px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">x</span>
+                </button>
+                <h3 class="modal-title">Delete Profile </h3>
+            </div>
+            <div class="modal-body">
+                <span class="lead text-left text-muted"> Do you want the <strong>{{profileName}}</strong> profile
+                    removed permanently?</span>
+            </div>
+            <div class="modal-footer">
+                <div class="row" style="padding-bottom: 5px;">
+                    <div class="col-sm-8">
+                        <div ng-show="message.length > 0" ng-animate="{show: 'show'}" class={{clazz}}><strong>{{message}}</strong></div>
+                    </div>
+                    <div class="col-sm-4" ng-if="message.length == 0">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-danger" ng-click=deleteProfile(currentProfile.id)>Yes</button>
+                    </div>
+                    <div class="col-sm-4" ng-if="message.length > 0">
+                        <button type="button" class="btn btn-info" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

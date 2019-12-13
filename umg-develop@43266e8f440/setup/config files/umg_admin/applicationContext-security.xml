@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security.xsd">
+	<http pattern="/resources/**" security="none" />
+	<!-- <http pattern="/mapping/**" security="none" /> -->
+	<http pattern="/login" security="none" />
+	<http pattern="/favicon.ico" security="none" />
+	<http auto-config="true">
+		<intercept-url pattern="/version/getVersionDetails/**"
+			access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/version/getTenantIODefinition/**"
+			access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/versiontest/downloadDefn/**"
+			access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/api/v1.0/search/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/ra-report/download/v1.0/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/model/approval/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		
+
+		<intercept-url pattern="/**" access="IS_AUTHENTICATED_FULLY" />
+		<form-login login-page="/login" authentication-failure-url="/login?error=true" />
+		<logout delete-cookies="JSESSIONID" invalidate-session="true"
+			success-handler-ref="umgLogoutSuccessHandler"/>
+	</http>
+	
+	<beans:bean id="umgAuthenticationProvider" class="com.ca.sdc.webui.core.filter.UMGAuthenticationProvider"/>
+	
+	
+	<beans:bean id="umgLogoutSuccessHandler" class="com.ca.sdc.webui.core.filter.UMGLogoutSuccessHandler"/>
+ 
+    <authentication-manager>
+        <authentication-provider ref="umgAuthenticationProvider">
+        </authentication-provider>	
+    </authentication-manager>
+    
+    <beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<beans:constructor-arg name="strength" value="10" />
+	</beans:bean>
+	
+  	<beans:bean id="umgUserDetailsService" class="com.ca.sdc.webui.core.filter.UMGUserDetailsServiceImpl">
+  	</beans:bean>
+	
+</beans:beans>

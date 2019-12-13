@@ -1,0 +1,8 @@
+-- in mongo prompt execute the below statements replace the ${tenantCode} with tenant name. For example : ocwen 
+
+use ra_transaction_documents;
+db.createCollection("${tenantCode}_documents");
+
+db.${tenantCode}_documents.ensureIndex( {transactionId:1,libraryName:1,versionName:1,majorVersion:1,minorVersion:1},{ background: true });
+db.${tenantCode}_documents.ensureIndex( {runAsOfDate:1,test:1},{ background: true });
+db.${tenantCode}_documents.ensureIndex( {clientTransactionID:1,createdDate:1},{ background: true });

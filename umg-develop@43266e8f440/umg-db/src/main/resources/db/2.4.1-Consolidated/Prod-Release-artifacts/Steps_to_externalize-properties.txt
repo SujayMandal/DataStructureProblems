@@ -1,0 +1,49 @@
+
+1. Create new directory "ra-conf" inside tomcat folder.
+2. Copy following configuration files related the environment to newly created "ra-conf" folder.
+	a. applicationContextSecurity.properties
+	b. applicationContext-security.xml
+	c. db.properties
+	d. hazelcast-config.xml
+	e. httpConnectionPooling.properties
+	f. log4j2.xml
+	g. umg.properties
+3. Add following jvm arguments to the "CATALINA_OPTS" parameter of tomcat start up file.
+	-Ddb.properties=<base-path>/ra-conf/db.properties -Dumg.properties=<base-path>/ra-conf/umg.properties -DapplicationSecurity.config=<base-path>/ra-conf/applicationContext-security.xml -DapplicationContextSecurity.properties=<base-path>/ra-conf/applicationContextSecurity.properties -Dlog4j.configurationFile=file://<base-path>/ra-conf/log4j2.xml -Dhazelcast.config=<base-path>/ra-conf/hazelcast-config.xml -DhttpConnectionPooling.properties="file://<base-path>/ra-conf/httpConnectionPooling.properties
+4. Copy the latest umg-admin war file.
+4. Start the server
+
+
+umg-runtime
+1. Create new directory "ra-conf" inside tomcat folder.
+2. Copy following configuration files related the environment to newly created "ra-conf" folder.
+	a. db.properties
+	b. hazelcast-config.xml
+	c. httpConnectionPooling.properties
+	d. log4j2.xml	
+3. Add following jvm arguments to the "CATALINA_OPTS" parameter of tomcat start up file.
+	-Ddb.properties=<base-path>/ra-conf/db.properties -Dlog4j.configurationFile=file://<base-path>/ra-conf/log4j2.xml -Dhazelcast.config=<base-path>/ra-conf/hazelcast-config.xml -DhttpConnectionPooling.properties="file://<base-path>/ra-conf/httpConnectionPooling.properties
+4. Copy the latest umg-runtime war file.
+4. Start the server
+
+
+umg-me2
+1. Create new directory "ra-conf" inside tomcat folder.
+2. Copy following configuration files related the environment to newly created "ra-conf" folder.
+	a. db.properties
+	b. hazelcast-config.xml
+	c. httpConnectionPooling.properties
+	d. log4j2.xml	
+3. Add following jvm arguments to the "CATALINA_OPTS" parameter of tomcat start up file.
+	-Ddb.properties=<base-path>/ra-conf/db.properties -Dlog4j.configurationFile=file://<base-path>/ra-conf/log4j2.xml -Dhazelcast.config=<base-path>/ra-conf/hazelcast-config.xml -DhttpConnectionPooling.properties="file://<base-path>/ra-conf/httpConnectionPooling.properties
+4. Copy the latest umg-runtime war file.
+4. Start the server
+
+modelet
+1. Create new directory "ra-conf" in modelet folder.
+2. Copy following configuration files related the environment to newly created "ra-conf" folder.
+	a. hazelcast-config.xml
+	b. httpConnectionPooling.properties
+	c. log4j2.xml	
+3. Add following jvm arguments to modelet start up script.
+	-Dlog4j.configurationFile=file://<base-path>/ra-conf/log4j2.xml -Dhazelcast.config=<base-path>/ra-conf/hazelcast-config.xml -DhttpConnectionPooling.properties="file://<base-path>/ra-conf/httpConnectionPooling.properties -DpoolName=(ONLINE_POOL or BATCH_POOL, 10 modelets should have ONLINE_POOL, and 2 should have BTAHC_POOL as pool name)

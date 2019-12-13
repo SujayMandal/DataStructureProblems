@@ -1,0 +1,20 @@
+{  
+   "partials":[  
+      {  
+         "mappingParam":"name",
+         "mappedTo":"name"
+      },
+      {  
+         "mappingParam":"age",
+         "mappedTo":"age"
+      },
+      {  
+         "mappingParam":"myArray",
+         "mappedTo":"myArray"
+      },
+      {  
+         "mappingParam":"address",
+         "mappedTo":"address"
+      }
+   ]
+}

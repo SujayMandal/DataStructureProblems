@@ -1,0 +1,5 @@
+USE `umg_admin`;
+
+ALTER TABLE `POOL` DROP COLUMN `WAIT_TIMEOUT`;
+
+commit;

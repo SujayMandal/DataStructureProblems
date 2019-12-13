@@ -1,0 +1,17 @@
+	<int:chain input-channel="${input-channel-name}" output-channel="${output-channel-name}">
+		<int:enricher id="${id}">  
+			<int:property name="request.${query-response-name}" expression="@${gateway-name}.exchange(#root).payload.result" />
+		</int:enricher>
+	</int:chain>
+	<int:gateway id="${gateway-name}" error-channel="${request-channel-name}-error"
+		default-request-channel="${request-channel-name}" />
+	<int:channel id="${request-channel-name}"/>
+	<int:chain input-channel="${request-channel-name}">		
+		<int-jdbc:outbound-gateway id="${jdbc-query-id}" query="${sql}" data-source="umgAdminDataSource" 
+			requires-reply="true" ${max-rows-per-poll} ${row-mapper-condition} />
+		<int:transformer ref="jdbcValidateTransformer" />
+	</int:chain>
+	<int:channel id="${request-channel-name}-error"/>
+	<int:chain input-channel="${request-channel-name}-error">
+		<int:transformer ref="jdbcValidateTransformer" />
+	</int:chain>

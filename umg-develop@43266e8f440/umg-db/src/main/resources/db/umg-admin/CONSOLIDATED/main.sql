@@ -1,0 +1,10 @@
+source create_tenant_schema.sql;
+source tables/REVINFO.sql;
+source tables/SYSTEM_KEY/SYSTEM_KEY.sql;
+source tables/SYSTEM_KEY/SYSTEM_KEY_ALTER.sql;
+source tables/TENANT/TENANT.sql
+source tables/TENANT_CONFIG/TENANT_CONFIG.sql;
+source tables/ADDRESS/ADDRESS.sql;
+source tables/MODEL_IMPLEMENTATION_TYPE/MODEL_IMPLEMENTATION_TYPE.sql;
+source tables/SYNDICATED_DATA/SYNDICATED_DATA.sql;
+source tables/1.1_RELEASE_CHANGES.sql;

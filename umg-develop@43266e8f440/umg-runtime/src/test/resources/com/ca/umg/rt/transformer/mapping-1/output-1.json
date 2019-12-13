@@ -1,0 +1,15 @@
+{
+   "header":{
+      "modelName":"computeAQMKNPV",
+      "majorVersion":1,
+      "minorVersion":12,
+      "date":"10/10/2012"
+   },
+   "data":{
+      "name-out":"anish",
+      "age-out":22
+   },
+   "trailer":{
+      "future":"reserved for future purpose"
+   }
+}

@@ -1,0 +1,44 @@
+<div class="box">
+	<div id="pl_footer" class="col-sm-12" style="padding-top: 10px;">
+
+		<div class="col-sm-6">
+			<div class="imgButtonSet" title="Add New Container">
+				<div id="pl_addVer" class="fa fa-plus" ng-click="addPackage()"
+					title="Add Package"></div>
+			</div>
+		</div>
+
+		<div class="col-sm-5">
+			<ul id="pl_pagination" class="pagination pull-right"
+				style="margin-bottom: 0px; margin-top: 0px;">
+
+				<li><a id="pl_firstPage" title="First Page"
+					ng-click="addonPagingOptions.currentPage = 1">First</a></li>
+				<li><a id="pl_previousPage" title="Previous Page"
+					ng-click="setPreviousPage()">&lt;</a></li>
+
+
+				<li><a id="pl_currentPage"><input type="number" min="1"
+						max="{{addonMaxPages}}" ng-model="addonPagingOptions.currentPage"
+						style="width: 50px; text-align: center; margin-top: -2px;"
+						ng-show="addonMaxPages > 0" /> of {{addonMaxPages}}</a></li>
+
+				<li><a id="pl_nextPage" title="Next Page"
+					ng-click="setNextPage()">&gt;</a></li>
+				<li><a id="pl_lastPage" title="Last Page"
+					ng-click="addonPagingOptions.currentPage = addonMaxPages">Last</a></li>
+
+			</ul>
+		</div>
+
+		<div class="col-sm-1">
+			<div class="pull-right">
+				<select id="pl_setPageSize" ng-model="addonPagingOptions.pageSize">
+					<option ng-repeat="size in addonPagingOptions.pageSizes"
+						value="{{size}}" ng-selected="size==addonPagingOptions.pageSize">{{size}}</option>
+				</select>
+			</div>
+		</div>
+
+	</div>
+</div>

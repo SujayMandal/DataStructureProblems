@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="warn">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - [%X{tenantCode}] %X{abc} - %msg%n" />
+		</Console>
+		<RollingRandomAccessFile name="RollingRandomAccessFile"
+			fileName="D:/logs/umg/runtime.log" filePattern="D:/logs/umg/$${date:yyyy-MM}/runtime-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d %p %c{1.} [%t] [%X{TENANT_CODE}] [%X{modelName}] [%X{umgTransactionId}] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="30 MB" />
+			</Policies>
+		</RollingRandomAccessFile>
+		<!-- <TenantAwareAppender name="TenantAwareAppender"
+			ignoreExceptions="false">
+			<TenantAwareDb server="localhost:10001,localhost:10002,localhost:10003" port="27017"
+				databaseName="umg_runtime" collectionName="system_log" username="log"
+				password="dtZc/E3ilti9zRQRWA8D6g==" />
+		</TenantAwareAppender>
+		<TenantAwareAsync name="Async" ignoreExceptions="false">
+			<AppenderRef ref="TenantAwareAppender" />
+		</TenantAwareAsync> -->
+	</Appenders>
+
+	<Loggers>
+		<Logger name="org.jgroups" level="error" additivity="false">
+			<AppenderRef ref="RollingRandomAccessFile" />
+		</Logger>
+		<Root level="debug" includeLocation="false">
+			<AppenderRef ref="RollingRandomAccessFile" />
+		</Root>
+	</Loggers>
+</Configuration>

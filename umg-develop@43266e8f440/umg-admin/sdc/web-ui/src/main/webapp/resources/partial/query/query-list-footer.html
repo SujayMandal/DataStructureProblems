@@ -1,0 +1,43 @@
+<div class="box box-info" style="padding-top:5px;background-color: #f0f0f0;">
+	<div class="row">
+	<div class="col-sm-12" style="padding-bottom: 10px;">
+		<div class="col-sm-8">
+			<div class="imgButtonSet">
+				<div id="ql_create" class="fa fa-plus" ng-disabled="publishedOrDeactivated"
+					ng-click="create()"></div>
+			</div>
+		</div>
+
+		<div class="col-sm-4" style="padding-right:0px;">
+		
+			<div class="pull-left">
+				<span><b>Rows: &nbsp</b></span>
+					<select id="ql_setPageSize" class="pageSizeMenu" ng-change="pageSizeChanged()"
+						ng-model="pagingOptions.pageSize"
+						ng-options="size as size for size in grid.pagingOptions.pageSizes"></select>
+				
+			</div>
+		
+			<ul class="pagination pull-right" style="margin-bottom: 0px; margin-top: 0px;">
+
+				<li><a id="ql_firstPage" title="First Page"
+						ng-click="firstPage()">First</a></li>
+				<li><a id="ql_previousPage"
+						title="Previous Page" ng-click="previousPage()">&lt;</a></li>
+				
+					<li><a id="ql_currentPage"><input type="text" min="1" max="grid.pagingOptions.totalPages" ng-model="grid.pagingOptions.currentPage" style="width: 50px; text-align: center; margin-top: -2px;" />
+						of {{grid.pagingOptions.totalPages}}
+				</a></li>
+
+					<li><a id="ql_nextPage"
+						title="Next Page" ng-click="nextPage()">&gt;</a></li>
+				<li><a id="ql_lastPage" title="Last Page"
+						ng-click="lastPage()">Last</a></li>
+			</ul>
+		</div>
+
+	</div>	
+
+</div>
+
+</div>

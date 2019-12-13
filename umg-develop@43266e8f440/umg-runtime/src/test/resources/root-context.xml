@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	<import resource="classpath:message-resources.xml" />
+
+	<context:component-scan base-package="com.ca.umg.rt.core" />
+
+	<bean id="beanMapper" class="org.dozer.DozerBeanMapper" />
+	<bean id="cacheController" class="com.ca.framework.core.cache.impl.DefaultCacheController"
+		init-method="init" destroy-method="cleanUp">
+		<property name="configFile" value="infinispan-test.xml"></property>
+	</bean>
+	<bean id="cacheRegistry"
+		class="com.ca.framework.core.cache.registry.impl.DefaultCacheRegistry">
+		<constructor-arg name="configFile" value="hazelcast-config-test.xml" />
+	</bean>
+
+	<bean id="flowContainer" class="com.ca.umg.rt.flows.container.FlowContainer"
+		scope="prototype">
+		<property name="cacheRegistry" ref="cacheRegistry" />
+	</bean>
+	<!-- JMX -->
+	<context:mbean-server />
+	<context:mbean-export registration="ignoreExisting"
+		default-domain="spring.application" />
+</beans>

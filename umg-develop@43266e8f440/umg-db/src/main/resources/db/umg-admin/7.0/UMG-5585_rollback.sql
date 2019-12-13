@@ -1,0 +1,5 @@
+use umg_admin;
+
+DROP TABLE SYSTEM_MODELETS;
+
+COMMIT;

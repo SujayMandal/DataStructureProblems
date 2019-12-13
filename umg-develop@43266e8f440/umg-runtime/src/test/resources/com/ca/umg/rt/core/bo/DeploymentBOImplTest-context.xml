@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+						http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd">
+
+	<import resource="classpath:db-context.xml"/>
+	<import resource="classpath:root-context.xml"/>
+
+	<context:component-scan base-package="com.ca.umg.rt.core"/>
+	<context:component-scan base-package="com.ca.framework.core.util" />
+	
+	<bean class="org.dozer.DozerBeanMapper" />
+
+	<bean id="dbIntegrationRepository" class="com.ca.umg.rt.repository.DatabaseIntegrationRepository" />
+
+	<bean id="flowContainerManager" class="com.ca.umg.rt.flows.container.FlowContainerManager"
+		init-method="start" destroy-method="stop">
+		<property name="integrationRepository" ref="dbIntegrationRepository" />
+	</bean>
+	
+	<jdbc:initialize-database data-source="umgAdminDataSource">
+		<jdbc:script
+			location="classpath:com/ca/umg/rt/core/bo/deployment-initialize.sql" />
+	</jdbc:initialize-database>
+	
+</beans>

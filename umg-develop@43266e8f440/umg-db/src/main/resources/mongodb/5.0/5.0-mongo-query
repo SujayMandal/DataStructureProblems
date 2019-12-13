@@ -1,0 +1,1 @@
+db.${tenantCode}_documents.createIndex( { "executionGroup": 1},{ background: true } );

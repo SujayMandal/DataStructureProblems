@@ -1,0 +1,270 @@
+<style>
+#centerRow>#center>.ag-list-selection{
+	text-align:left;
+}
+
+#center{
+float:left;
+}
+
+.ag-header-cell-menu-button{
+	opacity:1! important;
+}
+
+.ag-cell{
+text-align: center! important;
+}
+.ag-header-cell{
+	text-align: center! important;
+}
+ polygon,rect {
+     fill  : #fff;
+  }
+.rag-red {
+	background-color: lightcoral ! important;
+}
+</style>
+
+<!-- <div class="row">
+	<div id="bd_ErrorMsg" class="error-msg"
+		ng-show="showMessage" align="center" ng-bind-html="check"></div>
+</div> -->
+
+<div id="batchDashboardErrorMsg" class="error-msg" ng-show="showErrorMessage" align="center">{{showMessage}}</div>
+
+<div id="batchDashboardErrorMsg" class="success-msg" ng-show="showSuccesssMessage" align="center">{{showMessage}}</div>
+
+<div class="box box-primary header-form-background" style="margin-bottom: 0px;">
+	<div class="box-body" style="padding-top: 0px; padding-left: 5px;margin-top: -5px;margin-left: -25px;">
+		<form class="form">
+			<div id="bd_inputForm" class="form-group">
+				<div class="col-sm-5">
+					<div class="col-sm-6">
+						<span class="form-label"> Batch ID </span>
+						<input id="filterOption.batchId" name="batchId" type="text"
+							ng-model="pageInfo.batchId" class="form-control"/>
+					</div>
+					<div class="col-sm-6">
+						<span class="form-label"> Input File Name </span>
+						<input id="filterOption.fileName" name="fileName" type="text"
+							ng-model="pageInfo.inputFileName" class="form-control"/>
+					</div>
+				</div>
+
+				<div class="col-sm-5" style="padding-left: 0px;">
+					<div class="col-sm-6" >
+						<span class="form-label"> Run-Date From </span>
+						<div class="input-group date" id='datetimepicker1'>
+							<input type="text" class="form-control"
+								ng-model="pageInfo.fromDate" date-time-picker
+								format="dateTimeFormat" /> <span
+								class="input-group-addon"> <span
+								class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+					</div>
+					<div class="col-sm-6" >
+						<span class="form-label"> Run-date to </span>
+						<div class="input-group date" id='datetimepicker2'>
+							<input type="text" class="form-control"
+								ng-model="pageInfo.toDate" date-time-picker
+								format="dateTimeFormat" /> <span
+								class="input-group-addon"> <span
+								class="glyphicon glyphicon-calendar"></span>
+							</span>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-sm-2" style="padding-left: 0px;padding-top: 16px;">
+					<!-- <div id="bd_Search" align="center"> -->
+						<div>
+							<button id="bd.search" class="btn btn-primary" style="width: 40%; margin-right:10%;" 
+								type="submit"
+								ng-click="pagingOptions.currentPage = 1;getPagedBatchTxns()">Search</button>
+							<button id="bd_upload" style="width: 40%;"
+								class="btn btn-primary" type="button" ng-click="showUploadBatchFile()" ng-show="uploads.length>0">Upload</button>
+						</div>
+					<!-- </div> -->
+				</div>
+			</div>
+			<!-- form-group -->
+		</form>
+
+	</div>
+	<!-- box-body -->
+
+</div>
+<!-- box -->
+
+
+
+<div class="box box-primary" style="margin-bottom: 0px;">
+	<div class="box-body">
+		<div class="box-header" ng-show="pagedData.length != 0 || totalCount  != 0" 
+			style="padding: 0px;">
+			<!-- <div class="dropdown rpt-column-btn"> -->
+			  	
+			  	<div class="pull-left" ng-show="!searchResultMessageWarnning"><label style="color: #00a65a;">{{searchResultMessage}}</label></div>
+			  	
+			  	<div class="pull-left" ng-show="searchResultMessageWarnning"><label style="color: red;">{{searchResultMessage}}</label></div>
+			  	
+			  	<div class="pull-right">
+					<span>&nbsp &nbsp Rows: &nbsp</span>
+					<select id="bd_setPageSize" class="pageSizeMenu"
+						ng-model="pagingOptions.pageSize"
+						ng-options="size as size for size in pagingOptions.pageSizes"></select>	
+				</div>
+
+				
+				<div class="pull-right">
+				  <button id="dLabel" type="button" class="btn btn-sm" data-toggle="dropdown" aria-haspopup="true" 
+				  aria-expanded="false" ng-click="columnMsg=''" style="color :#4E5152; background-color:#FFFFFF;padding: 0px;">
+				    &nbsp; Columns &nbsp;
+				    <span class="caret"></span>
+				  </button>
+				  <ul class="dropdown-menu"  id="dropdown-menu" aria-labelledby="dLabel" onclick="event.stopPropagation();"
+				  	style="background-color: #EEEEEE; border: 1px solid;border-radius: 0px;border-color: #AAAAAA;
+			  	padding: 6px;padding-bottom: 3px;padding-top: 3px;">
+				  		<li ng-repeat="col in columnRed"><input type="checkbox"
+							ng-model="col.flag" ng-change="colHide(col.field,col.flag)"
+							ng-click="" />{{col.headerName}}</li>
+				  </ul>
+			  	</div>
+			  	
+			  	
+			<!-- </div> -->
+			
+			
+			
+		</div>
+		
+		<div ng-show="pagedData.length != 0 || totalCount != 0" id="batchdashGrid" ag-grid="gridOptions" class="ag-blue" style="height: 450px;"></div>
+		<div ng-show="pagedData.length != 0"  id="gridfooter" ng-include src=" 'resources/partial/batch-dashboard/batch-dashbrd-grid-footer.html' "></div>
+		<div ng-show="totalPages == 0" id="bd_noModelFound" class="box"
+			style="text-align:center; margin:0px; background-color: hsla(191, 16%, 26%, 0.2);">
+			<div class="box-body">
+				<h3>No Records Found</h3>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- pop up for upload batch -->
+<div class="modal" id="uploadBatchExcelId" tabindex="-1"
+	role="dialog" aria-labelledby="uploadBatchExcelIdLabel"
+	aria-hidden="true"
+	ng-show="uploadBatchExcel">
+	<div class="modal-dialog" style="width: 40%; height: 50%">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background-color: #3C8DBC; color: white;">
+				<button type="button" class="close" data-dismiss="modal"
+					ng-click="clearModal();" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Upload Batch/Bulk</h3>
+			</div>
+			<div class="modal-body" style="padding-bottom: 30px;">
+			<div id="uploadBatchErrorMsg" class="error-msg" ng-show="showUploadBatchError" 
+						align="center">{{showUploadBatchErrorMsg}}</div>
+				<div class="form-group">
+					<div for="batchFile" class="col-sm-2">
+						<select class="form-control" ng-model="fileUploadModelType" ng-change = "changeUploadModelType(fileUploadModelType)" style="padding-left: 8px;padding-right: 0px;">
+							 <option ng-repeat="upload in uploads" value="{{upload}}" ng-selected="fileUploadModelType==upload">{{upload}}</option>							 
+						</select>
+					</div>	
+					
+					<div class="col-md-6" style="width: 40%;">
+						<input class="form-control input-sm" id="version_zip_1"
+							name="batchFile" type="text"
+							value="{{batchExcel.batchExcelFile.name}}" readonly>
+					</div>
+					<div class="col-md-2">
+						<span class="btn btn-primary btn-sm btn-file" style="width: 60px"
+							tooltip="Upload {{fileAcceptType}} File" tooltip-placement="top"
+							tooltip-trigger="mouseenter">Browse
+							<input id="batchExcel_browse" ng-model="batchExcel.batchExcelFile" type="file" 	
+							name="batchExcelFile"  accept="{{fileAcceptType}}" file-model="batchExcel.batchExcelFile"   />
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer" style="background-color: #FFFFFF;">
+			<button type="button" class="btn btn-primary" data-dismiss="modal"
+				ng-click="clearModal();">Cancel</button>
+			<button type="button" class="btn btn-primary" data-dismiss="modal"
+				ng-click="uploadBatchFunc()">Upload</button>
+		</div>
+	</div>
+</div>
+
+<!-- pop up for showing error for download io files -->
+<div class="modal" id="batchDwnldIOPopId" tabindex="-1"
+	role="dialog" aria-labelledby="batchDwnldIOIdLabel"
+	aria-hidden="true"
+	ng-show="batchDwnldIOShow">
+	<div class="modal-dialog" style="width: 40%; height: 50%">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background-color: #3C8DBC; color: white;">
+				<button type="button" class="close" data-dismiss="modal"
+					ng-click="clearModalBtchDwnlIoErr();" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				
+				<h3 class="modal-title">Download I/O Files</h3>
+				
+			</div>
+			<div class="modal-body" style="padding-bottom: 30px;">
+			 	<label class="control-label"><!-- Export for Re-run is applicable 
+			 	for transactions with same Model Name and Version -->
+			 	{{sameModelVerErrorMsg}} <br> {{tranCntErrorMsg}}</label>
+			</div>
+		</div>
+		<div class="modal-footer" style="background-color: #FFFFFF;">
+			<button type="button" class="btn btn-primary" data-dismiss="modal"
+				ng-click="clearModalBtchDwnlIoErr();">Ok</button>
+		</div>
+	</div>
+</div>
+
+<!-- pop up for usage report -->
+<div class="modal" id="batchdwnldUsgRprt" tabindex="-1"
+    role="dialog" aria-labelledby="batchdwnldUsgRprt"
+    aria-hidden="true"
+    ng-show="showUsgRprtRerunPopup">
+    <div class="modal-dialog" style="width: 40%; height: 50%">
+        <div class="modal-content">
+            <div class="modal-header"
+                style="background-color: #3C8DBC; color: white;">
+                <button type="button" class="close" data-dismiss="modal"
+                    ng-click="" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h3 class="modal-title">Usage Report</h3> <h5>(Max 50,000 transactions) </h5>
+                <!-- <h3>Usage Report</h3> (Max 50,000 transactions) -->
+            </div>
+            <div class="modal-body" style="padding-bottom: 30px;" ng-hide="hideForRerunWrongSelection">
+                <input type="radio" id="all" name="transaction.type" ng-model="all.transactions" value="all" 
+                    ng-click=""> All transactions ({{totalSearchedTransactions}})<br>
+                <input type="radio" id="selected" name="transaction.type" ng-model="all.transactions" value="selected" 
+                    ng-click=""> Selected transactions ({{selectedTransForUsgRprtCnt}})<br>
+            </div>
+        </div>
+        <div class="modal-footer" style="background-color: #FFFFFF;">
+            <button  type="button" class="btn btn-primary" id="ok" 
+            ng-click="downloadBatchUsageReport()" ng-disabled="all.transactions == null || all.transactions == ''"
+            > Download </button>
+            <button  type="button" class="btn btn-primary" 
+            id="cancel_export" data-dismiss="modal" ng-hide="hideForRerunWrongSelection"> Cancel </button>
+        </div>
+    </div>
+</div>
+<script>
+$(document).ready(function(){
+    permissionMapping();
+});
+</script>       

@@ -1,0 +1,37 @@
+<hazelcast-client xsi:schemaLocation=
+    "http://www.hazelcast.com/schema/client-config hazelcast-client-config-3.9.xsd"
+                  xmlns="http://www.hazelcast.com/schema/client-config"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<group>
+		<name>umg-local-ext-ak</name>
+		<password>umg-local-ext-pass-ak</password>
+	</group>
+
+	<network>
+		<cluster-members>
+            <!-- <address>10.207.12.199:5501</address>
+			<address>10.207.12.199:5502</address> -->
+			<address>localhost:5501</address>
+			<!-- <address>10.141.15.194:5501</address>
+			<address>10.141.15.194:5502</address> -->
+			<!-- <address>localhost:5902</address>
+			<address>localhost:5501</address>
+			<address>localhost:5502</address> -->
+        </cluster-members>
+        <smart-routing>false</smart-routing>
+        <redo-operation>true</redo-operation>
+        <connection-timeout>60000</connection-timeout>
+        <connection-attempt-period>5000</connection-attempt-period>
+        <connection-attempt-limit>2</connection-attempt-limit>
+        <socket-options>
+            <tcp-no-delay>false</tcp-no-delay>
+            <keep-alive>true</keep-alive>
+            <reuse-address>true</reuse-address>
+            <linger-seconds>3</linger-seconds>
+            <timeout>-1</timeout>
+            <buffer-size>32</buffer-size>
+        </socket-options>
+	</network>
+
+</hazelcast-client>

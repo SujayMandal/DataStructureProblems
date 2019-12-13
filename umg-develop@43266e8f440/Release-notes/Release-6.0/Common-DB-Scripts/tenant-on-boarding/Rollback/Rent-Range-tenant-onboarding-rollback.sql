@@ -1,0 +1,9 @@
+use `umg_admin`;
+
+SELECT @tenant_name:=(SELECT ID FROM TENANT WHERE CODE='rentrange');
+
+DELETE FROM `ADDRESS` WHERE TENANT_ID = @tenant_name;
+
+DELETE FROM TENANT_CONFIG WHERE TENANT_ID =  @tenant_name;
+
+DELETE FROM TENANT WHERE CODE='rentrange';

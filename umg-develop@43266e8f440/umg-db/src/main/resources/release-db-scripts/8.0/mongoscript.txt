@@ -1,0 +1,37 @@
+var stateCollections = db.getCollectionNames();
+for(i = 0; i < stateCollections.length; i++) {
+if(!(stateCollections[i]=='system.users'|| stateCollections[i]=='system.indexes' || stateCollections[i]=='notication_documents')){
+print('started creating TI TO MI and MO documents for tenant code===='+stateCollections[i].replace('_documents',''))
+db.getCollection(stateCollections[i].replace('_documents','')+'_TI_documents').createIndex( { "transactionId": -1 },{ background: true },{"unique" : true});
+db.getCollection(stateCollections[i].replace('_documents','')+'_MI_documents').createIndex( { "transactionId": -1 },{ background: true },{"unique" : true});
+db.getCollection(stateCollections[i].replace('_documents','')+'_TO_documents').createIndex( { "transactionId": -1 },{ background: true },{"unique" : true});
+db.getCollection(stateCollections[i].replace('_documents','')+'_MO_documents').createIndex( { "transactionId": -1 },{ background: true },{"unique" : true});
+print('created TI TO MI and MO documents for tenant code====='+stateCollections[i].replace('_documents',''));
+print('dropping indexes for tenantCode======'+stateCollections[i].replace('_documents',''));
+db.getCollection(stateCollections[i]).dropIndexes();
+print('dropped indexes for tenantCode===='+stateCollections[i].replace('_documents',''));
+print('creating indexes for tenantCode===='+stateCollections[i].replace('_documents',''));
+db.getCollection(stateCollections[i]).createIndex({versionName:1,test:1,runAsOfDate:-1},{name:"Model-Test-RunDate"});
+db.getCollection(stateCollections[i]).createIndex({versionName:1,majorVersion:1,minorVersion:1,test:1,runAsOfDate:-1},{name:"MainIdx-Test"});
+db.getCollection(stateCollections[i]).createIndex({versionName:1,test:1,status:1,runAsOfDate:-1},{name:"Model-Test-Status-RunDate"});
+db.getCollection(stateCollections[i]).createIndex({versionName:1,majorVersion:1,minorVersion:1,test:1,status:1,runAsOfDate:-1},{name:"MainIdx-TestStatus"});
+db.getCollection(stateCollections[i]).createIndex({test:1,runAsOfDate:-1},{name:"Test-RunDate"});
+db.getCollection(stateCollections[i]).createIndex({test:1,status:1,runAsOfDate:-1},{name:"Test-Status-RunDate"});
+db.getCollection(stateCollections[i]).createIndex({versionName:1,errorCode:1,test:1,runAsOfDate:-1},{name:"Model-ErrCode-Test-RunDate"});
+db.getCollection(stateCollections[i]).createIndex({clientTransactionId:1,runAsOfDate:-1},{name:"Clnttranid-RunDate"});
+db.getCollection(stateCollections[i]).createIndex({transactionID:1,runAsOfDate:-1},{name:"Tranid-RunDate"});
+print('created indexes for tenantCode===='+stateCollections[i].replace('_documents',''));
+print('moving tenantInput from documents===='+stateCollections[i]+' to ===='+stateCollections[i].replace('_documents','')+'_TI_documents');
+db.getCollection(stateCollections[i]).find({"tenantInput" : {$ne:null}}).forEach(function(doc){  db.getCollection(stateCollections[i].replace('_documents','')+'_TI_documents').insert({_id:doc._id,_transactionId:doc.transactionId,_tenantInput:doc.tenantInput})});
+print('moved tenantInput from documents===='+stateCollections[i]+' to ===='+stateCollections[i].replace('_documents','')+'_TI_documents');
+print('moving tenantOutput from documents===='+stateCollections[i]+' to ===='+stateCollections[i].replace('_documents','')+'_TO_documents');
+db.getCollection(stateCollections[i]).find({"tenantOutput" : {$ne:null}}).forEach(function(doc){   db.getCollection(stateCollections[i].replace('_documents','')+'_TO_documents').insert({_id:doc._id,_transactionId:doc.transactionId,_tenantOutput:doc.tenantOutput})});
+print('moved tenantOutput from documents===='+stateCollections[i]+' to ===='+stateCollections[i].replace('_documents','')+'_TO_documents');
+print('moving modelInput from documents===='+stateCollections[i]+' to ===='+stateCollections[i].replace('_documents','')+'_MI_documents');
+db.getCollection(stateCollections[i]).find({"modelInput" : {$ne:null}}).forEach(function(doc){   db.getCollection(stateCollections[i].replace('_documents','')+'_MI_documents').insert({_id:doc._id,_transactionId:doc.transactionId,_modelInput:doc.modelInput})});
+print('moved modelInput from documents===='+stateCollections[i]+' to ===='+stateCollections[i].replace('_documents','')+'_MI_documents');
+print('moving modelOutput from documents===='+stateCollections[i]+' to ===='+stateCollections[i].replace('_documents','')+'_MO_documents');
+db.getCollection(stateCollections[i]).find({"modelOutput" : {$ne:null}}).forEach(function(doc){   db.getCollection(stateCollections[i].replace('_documents','')+'_MO_documents').insert({_id:doc._id,_transactionId:doc.transactionId,_modelOutput:doc.modelOutput
+})});
+print('moved modelOutput from documents===='+stateCollections[i]+' to ===='+stateCollections[i].replace('_documents','')+'_MO_documents');
+}}

@@ -1,0 +1,1 @@
+SQL Scripts are updated till RA-Release 3.0

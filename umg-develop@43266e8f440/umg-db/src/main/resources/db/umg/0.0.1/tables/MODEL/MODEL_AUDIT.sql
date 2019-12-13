@@ -1,0 +1,21 @@
+CREATE TABLE MODEL_AUDIT (
+	ID CHAR(36) NOT NULL,
+ 	TENANT_ID CHAR(36) NULL COMMENT 'Tenant code for the record',
+	NAME VARCHAR(50) NOT NULL COMMENT 'Name of the model, given by user as TAG.',
+	UMG_NAME VARCHAR(100) NOT NULL COMMENT 'UMG provided name of the model. TAG-MM-DD-YYYY-HH-MM',
+	DESCRIPTION VARCHAR(200) NOT NULL COMMENT 'Description of the model.',
+	IO_DEFINITION_NAME VARCHAR(100) NOT NULL COMMENT 'Name of the XML file uploaded. Useed to show on UI.',
+	DOC_NAME VARCHAR(100) NOT NULL COMMENT 'Name of the DOCUMENTATION file uploaded. Useed to show on UI.',
+	CREATED_BY CHAR(100) NOT NULL ,
+    CREATED_ON BIGINT(20) NOT NULL,
+    LAST_UPDATED_BY CHAR(100) NULL,
+    LAST_UPDATED_ON BIGINT(20) NULL,
+	REV INT(11) NOT NULL,
+  	REVTYPE TINYINT(4) DEFAULT NULL,
+	PRIMARY KEY (ID,REV)
+
+)
+COMMENT='The table which contains the individual model audit details'
+DEFAULT CHARSET=utf8
+COLLATE='utf8_bin'
+ENGINE=InnoDB;

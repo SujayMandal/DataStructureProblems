@@ -1,0 +1,1 @@
+DELETE FROM `RA_TNT_APP_PARAMS` WHERE `ATTR_KEY` = 'sop.weekn.prior.recommandation.all.rows.hubzu.query';

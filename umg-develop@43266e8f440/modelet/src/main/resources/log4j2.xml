@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug"
+	packages="com.ca.framework.core.logging.appender">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<Pattern>%d %p %c{1.} [%t] [%X{TENANT_CODE}] [%X{umgTransactionId}] [%X{modelName}][%X{version}] %m%n</Pattern>
+		</Console>
+	</Appenders>
+	<Loggers>
+		<Root level="${sys:loglevel}">
+			<AppenderRef ref="Console" />
+		</Root>
+	</Loggers>
+</Configuration>

@@ -1,0 +1,3 @@
+use `umg_admin`;
+
+INSERT INTO `SYSTEM_PARAMETER` (`ID`, `SYS_KEY`, `SYS_VALUE`, `IS_ACTIVE`, `CREATED_BY`, `CREATED_ON`, `LAST_UPDATED_BY`, `LAST_UPDATED_ON`, `DESCRIPTION`) VALUES ('5365967d-f804-11e6-a5d5-00ffbc73cbd1', 'MODELET_RESTART_ERROR_CODES', 'MOSE000001,MOSE000002', 'Y', 'SYSTEM', 5155451518, 'SYSTEM', 1487673061335, 'Comma separated error codes to trigger R modelet restarts incase of execution errors. Supported error codes are MOSE000001,MOSE000002');

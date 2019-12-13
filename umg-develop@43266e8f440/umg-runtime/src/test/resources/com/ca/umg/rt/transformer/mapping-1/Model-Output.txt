@@ -1,0 +1,253 @@
+{
+  "tenantRequest": {
+    "data": {
+      "testDoubleArr": [
+        1.0,
+        2.0
+      ],
+      "testDouble2": 0.0,
+      "InterestRate": 0.0,
+      "testInt1": 0,
+      "testBool3": true,
+      "testInt2": 0,
+      "testBool2": false,
+      "testInt3": 0,
+      "testBool1": true,
+      "Month": "UMG",
+      "testStr3": "SHA",
+      "testStr2": "HAMP",
+      "testDouble3": 0.0
+    },
+    "header": {
+      "modelName": "TESTVERSION",
+      "majorVersion": 1,
+      "transactionId": "f0fe232c-7541-4ca7-bc40-09496a9a59f3",
+      "batchId": "815204b1-58df-45af-a114-795494e48d23",
+      "minorVersion": 0,
+      "date": "2015-06-25T09:46:00.000"
+    }
+  },
+  "request": {
+    "testDoubleArr": [
+      1.0,
+      2.0
+    ],
+    "testDouble2": 0.0,
+    "InterestRate": 0.0,
+    "testInt1": 0,
+    "testBool3": true,
+    "testInt2": 0,
+    "testBool2": false,
+    "testInt3": 0,
+    "testBool1": true,
+    "Month": "UMG",
+    "testStr3": "SHA",
+    "testStr2": "HAMP",
+    "testDouble3": 0.0,
+    "TESTDATE_MILLIS": 1435225560000,
+    "TESTDATE": "Jun-25-2015 09:46"
+  },
+  "validations": {
+    
+  },
+  "result": {
+    "testInt1": 0,
+    "testInt2": 0,
+    "testInt3": 0,
+    "InterestRate": 0.0,
+    "testDouble2": 0.0,
+    "testDouble3": 0.0,
+    "testDoubleArr": [
+      1.0,
+      2.0
+    ],
+    "testBool1": true,
+    "testBool2": false,
+    "testBool3": true,
+    "Month": "UMG",
+    "testStr2": "HAMP",
+    "testStr3": "SHA"
+  },
+  "modelRequest": {
+    "headerInfo": {
+      "modelLibraryName": "TESTVERSION",
+      "modelLibraryVersionName": "TESTVERSION-2015-Jun-25-09-45",
+      "jarName": "jandemoumg108.jar",
+      "modelClass": "testUMG.testUMG",
+      "modelMethod": "testUMGIOParams",
+      "tenantCode": "localhost",
+      "engine": "Matlab",
+      "responseSize": 5,
+      "transactionType": {
+        "tenantCode": "localhost",
+        "requestType": "batch",
+        "executionEnvironment": "Matlab",
+        "executionEnvironmentVersion": "7.16"
+      }
+    },
+    "payload": [
+      {
+        "fieldName": "testInt1",
+        "sequence": 1,
+        "dataType": "integer",
+        "collection": false,
+        "value": 0
+      },
+      {
+        "fieldName": "testInt2",
+        "sequence": 2,
+        "dataType": "integer",
+        "collection": false,
+        "value": 0
+      },
+      {
+        "fieldName": "testInt3",
+        "sequence": 3,
+        "dataType": "integer",
+        "collection": false,
+        "value": 0
+      },
+      {
+        "fieldName": "InterestRate",
+        "sequence": 4,
+        "dataType": "double",
+        "collection": false,
+        "value": 0.0
+      },
+      {
+        "fieldName": "testDouble2",
+        "sequence": 5,
+        "dataType": "double",
+        "collection": false,
+        "value": 0.0
+      },
+      {
+        "fieldName": "testDouble3",
+        "sequence": 6,
+        "dataType": "double",
+        "collection": false,
+        "value": 0.0
+      },
+      {
+        "fieldName": "testDoubleArr",
+        "sequence": 7,
+        "dataType": "double",
+        "collection": true,
+        "value": [
+          1.0,
+          2.0
+        ]
+      },
+      {
+        "fieldName": "testBool1",
+        "sequence": 8,
+        "dataType": "boolean",
+        "collection": false,
+        "value": true
+      },
+      {
+        "fieldName": "testBool2",
+        "sequence": 9,
+        "dataType": "boolean",
+        "collection": false,
+        "value": false
+      },
+      {
+        "fieldName": "testBool3",
+        "sequence": 10,
+        "dataType": "boolean",
+        "collection": false,
+        "value": true
+      },
+      {
+        "fieldName": "Month",
+        "sequence": 11,
+        "dataType": "string",
+        "collection": false,
+        "value": "UMG"
+      },
+      {
+        "fieldName": "testStr2",
+        "sequence": 12,
+        "dataType": "string",
+        "collection": false,
+        "value": "HAMP"
+      },
+      {
+        "fieldName": "testStr3",
+        "sequence": 13,
+        "dataType": "string",
+        "collection": false,
+        "value": "SHA"
+      }
+    ]
+  },
+  "me2Response": {
+    "response": "{\"modelName\":null,\"responseHeaderInfo\":{\"errorCode\":null,\"errorMessage\":null,\"error\":\"false\"},\"payload\":[{\"fieldName\":null,\"sequence\":\"1\",\"dataType\":null,\"collection\":true,\"value\":[0],\"nativeDataType\":null},{\"fieldName\":null,\"sequence\":\"2\",\"dataType\":null,\"collection\":true,\"value\":[0.0],\"nativeDataType\":null},{\"fieldName\":null,\"sequence\":\"3\",\"dataType\":null,\"collection\":true,\"value\":[3.0],\"nativeDataType\":null},{\"fieldName\":null,\"sequence\":\"4\",\"dataType\":null,\"collection\":true,\"value\":[false],\"nativeDataType\":null},{\"fieldName\":null,\"sequence\":\"5\",\"dataType\":\"string\",\"collection\":false,\"value\":[\"UMGHAMPSHA\"],\"nativeDataType\":null}],\"modelExecutionTime\":0,\"modeletExecutionTime\":3}",
+    "success": true,
+    "message": null,
+    "errorCode": null,
+    "me2ExecutionTime": 16
+  },
+  "modelResponse": {
+    "modelName": null,
+    "responseHeaderInfo": {
+      "errorCode": null,
+      "errorMessage": null,
+      "error": "false"
+    },
+    "payload": [
+      {
+        "fieldName": null,
+        "sequence": "1",
+        "dataType": null,
+        "collection": true,
+        "value": [
+          0
+        ],
+        "nativeDataType": null
+      },
+      {
+        "fieldName": null,
+        "sequence": "2",
+        "dataType": null,
+        "collection": true,
+        "value": [
+          0.0
+        ],
+        "nativeDataType": null
+      },
+      {
+        "fieldName": null,
+        "sequence": "3",
+        "dataType": null,
+        "collection": true,
+        "value": [
+          3.0
+        ],
+        "nativeDataType": null
+      },
+      {
+        "fieldName": null,
+        "sequence": "4",
+        "dataType": null,
+        "collection": true,
+        "value": [
+          false
+        ],
+        "nativeDataType": null
+      },
+      {
+        "fieldName": null,
+        "sequence": "5",
+        "dataType": "string",
+        "collection": false,
+        "value": [
+          "UMGHAMPSHA"
+        ],
+        "nativeDataType": null
+      }
+    ],
+    "modelExecutionTime": 0,
+    "modeletExecutionTime": 3
+  }}

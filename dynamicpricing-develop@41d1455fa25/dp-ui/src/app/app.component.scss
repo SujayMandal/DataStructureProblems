@@ -1,0 +1,44 @@
+.loading {
+  position: fixed;
+    z-index: 99999;
+    overflow: show;
+    margin: auto; 
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    /* background: transparent url(/assets/images/new_loader.gif) center no-repeat; */
+     
+}
+
+/* Transparent Overlay */
+.loading:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%; 
+    z-index: 1100;
+   background-color: white;
+   opacity: .3;
+}
+
+.loading-text {
+  position: fixed;
+  z-index: 99999;
+  height: 4em;
+  width: 22em;
+  overflow: show;
+  margin: auto;
+  top: 15em;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: transparent  center no-repeat;
+  text-align: center;
+  color: #495463;
+  font-weight: bold;
+  font-size: 16px;
+}

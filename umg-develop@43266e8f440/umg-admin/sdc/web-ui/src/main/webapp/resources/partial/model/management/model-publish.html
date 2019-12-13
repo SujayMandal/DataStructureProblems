@@ -1,0 +1,1002 @@
+<!-- Existing Library Pop-up -->
+<div class="modal" id="newRModal" tabindex="-1" role="dialog"
+	aria-labelledby="RModalLabel" aria-hidden="true"
+	ng-show="dialogType == 'R_LIB'">
+	<div class="modal-dialog" style="width: 80%; height: 50%">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background-color: #3C8DBC; color: white;">
+				<!-- <button type="button" class="close" data-dismiss="modal"
+					ng-click="srchRLib = ''" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="input-append">
+					<input class="span5" id="searchRLib"
+						placeholder="Type to Search Library ..." ng-model="srchRLib"
+						type="text">
+					<button class="btn" type="button"
+						ng-click="setFilteredRLibraries(srchRLib)">Go!</button>
+				</div> -->
+
+				<button type="button" class="close" data-dismiss="modal"
+					ng-click="srchRLib = ''" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="input-group input-group-sm" style="width: 30%">
+					<input class="form-control" id="searchRLib"
+						placeholder="Type to Search Library ..." ng-model="srchRLib"
+						type="text">
+					<div class="input-group-btn">
+						<button class="btn btn-sm btn-primary" type="button"
+							ng-click="setFilteredRLibraries(srchRLib)">Go!</button>
+					</div>
+					<!-- /btn-group -->
+				</div>
+
+
+			</div>
+			<div class="modal-body">
+				<div ng-show="newRLibDetails.length > 0">
+					<div id="rlibGrid" class="umg-grid" style="height: 390px;"
+						ng-grid="rModelLibGrid"></div>
+				</div>
+				<div style="text-align: center;"
+					ng-show="newRLibDetails.length == 0 && srchRLib == ''">No
+					Record Found.</div>
+				<div style="text-align: center;"
+					ng-show="newRLibDetails.length == 0 && srchRLib != ''">No
+					Record Found For This Search Criteria.</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal"
+					ng-click="srchRLib = ''">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Existing Library Pop-up -->
+<div class="modal" id="libModal" tabindex="-1" role="dialog"
+	aria-labelledby="libModalLabel" aria-hidden="true"
+	ng-show="dialogType == 'LIB'">
+	<div class="modal-dialog" style="width: 80%; height: 50%">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background-color: #3C8DBC; color: white;">
+				<!-- <button type="button" class="close" data-dismiss="modal"
+					ng-click="srchLibTxt = ''" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="input-append">
+					<input class="span5" id="searchLib"
+						placeholder="Type to Search Library ..." ng-model="srchLibTxt"
+						type="text">
+					<button class="btn" type="button"
+						ng-click="setFilteredLibraries(srchLibTxt)">Go!</button>
+				</div> -->
+
+
+				<button type="button" class="close" data-dismiss="modal"
+					ng-click="srchLibTxt = ''" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="input-group input-group-sm" style="width: 30%">
+					<input class="form-control" id="searchLib"
+						placeholder="Type to Search Library ..." ng-model="srchLibTxt"
+						type="text">
+					<div class="input-group-btn">
+						<button class="btn btn-sm btn-primary" type="button"
+							ng-click="setFilteredLibraries(srchLibTxt)">Go!</button>
+					</div>
+					<!-- /btn-group -->
+				</div>
+
+
+			</div>
+			<div class="modal-body">
+				<div ng-show="modelApiDetails.length > 0">
+					<div id="libGrid" class="umg-grid" style="height: 390px;"
+						ng-grid="modelLibGrid"></div>
+				</div>
+				<div style="text-align: center;"
+					ng-show="modelApiDetails.length == 0 && srchLibTxt == ''">No
+					Record Found.</div>
+				<div style="text-align: center;"
+					ng-show="modelApiDetails.length == 0 && srchLibTxt != ''">No
+					Record Found For This Search Criteria.</div>
+			</div>
+			<div class="modal-footer">
+				<!-- <button type="button" class="btn btn-primary" data-dismiss="modal" ng-show="smp.modelLibrary.executionLanguage.indexOf('R') != -1"
+					ng-click="srchRLib = ''" ui-sref="rlibUpload" >New Upload</button> -->
+				<button type="button" class="btn btn-primary" data-dismiss="modal"
+					ng-click="srchLibTxt = ''">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Existing Definition Pop-up -->
+<div class="modal" id="defModal" tabindex="-1" role="dialog"
+	aria-labelledby="defModalLabel" aria-hidden="true"
+	ng-show="dialogType == 'DEF'">
+	<div class="modal-dialog" style="width: 80%; height: 50%">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background-color: #3C8DBC; color: white;">
+				<button type="button" class="close" data-dismiss="modal"
+					ng-click="srchDefTxt = ''" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="input-group input-group-sm" style="width: 30%">
+					<input class="form-control" id="searchDef"
+						placeholder="Type to Search Model Definition ..."
+						ng-model="srchDefTxt" type="text">
+					<div class="input-group-btn">
+						<button class="btn btn-sm btn-primary" type="button"
+							ng-click="setFilteredDefinitions(srchDefTxt)">Go!</button>
+					</div>
+					<!-- /btn-group -->
+				</div>
+				<!-- 	<div class="input-append">
+					<input class="span5" id="searchDef"
+						placeholder="Type to Search Model Definition ..."
+						ng-model="srchDefTxt" type="text">
+					<button class="btn" type="submit"
+						ng-click="setFilteredDefinitions(srchDefTxt)">Go!</button>
+				</div> -->
+
+			</div>
+			<div class="modal-body">
+				<div ng-show="modelApiDetails.length > 0">
+					<div id="defGrid" class="umg-grid" style="height: 390px;"
+						ng-grid="modelDefGrid"></div>
+				</div>
+				<div style="text-align: center;"
+					ng-show="modelApiDetails.length == 0 && srchDefTxt == ''">No
+					Record Found.</div>
+				<div style="text-align: center;"
+					ng-show="modelApiDetails.length == 0 && srchDefTxt != ''">No
+					Record Found For This Search Criteria.</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-dismiss="modal"
+					ng-click="srchDefTxt = ''">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- form start -->
+<form role="form" name="mpForm" novalidate>
+	<div class="col-md-6" ng-hide="openOutput">
+		<div class="box box-primary">
+			<div class="form-horizontal">
+				<div class="box-header with-border">
+					<span class="text-primary" style="font-weight: 600;">1.
+						Model Essentials</span>
+				</div>
+				<div class="box-body">
+					<div class="form-group">
+						<span for="api_fv" class="col-sm-3 control-label">Model
+							Name<font color="red">*</font> <span
+							class="error-container ng-hide"
+							ng-show="mpForm.api.$dirty &amp;&amp; mpForm.api_fv.$invalid">
+								<small class="error-msg pull-right"
+								ng-show="mpForm.api_fv.$error.required"><font
+									color="red">Required!</font></small> <small
+								class="error-msg pull-right"
+								ng-show="mpForm.api_fv.$error.maxlength"><font
+									color="red">API name cannot be longer than 50 characters</font></small>
+						</span>
+						</span>
+						<div class="col-sm-9">
+							<input type="text" id="api_fv" name="api_fv" class="form-control"
+								ng-model="smp.name" auto-suggest ui-items="tenantModelNames"
+								placeholder="Enter Model API"
+								ng-blur="setTenantModelDesc(smp.name)" required
+								ng-maxlength="50" ng-disabled="versionSaved" />
+						</div>
+					</div>
+					<div class="form-group">
+						<span for="api_desc" class="col-sm-3 control-label">Model
+							Synopsis<font color="red">*</font> <span
+							class="error-container ng-hide"
+							ng-show="mpForm.api_desc.$dirty &amp;&amp; mpForm.api_desc.$invalid">
+								<small class="error-msg pull-right"
+								ng-show="mpForm.api_desc.$error.required"><font
+									color="red">Required!</font></small> <small
+								class="error-msg pull-right"
+								ng-show="mpForm.api_desc.$error.maxlength"><font
+									color="red">Description cannot be longer than 200
+										characters</font></small>
+						</span>
+						</span>
+						<div class="col-sm-9">
+							<textarea id="api_desc_fv" name="api_desc" class="form-control"
+								rows="1" ng-model="smp.description"
+								placeholder="Enter Model API Description"
+								ng-disabled="verDescExist || versionSaved" required
+								ng-maxlength="200" style="resize: none"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6" ng-hide="openOutput">
+		<div class="box box-primary">
+			<div class="form-horizontal">
+				<div class="box-header with-border">
+					<div class="col-md-11">
+						<span class="text-primary" style="font-weight: 600;">2.
+							Versioning Essentials </span>
+					</div>
+					<div class="col-md-1">
+						<div id="smpExpndButtn_fv" class="fa fa-fw fa-chevron-left"
+							ng-hide="openOutput" ng-click="expandOutput()"
+							tooltip="Show Result" tooltip-placement="right"
+							tooltip-trigger="mouseenter"></div>
+						<div id="smpColpButtn_fv" class="fa fa-fw fa-chevron-right"
+							ng-show="openOutput" ng-click="collapseOutput()"
+							tooltip="Hide Result" tooltip-placement="right"
+							tooltip-trigger="mouseenter"></div>
+					</div>
+				</div>
+				<div class="box-body">
+					<div class="form-group">
+						<span class="col-sm-4 control-label">Version Type</span>
+
+						<div class="col-sm-4" style="padding: 0px">
+							<div id="donate_fv">
+								<label class="default"> <input type="radio"
+									ng-disabled="smp.name == ''" id="majorVer_fv" name="verType"
+									value="MAJOR" ng-model="smp.versionType"
+									ng-click="smp.majorVersion = ''" /> <span> <b>Major</b>
+								</span>
+								</label> <label class="default"> <input type="radio"
+									ng-disabled="smp.name == ''" id="minorVer_fv" name="verType"
+									value="MINOR" ng-model="smp.versionType" /> <span> <b>Minor</b>
+								</span>
+								</label>
+							</div>
+						</div>
+
+
+						<div class="col-sm-4" style="padding-top: 3px;">
+							<select id="majorVersions_fv"
+								class="btn btn-primary btn-sm dropdown-toggle pull-left"
+								ng-model="smp.majorVersion"
+								ng-disabled="smp.versionType === 'MAJOR' || existingVersions.length == 0 || versionSaved">
+								<option ng-selected="true" value="">Versions</option>
+								<option ng-repeat="ver in existingVersions" value="{{ver}}">{{ver}}</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<span class="col-sm-4 control-label">Version Description<font
+							color="red">*</font> <span class="error-container ng-hide"
+							ng-show="mpForm.ver_desc.$dirty &amp;&amp; mpForm.ver_desc.$invalid">
+								<small class="error-msg pull-right"
+								ng-show="mpForm.ver_desc.$error.required"><font
+									color="red">Required!</font></small> <small
+								class="error-msg pull-right"
+								ng-show="mpForm.ver_desc.$error.maxlength"><font
+									color="red">Description cannot be longer than 200
+										characters</font></small>
+						</span>
+						</span>
+						<div class="col-sm-8">
+							<textarea id="ver_desc_fv" name="ver_desc" class="form-control"
+								rows="1" ng-model="smp.versionDescription"
+								placeholder="Enter Version Description" required
+								ng-maxlength="200" ng-disabled="versionSaved"
+								style="resize: none"></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6" ng-hide="openOutput">
+		<div class="box box-primary">
+			<div class="form-horizontal">
+				<div class="box-header with-border">
+					<span class="text-primary" style="font-weight: 600;">3.
+						Model Specifics</span>
+				</div>
+				<div class="box-body">
+					<div class="form-group">
+						<span for="el" class="col-sm-4 control-label">Model
+							Language<font color="red">*</font>
+						</span>
+						<div class="col-md-8">
+							<select class="form-control" id="el_fv" name="el"
+								ng-model="smp.modelLibrary.executionLanguage"
+								ng-disabled="versionSaved"
+								ng-change="smp.modelLibrary.checksum=''">
+								<option value="Matlab-7.16" ng-selected="true">Matlab-7.16</option>
+								<option value="R-3.2.1">R-3.2.1</option>
+							</select>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<span for="jar" class="col-sm-4 control-label">Model
+							Executable<font color="red">*</font>
+						</span>
+						<div class="col-md-4"
+							ng-show="(modelType == 'NEW') && smp.modelLibrary.executionLanguage.indexOf('Matlab') != -1">
+							<input class="form-control input-sm" id="jar_fv_1" name="jar"
+								type="text" value="{{smp.modelLibrary.jar.name}}" readonly>
+						</div>
+						<div class="col-md-4" ng-hide="(modelType == 'NEW')">
+							<input class="form-control input-sm" id="pickLib_fv_1"
+								type="text" name="pickLib" value="{{smp.modelLibrary.jarName}}"
+								readonly>
+						</div>
+						<div class="col-md-4"
+							ng-show="(modelType == 'NEW') && smp.modelLibrary.executionLanguage.indexOf('R') != -1">
+							<input class="form-control input-sm" id="oldLib_hv" type="text"
+								name="oldLib" value="{{smp.modelLibrary.jar.name}}" readonly>
+						</div>
+						<div class="col-md-2"
+							ng-show="smp.modelLibrary.executionLanguage.indexOf('Matlab') != -1">
+							<span class="btn btn-primary btn-sm btn-file" style="width: 60px"
+								tooltip="Upload Jar File" tooltip-placement="top"
+								tooltip-trigger="mouseenter" ng-disabled="versionSaved">Browse<input
+								id="jar_fv_3" name="jar" type="file"
+								file-model="smp.modelLibrary.jar"
+								ng-model="smp.modelLibrary.jar" ng-click="modelExecToNew();"
+								accept=".jar">
+							</span>
+						</div>
+						<div class="col-md-2"
+							ng-show="smp.modelLibrary.executionLanguage.indexOf('R') != -1">
+							<span class="btn btn-primary btn-sm btn-file" style="width: 60px"
+								tooltip="Upload tar.gz File" tooltip-placement="top"
+								tooltip-trigger="mouseenter" ng-disabled="versionSaved">Browse<input
+								id="jar_fv_4" name="tar" type="file"
+								file-model="smp.modelLibrary.jar"
+								ng-model="smp.modelLibrary.jar" ng-click="modelExecToNew();"
+								accept=".tar.gz">
+							</span>
+						</div>
+						<div class="col-md-2"
+							ng-show="smp.modelLibrary.executionLanguage.indexOf('Matlab') != -1">
+							<span class="btn btn-primary btn-sm" id="jar_fv_2"
+								style="width: 60px" tooltip="Pick Matlab File"
+								tooltip-placement="top" tooltip-trigger="mouseenter"
+								data-toggle="modal" data-target="#libModal"
+								ng-disabled="versionSaved"
+								ng-click="modelExecToOld(); launchLibDailog();">Pick </span>
+						</div>
+						<div class="col-md-2"
+							ng-show="smp.modelLibrary.executionLanguage.indexOf('R') != -1">
+							<span class="btn btn-primary btn-sm" id="pickLib_fv_2"
+								style="width: 60px" tooltip="Pick R File"
+								tooltip-placement="top" tooltip-trigger="mouseenter"
+								data-toggle="modal" data-target="#libModal"
+								ng-disabled="versionSaved"
+								ng-click="modelExecToOld(); launchLibDailog();">Pick </span>
+						</div>
+					</div>
+					<div class="form-group">
+						<span for="checksum" class="col-sm-4 control-label">CheckSum<font
+							color="red">*</font></span>
+						<div class="col-sm-8">
+							<input type="text" id="checksum_fv" name="checksum"
+								class="form-control " ng-model="smp.modelLibrary.checksum"
+								placeholder="Enter Checksum Value"
+								ng-disabled="versionSaved || !(modelType == 'NEW')" />
+						</div>
+					</div>
+					<div class="form-group">
+						<span class="col-sm-4 control-label">Manifest File</span>
+						<div class="col-md-6"
+							ng-show="(smp.modelLibrary.executionLanguage.indexOf('R') != -1) && !(modelType == 'NEW')">
+							<input class="form-control input-sm" type="text" id="mfName_fv"
+								name="mfName" value={{smp.modelLibrary.rmanifestFileName}}
+								readonly>
+						</div>
+						<div class="col-md-6"
+							ng-show="!((smp.modelLibrary.executionLanguage.indexOf('R') != -1) && !(modelType == 'NEW'))">
+							<input class="form-control input-sm" type="text" id="mf_fv_1"
+								name="mf" value="{{smp.modelLibrary.manifestFile.name}}"
+								readonly>
+						</div>
+						<div class="col-md-2">
+							<span class="btn btn-primary btn-sm btn-file"
+								tooltip="Upload Manifest File" tooltip-placement="top"
+								tooltip-trigger="mouseenter"
+								ng-disabled="versionSaved || !(smp.modelLibrary.executionLanguage.indexOf('R') != -1 && (modelType == 'NEW'))">Browse<input
+								id="mf_fv_2" name="mf" type="file"
+								file-model="smp.modelLibrary.manifestFile"
+								ng-model="smp.modelLibrary.manifestFile">
+							</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-6" ng-hide="openOutput">
+		<div class="box box-primary">
+			<div class="form-horizontal">
+				<div class="box-header with-border">
+					<span class="text-primary" style="font-weight: 600;">4.
+						Model Collaterals</span>
+				</div>
+				<div class="box-body">
+					<div class="form-group">
+						<span for="checkbox" class="col-sm-4 control-label">Model
+							allows null inputs </span>
+						<div class="col-sm-2">
+							<div class="checkbox">
+								<span> <input type="checkbox" id="checkbox_fv"
+									ng-model="smp.mapping.model.allowNull"
+									ng-checked="{{smp.mapping.model.allowNull}}"
+									ng-disabled="versionSaved">
+								</span>
+							</div>
+						</div>
+						<!-- <div class="col-sm-6" ng-show="(modelDefType == 'NEW')">
+							<a
+								href="plugin/downloadModelTemplate/{{smp.modelLibrary.executionLanguage}}"
+								tooltip="Download {{smp.modelLibrary.executionLanguage}} Model Template"
+								tooltip-placement="top" tooltip-trigger="mouseenter"> <span
+								for="template" class="control-label">Download Model
+									Template</span> <i class="fa fa-fw fa-file-excel-o" id="template"></i>
+							</a>
+						</div> -->
+					</div>
+					<div class="form-group">
+						<span for="mdef" class="col-sm-4 control-label">Model IO
+							Definition<font color="red">*</font>
+						</span>
+						<div class="col-md-4" ng-show="(modelDefType == 'NEW')">
+							<input class="form-control input-sm" type="text" id="mdef_fv_1"
+								name="mdef" value="{{smp.mapping.model.excel.name}}" readonly>
+						</div>
+						<div class="col-md-4" ng-hide="(modelDefType == 'NEW')">
+							<input class="form-control input-sm" id="oldDef_fv" name="oldDef"
+								type="text" value="{{smp.mapping.model.ioDefinitionName}}"
+								readonly>
+						</div>
+						<div class="col-md-2">
+							<span class="btn btn-primary btn-sm" id="pickDef_fv"
+								style="width: 60px" data-toggle="modal" data-target="#defModal"
+								ng-disabled="versionSaved"
+								ng-click="modelIoDefToOld(); launchDefDailog();"
+								tooltip="Pick IO Definition File" tooltip-placement="top"
+								tooltip-trigger="mouseenter">Pick </span>
+						</div>
+						<div class="col-md-2">
+							<span class="btn btn-primary btn-sm btn-file" style="width: 60px"
+								tooltip="Upload XML or XLSX file" tooltip-placement="top"
+								tooltip-trigger="mouseenter" ng-disabled="versionSaved">Browse<input
+								type="file" id="mdef_fv_2" name="mdef"
+								file-model="smp.mapping.model.excel"
+								ng-model="smp.mapping.model.excel" ng-click="modelIoDefToNew();">
+							</span>
+						</div>
+					</div>
+					<div class="form-group">
+						<span for="mdoc" class="col-sm-4 control-label">Model
+							Release Notes<font color="red">*</font>
+						</span>
+						<div class="col-sm-6">
+							<input class="form-control input-sm" type="text" id="mdoc_fv_1"
+								name="mdoc" value="{{smp.mapping.model.documentationName.name}}"
+								readonly>
+						</div>
+						<div class="col-sm-2">
+							<span class="btn btn-primary btn-sm btn-file" style="width: 60px"
+								tooltip="Upload Document" tooltip-placement="top"
+								tooltip-trigger="mouseenter"
+								ng-disabled="versionSaved || !(modelDefType == 'NEW')">Browse<input
+								type="file" id="mdoc_fv_2" name="mdoc"
+								file-model="smp.mapping.model.documentationName"
+								ng-model="smp.mapping.model.documentationName">
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="box-footer" style="height: 56px;">
+					<div class="col-sm-6" ng-show="(modelDefType == 'NEW')"
+						style="padding-top: 7px;">
+						<a href="plugin/downloadModelTemplate/Matlab"
+							tooltip="Download Matlab Model Template" tooltip-placement="top"
+							tooltip-trigger="mouseenter"> <span for="template"
+							class="control-label">Matlab IO Definition Template</span> <i
+							class="fa fa-fw fa-file-excel-o" id="template_fv_1"></i>
+						</a>
+					</div>
+					<div class="col-sm-6" ng-show="(modelDefType == 'NEW')"
+						style="padding-top: 7px;">
+						<a href="plugin/downloadModelTemplate/R"
+							tooltip="Download R Model Template" tooltip-placement="top"
+							tooltip-trigger="mouseenter"> <span for="template"
+							class="control-label">R IO Definition Template</span> <i
+							class="fa fa-fw fa-file-excel-o" id="template_fv_2"></i>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div align="center" class="col-md-12" ng-hide="openOutput">
+		<div class="col-md-2"></div>
+		<div class="col-md-2">
+			<button type="submit" class="btn btn-block btn-primary btn-sm"
+				id="submit_fv" ng-click="saveVersion()"
+				ng-disabled="mpForm.$invalid || versionSaved">Create</button>
+		</div>
+		<div class="col-md-2">
+			<button type="submit" class="btn btn-block btn-primary btn-sm"
+				id="test_fv" ng-disabled="smp.id == ''" ng-click="testModelAPI()">Test</button>
+		</div>
+		<div class="col-md-2">
+			<button type="submit" class="btn btn-block btn-primary btn-sm"
+				id="mapping_fv" ng-disabled="smp.id == ''"
+				ng-click="editMapping(smp.name,smp.majorVersion,smp.minorVersion)">Update
+				Mapping</button>
+		</div>
+		<div class="col-md-2">
+			<button type="submit" class="btn btn-block btn-primary btn-sm"
+				id="apis_fv" ui-sref="umgVersionView">List Versions</button>
+		</div>
+		<div class="col-md-2"></div>
+	</div>
+</form>
+<!-- form end -->
+
+<!-- form start -->
+<form role="form" name="mpForm" novalidate>
+	<div class="col-md-6" ng-show="openOutput">
+		<div class="col-md-12" ng-show="openOutput">
+			<div class="box box-primary">
+				<div class="form-horizontal">
+					<div class="box-header with-border">
+						<div class="col-md-11">
+							<span class="text-primary" style="font-weight: 600;">1.
+								Model Essentials</span>
+						</div>
+						<div class="col-md-1">
+							<div id="smpExpndButtn_hv" class="fa fa-fw fa-chevron-left"
+								ng-hide="openOutput || versionSaved" ng-click="expandOutput()"
+								tooltip="Show Result" tooltip-placement="right"
+								tooltip-trigger="mouseenter"></div>
+							<div id="smpColpButtn_hv" class="fa fa-fw fa-chevron-right"
+								ng-show="openOutput || versionSaved" ng-click="collapseOutput()"
+								tooltip="Hide Result" tooltip-placement="right"
+								tooltip-trigger="mouseenter"></div>
+						</div>
+					</div>
+					<div class="box-body">
+						<div class="form-group">
+							<span for="api_fv" class="col-sm-3 control-label">Model
+								Name<font color="red">*</font> <span
+								class="error-container ng-hide"
+								ng-show="mpForm.api.$dirty &amp;&amp; mpForm.api_fv.$invalid">
+									<small class="error-msg pull-right"
+									ng-show="mpForm.api_fv.$error.required"><font
+										color="red">Required!</font></small> <small
+									class="error-msg pull-right"
+									ng-show="mpForm.api_fv.$error.maxlength"><font
+										color="red">API name cannot be longer than 50
+											characters</font></small>
+							</span>
+							</span>
+							<div class="col-sm-9">
+								<input type="text" id="api_hv" name="api_fv"
+									class="form-control" ng-model="smp.name" auto-suggest
+									ui-items="tenantModelNames" placeholder="Enter Model API"
+									ng-blur="setTenantModelDesc(smp.name)" required
+									ng-maxlength="50" ng-disabled="versionSaved" />
+							</div>
+						</div>
+						<div class="form-group">
+							<span for="api_desc" class="col-sm-3 control-label">Model
+								Synopsis<font color="red">*</font> <span
+								class="error-container ng-hide"
+								ng-show="mpForm.api_desc.$dirty &amp;&amp; mpForm.api_desc.$invalid">
+									<small class="error-msg pull-right"
+									ng-show="mpForm.api_desc.$error.required"><font
+										color="red">Required!</font></small> <small
+									class="error-msg pull-right"
+									ng-show="mpForm.api_desc.$error.maxlength"><font
+										color="red">Description cannot be longer than 200
+											characters</font></small>
+							</span>
+							</span>
+							<div class="col-sm-9">
+								<textarea id="api_desc_hv" name="api_desc" class="form-control"
+									rows="1" ng-model="smp.description"
+									placeholder="Enter Model API Description"
+									ng-disabled="verDescExist || versionSaved" required
+									ng-maxlength="200" style="resize: none"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12" ng-show="openOutput">
+			<div class="box box-primary">
+				<div class="form-horizontal">
+					<div class="box-header with-border">
+
+						<span class="text-primary" style="font-weight: 600;">2.
+							Versioning Essentials</span>
+
+					</div>
+					<div class="box-body">
+						<div class="form-group">
+							<span class="col-sm-4 control-label">Version Type</span>
+							<div class="col-sm-4" style="padding: 0px">
+								<div id="donate_hv">
+									<label class="default"> <input type="radio"
+										ng-disabled="smp.name == ''" id="majorVer_hv" name="verType"
+										value="MAJOR" ng-model="smp.versionType"
+										ng-click="smp.majorVersion = ''" /> <span> <b>Major</b>
+									</span>
+									</label> <label class="default"> <input type="radio"
+										ng-disabled="smp.name == ''" id="minorVer_hv" name="verType"
+										value="MINOR" ng-model="smp.versionType" /> <span> <b>Minor</b>
+									</span>
+									</label>
+								</div>
+							</div>
+							<div class="col-sm-4" style="padding-top: 3px;">
+								<select id="majorVersions_hv"
+									class="btn btn-primary btn-sm dropdown-toggle pull-left"
+									ng-model="smp.majorVersion"
+									ng-disabled="smp.versionType === 'MAJOR' || existingVersions.length == 0 || versionSaved">
+									<option ng-selected="true" value="">Versions</option>
+									<option ng-repeat="ver in existingVersions" value="{{ver}}">{{ver}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group">
+							<span class="col-sm-4 control-label">Version Description<font
+								color="red">*</font> <span class="error-container ng-hide"
+								ng-show="mpForm.ver_desc.$dirty &amp;&amp; mpForm.ver_desc.$invalid">
+									<small class="error-msg pull-right"
+									ng-show="mpForm.ver_desc.$error.required"><font
+										color="red">Required!</font></small> <small
+									class="error-msg pull-right"
+									ng-show="mpForm.ver_desc.$error.maxlength"><font
+										color="red">Description cannot be longer than 200
+											characters</font></small>
+							</span>
+							</span>
+							<div class="col-sm-8">
+								<textarea id="ver_desc_hv" name="ver_desc" class="form-control"
+									rows="1" ng-model="smp.versionDescription"
+									placeholder="Enter Version Description" required
+									ng-maxlength="200" ng-disabled="versionSaved"
+									style="resize: none"></textarea>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12" ng-show="openOutput">
+			<div class="box box-primary">
+				<div class="form-horizontal">
+					<div class="box-header with-border">
+						<span class="text-primary" style="font-weight: 600;">3.
+							Model Specifics</span>
+					</div>
+					<div class="box-body">
+						<div class="form-group">
+							<span for="el" class="col-sm-4 control-label">Model
+								Language<font color="red">*</font>
+							</span>
+							<div class="col-md-8">
+								<select class="form-control" id="el_hv" name="el"
+									ng-model="smp.modelLibrary.executionLanguage"
+									ng-disabled="versionSaved"
+									ng-change="smp.modelLibrary.checksum=''">
+									<option value="Matlab-7.16" ng-selected="true">Matlab-7.16</option>
+									<option value="R-3.2.1">R-3.2.1</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="form-group">
+							<span for="jar" class="col-sm-4 control-label">Model
+								Executable<font color="red">*</font>
+							</span>
+							<div class="col-md-4"
+								ng-show="(modelType == 'NEW') && smp.modelLibrary.executionLanguage.indexOf('Matlab') != -1">
+								<input class="form-control input-sm" id="jar_hv_1" name="jar"
+									type="text" value="{{smp.modelLibrary.jar.name}}" readonly>
+							</div>
+							<div class="col-md-4" ng-hide="(modelType == 'NEW')">
+								<input class="form-control input-sm" id="pickLib_hv_1"
+									type="text" name="pickLib" value="{{smp.modelLibrary.jarName}}"
+									readonly>
+							</div>
+							<div class="col-md-4"
+								ng-show="(modelType == 'NEW') && smp.modelLibrary.executionLanguage.indexOf('R') != -1">
+								<input class="form-control input-sm" id="oldLib_fv" type="text"
+									name="oldLib" value="{{smp.modelLibrary.jar.name}}" readonly>
+							</div>
+							<div class="col-md-2"
+								ng-show="smp.modelLibrary.executionLanguage.indexOf('R') != -1">
+								<span class="btn btn-primary btn-sm" id="pickLib_hv_2"
+									style="width: 60px" tooltip="Pick R File"
+									tooltip-placement="top" tooltip-trigger="mouseenter"
+									data-toggle="modal" data-target="#libModal"
+									ng-disabled="versionSaved"
+									ng-click="modelExecToOld(); launchLibDailog();">Pick </span>
+							</div>
+							<div class="col-md-2"
+								ng-show="smp.modelLibrary.executionLanguage.indexOf('Matlab') != -1">
+								<span class="btn btn-primary btn-sm" id="jar_hv_2"
+									style="width: 60px" tooltip="Pick Matlab File"
+									tooltip-placement="top" tooltip-trigger="mouseenter"
+									data-toggle="modal" data-target="#libModal"
+									ng-disabled="versionSaved"
+									ng-click="modelExecToOld(); launchLibDailog();">Pick </span>
+							</div>
+							<div class="col-md-2"
+								ng-show="smp.modelLibrary.executionLanguage.indexOf('Matlab') != -1">
+								<span class="btn btn-primary btn-sm btn-file"
+									style="width: 60px" tooltip="Upload Jar File"
+									tooltip-placement="top" tooltip-trigger="mouseenter"
+									ng-disabled="versionSaved">Browse<input id="jar_hv_3"
+									name="jar" type="file" file-model="smp.modelLibrary.jar"
+									ng-model="smp.modelLibrary.jar" ng-click="modelExecToNew();"
+									accept=".jar">
+								</span>
+							</div>
+							<div class="col-md-2"
+								ng-show="smp.modelLibrary.executionLanguage.indexOf('R') != -1">
+								<span class="btn btn-primary btn-sm btn-file"
+									style="width: 60px" tooltip="Upload tar.gz File"
+									tooltip-placement="top" tooltip-trigger="mouseenter"
+									ng-disabled="versionSaved">Browse<input
+									id="pickLib_hv_3" name="tar" type="file"
+									file-model="smp.modelLibrary.jar"
+									ng-model="smp.modelLibrary.jar" ng-click="modelExecToNew();"
+									accept=".tar.gz">
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<span for="checksum" class="col-sm-4 control-label">CheckSum<font
+								color="red">*</font></span>
+							<div class="col-sm-8">
+								<input type="text" id="checksum_hv" name="checksum"
+									class="form-control " ng-model="smp.modelLibrary.checksum"
+									placeholder="Enter Checksum Value"
+									ng-disabled="versionSaved || !(modelType == 'NEW')" />
+							</div>
+						</div>
+						<div class="form-group">
+							<span class="col-sm-4 control-label">Manifest File</span>
+							<div class="col-md-6"
+								ng-show="(smp.modelLibrary.executionLanguage.indexOf('R') != -1) && !(modelType == 'NEW')">
+								<input class="form-control input-sm" type="text" id="mfName_hv"
+									name="mfName" value={{smp.modelLibrary.rmanifestFileName}}
+									readonly>
+							</div>
+							<div class="col-md-6"
+								ng-show="!((smp.modelLibrary.executionLanguage.indexOf('R') != -1) && !(modelType == 'NEW'))">
+								<input class="form-control input-sm" type="text" id="mf_hv_1"
+									name="mf" value="{{smp.modelLibrary.manifestFile.name}}"
+									readonly>
+							</div>
+							<div class="col-md-2">
+								<span class="btn btn-primary btn-sm btn-file"
+									tooltip="Upload Manifest File" tooltip-placement="top"
+									tooltip-trigger="mouseenter"
+									ng-disabled="versionSaved || !(smp.modelLibrary.executionLanguage.indexOf('R') != -1 && (modelType == 'NEW'))">Browse<input
+									id="mf_hv_2" name="mf" type="file"
+									file-model="smp.modelLibrary.manifestFile"
+									ng-model="smp.modelLibrary.manifestFile">
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-12" ng-show="openOutput">
+			<div class="box box-primary">
+				<div class="form-horizontal">
+					<div class="box-header with-border">
+						<span class="text-primary" style="font-weight: 600;">4.
+							Model Collaterals</span>
+					</div>
+					<div class="box-body">
+						<div class="form-group">
+							<span for="checkbox" class="col-sm-4 control-label">Model
+								allows null inputs </span>
+							<div class="col-sm-2">
+								<div class="checkbox">
+									<span> <input type="checkbox" id="checkbox_hv"
+										ng-model="smp.mapping.model.allowNull"
+										ng-checked="{{smp.mapping.model.allowNull}}"
+										ng-disabled="versionSaved">
+									</span>
+								</div>
+							</div>
+							<!-- <div class="col-sm-6" ng-show="(modelDefType == 'NEW')">
+								<a
+									href="plugin/downloadModelTemplate/{{smp.modelLibrary.executionLanguage}}"
+									tooltip="Download {{smp.modelLibrary.executionLanguage}} Model Template"
+									tooltip-placement="top" tooltip-trigger="mouseenter"> <span
+									for="template" class="control-label">{{smp.modelLibrary.executionLanguage}} IO Definition Template</span> <i class="fa fa-fw fa-file-excel-o" id="template"></i>
+								</a>
+							</div> -->
+						</div>
+						<div class="form-group">
+							<span for="mdef" class="col-sm-4 control-label">Model IO
+								Definition<font color="red">*</font>
+							</span>
+							<div class="col-md-4" ng-show="(modelDefType == 'NEW')">
+								<input class="form-control input-sm" type="text" id="mdef_hv_1"
+									name="mdef" value="{{smp.mapping.model.excel.name}}" readonly>
+							</div>
+							<div class="col-md-4" ng-hide="(modelDefType == 'NEW')">
+								<input class="form-control input-sm" id="oldDef_hv"
+									name="oldDef" type="text"
+									value="{{smp.mapping.model.ioDefinitionName}}" readonly>
+							</div>
+							<div class="col-md-2">
+								<span class="btn btn-primary btn-sm" id="pickDef_hv"
+									style="width: 60px" data-toggle="modal" data-target="#defModal"
+									ng-disabled="versionSaved"
+									ng-click="modelIoDefToOld(); launchDefDailog();"
+									tooltip="Pick IO Definition File" tooltip-placement="top"
+									tooltip-trigger="mouseenter">Pick </span>
+							</div>
+							<div class="col-md-2">
+								<span class="btn btn-primary btn-sm btn-file"
+									style="width: 60px" tooltip="Upload XML or XLSX file"
+									tooltip-placement="top" tooltip-trigger="mouseenter"
+									ng-disabled="versionSaved">Browse<input type="file"
+									id="mdef_hv_2" name="mdef" file-model="smp.mapping.model.excel"
+									ng-model="smp.mapping.model.excel"
+									ng-click="modelIoDefToNew();">
+								</span>
+							</div>
+						</div>
+						<div class="form-group">
+							<span for="mdoc" class="col-sm-4 control-label">Model
+								Release Notes<font color="red">*</font>
+							</span>
+							<div class="col-sm-6">
+								<input class="form-control input-sm" type="text" id="mdoc_hv_1"
+									name="mdoc"
+									value="{{smp.mapping.model.documentationName.name}}" readonly>
+							</div>
+							<div class="col-sm-2">
+								<span class="btn btn-primary btn-sm btn-file"
+									style="width: 60px" tooltip="Upload Document"
+									tooltip-placement="top" tooltip-trigger="mouseenter"
+									ng-disabled="versionSaved || !(modelDefType == 'NEW')">Browse<input
+									type="file" id="mdoc_hv_2" name="mdoc"
+									file-model="smp.mapping.model.documentationName"
+									ng-model="smp.mapping.model.documentationName">
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="box-footer">
+						<div class="col-sm-6" ng-show="(modelDefType == 'NEW')"
+							style="padding-top: 7px;">
+							<a href="plugin/downloadModelTemplate/Matlab"
+								tooltip="Download Matlab Model Template" tooltip-placement="top"
+								tooltip-trigger="mouseenter"> <span for="template"
+								class="control-label">Matlab IO Definition Template</span> <i
+								class="fa fa-fw fa-file-excel-o" id="template_hv_1"></i>
+							</a>
+						</div>
+						<div class="col-sm-6" ng-show="(modelDefType == 'NEW')"
+							style="padding-top: 7px;">
+							<a href="plugin/downloadModelTemplate/R"
+								tooltip="Download R Model Template" tooltip-placement="top"
+								tooltip-trigger="mouseenter"> <span for="template"
+								class="control-label">R IO Definition Template</span> <i
+								class="fa fa-fw fa-file-excel-o" id="template_hv_2"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div align="center" class="col-md-12" ng-show="openOutput">
+
+			<div class="col-md-3">
+				<button type="submit" class="btn btn-block btn-primary btn-sm"
+					id="submit_hv" ng-click="saveVersion()"
+					ng-disabled="mpForm.$invalid || versionSaved">Create</button>
+			</div>
+			<div class="col-md-3">
+				<button type="submit" class="btn btn-block btn-primary btn-sm"
+					id="test_hv" ng-disabled="smp.id == ''" ng-click="testModelAPI()">Test</button>
+			</div>
+			<div class="col-md-3">
+				<button type="submit" class="btn btn-block btn-primary btn-sm"
+					id="mapping_hv" ng-disabled="smp.id == ''"
+					ng-click="editMapping(smp.name,smp.majorVersion,smp.minorVersion)">Update
+					Mapping</button>
+			</div>
+			<div class="col-md-3">
+				<button type="submit" class="btn btn-block btn-primary btn-sm"
+					id="apis_hv" ui-sref="umgVersionView">List Versions</button>
+			</div>
+
+		</div>
+	</div>
+</form>
+<!-- form end -->
+
+<div class="col-md-6">
+	<div class="box box-primary"
+		ng-class="{'box box-success' : showSuccess!='' || versionSaved!='' ,'box box-danger' : versionFailed!='' || showErr!='' }"
+		ng-show="openOutput">
+		<div class="box-header with-border">
+			<h3 class="box-title">Result</h3>
+		</div>
+		<div class="box-body">
+			<div id="successMsg" class="alert alert-success alert-dismissable"
+				ng-show="showSuccess">
+				<h4>
+					<i class="icon fa fa-check"></i>Success
+				</h4>
+				<ul>
+					<li ng-repeat="msg in messages"><small>{{msg}}</small></li>
+				</ul>
+			</div>
+			<div class="alert alert-danger alert-dismissable" id="errMsg"
+				ng-show="showErr">
+				<h4>
+					<i class="icon fa fa-ban"></i>Errors!
+				</h4>
+				<ul>
+					<li ng-repeat="msg in messages"><small>{{msg}}</small></li>
+				</ul>
+			</div>
+			<div id="sMsg" class="callout callout-success" ng-show="versionSaved">
+				<h4>
+					<i class="icon fa fa-check"></i>Version Successfully Created and
+					Tested.
+				</h4>
+				<p>
+					<span ng-show="txnId"><a
+						href="txnDashBoard/downloadModelAndTntIO?idList={{txnId}}&apiName={{smp.name}}&status=success">Click
+							Here</a><small> to download Model IO Data</small></span>
+				</p>
+			</div>
+			<div class="callout callout-danger" id="eMsg" ng-show="versionFailed">
+				<h4>
+					<i class="icon fa fa-warning"></i>Error in Saving Version.
+				</h4>
+				<p>
+					<span ng-show="txnId"><a
+						href="txnDashBoard/downloadModelAndTntIO?idList={{txnId}}&apiName={{smp.name}}&status=error">Click
+							Here</a><small> to download Model IO Data</small></span>
+				</p>
+			</div>
+			<div class="box box-solid" ng-show="versionSubmitted">
+				<div class="box-header with-border">
+					<!-- <i class="icon fa fa-info"></i> -->
+					<h3 class="box-title">JSON</h3>
+				</div>
+				<div class="box-body" style="overflow: auto; height: 300px;">
+					<span ng-if="versionSubmitted && messages.length > 0"><json-explorer
+							json-data="{{messages}}"></json-explorer></span> <span
+						ng-if="versionSubmitted && errorMessages.length > 0"><json-explorer
+							json-data="{{errorMessages}}"></json-explorer></span>
+				</div>
+			</div>
+		</div>
+		<div class="box-footer"></div>
+	</div>
+</div>

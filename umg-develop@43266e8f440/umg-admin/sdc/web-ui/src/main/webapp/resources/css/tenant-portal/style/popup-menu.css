@@ -1,0 +1,103 @@
+
+.menu-container {
+  display: block;
+  position: relative;
+  margin: 10px auto;
+  background-color: #f3f0ef;
+  padding: 0;
+  border-radius:5px;
+}
+
+.active-tab {
+	border-left:3px solid #ed6b3a;
+	background-color:rgba(235, 147, 22, 0.53);
+	font-size:14px;
+  	color:#fff;
+  	font-family: 'Strait', sans-serif;
+}
+
+.menu ul {
+  list-style:none;
+}
+
+.menu ul li {
+  border-top:1px solid rgba(0,0,0,0.1);
+  padding:11px 10px;
+  box-shadow:inset 0 1px 1px #fff;
+  text-indent:10px;
+  font-size:14px;
+  color:#000;
+  font-family: 'Strait', sans-serif;
+  }
+
+.menu ul li:hover {
+  cursor: pointer;
+}
+
+.viewport{
+	width: 80%; 
+	height: 500px; 
+	float: left;
+	margin: 10px auto;
+	border: 2px solid orange;
+	overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden; 
+}
+
+.prenexttxn{
+	font-size:14px;
+  	color:rgb(0, 178, 255);
+  	font-family: 'Strait', sans-serif;
+  	
+}
+
+section {
+  position: relative;
+  border: 1px solid #fff;
+  padding-top: 37px;
+  background: #D8D8D8;
+  width: 100%;
+}
+
+.popupTable {
+  overflow-y: auto;
+  height: 455px;
+  background-color: white;
+}
+.tidmidTable { width:100%; border-spacing: 0;  }
+ 
+.tidmidTable td, th {
+  border-bottom:1px solid #eee;
+  color: #000;
+  padding: 10px 25px;
+}
+
+.tidmidTable tr:nth-child(even) { /*(even) or (2n 0)*/
+	background: #FAF6F5;
+}
+.tidmidTable tr:nth-child(odd) { /*(odd) or (2n 1)*/
+	background: #FFFFFF;
+}
+
+.tidmidTable th {
+  height: 0;
+  line-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  color: transparent;
+  border: none;
+  white-space: nowrap;
+}
+.tidmidTable th div{
+  position: absolute;
+  background: transparent;
+  color: #000;
+  padding: 9px 25px;
+  top: 0;
+  margin-left: -25px;
+  line-height: normal;
+  border-left: 1px solid #fff;
+}
+.tidmidTable th:first-child div{
+  border: none;
+}

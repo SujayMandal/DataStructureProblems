@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umg-matlab-io xmlns="http://com.ca.umg.matlab.io/xml/ns/umg-matlab-io"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<metadata>
+		<model-name>AQMKNPV</model-name>
+		<model-version>V1</model-version>
+		<model-publisher>CA Modelling Team - 4c81723e4b9f00d3179cd2edf74b77c4
+		</model-publisher>
+		<model-class>computeAQMKNPV</model-class>
+		<model-method>computeAQMKNPV</model-method>
+	</metadata>
+	<input>
+		<parameter sequence="1" name="FclsFeeStartPeriod"
+			description="FclsFeeStartPeriod" mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="0.0" />
+			</datatype>
+		</parameter>
+		<parameter sequence="2" name="FclsRemainingPeriod"
+			description="FclsRemainingPeriod" mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23.45" />
+			</datatype>
+		</parameter>
+		<parameter sequence="3" name="MarketingPeriodRemaining"
+			description="MarketingPeriodRemaining" mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="4" name="fclsNPVs" description="fclsNPVs"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="5" name="legalFee" description="legalFee"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="6" name="legalCost" description="legalCost"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="7" name="RepairCost" description="RepairCost"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="8" name="maintenanceCost" description="maintenanceCost"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="9" name="utilitiesCost" description="utilitiesCost"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="10" name="brokerFeePercent"
+			description="brokerFeePercent" mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="11" name="closingCostPercent"
+			description="closingCostPercent" mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="12" name="MonthlyTaxes" description="MonthlyTaxes"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="13" name="MonthlyInsurance"
+			description="MonthlyInsurance" mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="14" name="hoaFees" description="hoaFees"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="15" name="litigationCost" description="litigationCost"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="16" name="MICost" description="MICost"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="17" name="misc1Cost" description="misc1Cost"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="18" name="misc2Cost" description="misc2Cost"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="19" name="misc3Cost" description="misc3Cost"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="20" name="hpiFactor" description="hpiFactor"
+			mandatory="true" syndicate="true">
+			<datatype>
+				<array>
+					<dimensions>
+						<dim>-1</dim>
+					</dimensions>
+					<type>
+						<double />
+					</type>
+				</array>
+			</datatype>
+		</parameter>
+		<parameter sequence="21" name="reoStigma" description="ReoStigmaCoefficientsArray"
+			mandatory="true" syndicate="true">
+			<datatype>
+				<array>
+					<dimensions>
+						<dim>-1</dim>
+					</dimensions>
+					<type>
+						<double />
+					</type>
+				</array>
+			</datatype>
+		</parameter>
+		<parameter sequence="22" name="litigationStartDate"
+			description="litigationStartDate" mandatory="true" syndicate="false">
+			<datatype>
+				<date defaultValue="2012-12-12" />
+			</datatype>
+		</parameter>
+		<parameter sequence="23" name="litigationRemaining"
+			description="litigationRemaining" mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="24" name="MIStartDate" description="MIStartDate"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<date defaultValue="2012-12-12" />
+			</datatype>
+		</parameter>
+		<parameter sequence="25" name="MIRemaining" description="MIRemaining"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="26" name="misc1StartDate" description="misc1StartDate"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<date defaultValue="2012-12-12" />
+			</datatype>
+		</parameter>
+		<parameter sequence="27" name="misc1Remaining" description="misc1Remaining"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="28" name="misc2StartDate" description="misc2StartDate"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<date defaultValue="2012-12-12" />
+			</datatype>
+		</parameter>
+		<parameter sequence="29" name="misc2Remaining" description="misc2Remaining"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="30" name="misc3StartDate" description="misc3StartDate"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<date defaultValue="2012-12-12" />
+			</datatype>
+		</parameter>
+		<parameter sequence="31" name="misc3Remaining" description="misc3Remaining"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="32" name="currentPropertyValue"
+			description="currentPropertyValue" mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="33" name="discountRate" description="discountRate"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="34" name="totalDebtSecondLien"
+			description="totalDebtSecondLien" mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="35" name="totalPayoffFirstLien"
+			description="totalPayoffFirstLien" mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="36" name="minimumBrokerFees"
+			description="MinBrokerFees" mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="37" name="aqmkCFStartDate" description="aqmkCFStartDate"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<date defaultValue="2012-12-12" />
+			</datatype>
+		</parameter>
+		<parameter sequence="38" name="LitigationDelay" description="LitigationDelay"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<double defaultValue="23" />
+			</datatype>
+		</parameter>
+		<parameter sequence="39" name="addlRunInfo" description="addlRunInfo"
+			mandatory="true" syndicate="false">
+			<datatype>
+				<array>
+					<dimensions>
+						<dim>1</dim>
+						<dim>1</dim>
+					</dimensions>
+					<type>
+						<object>
+							<properties>
+								<parameter sequence="1" name="propertyInfo"
+									description="Exapmle property info parameter." mandatory="true"
+									syndicate="false">
+									<datatype>
+										<object>
+											<properties>
+												<parameter sequence="1" name="valuationDate"
+													description="Exapmle valuation date." mandatory="true"
+													syndicate="false">
+													<datatype>
+														<date defaultValue="2012-12-12" />
+													</datatype>
+												</parameter>
+												<parameter sequence="2" name="valuationType"
+													description="Exapmle valuation type." mandatory="true"
+													syndicate="false">
+													<datatype>
+														<string defaultValue="23.45" />
+													</datatype>
+												</parameter>
+												<parameter sequence="3" name="propertyZip"
+													description="Exapmle property zip." mandatory="true"
+													syndicate="false">
+													<datatype>
+														<string defaultValue="23.45" />
+													</datatype>
+												</parameter>
+												<parameter sequence="4" name="propertyState"
+													description="Exapmle property state." mandatory="true"
+													syndicate="false">
+													<datatype>
+														<string defaultValue="23.45" />
+													</datatype>
+												</parameter>
+												<parameter sequence="5" name="delinquentTaxes"
+													description="Exapmle delinquent taxes." mandatory="false"
+													syndicate="false">
+													<datatype>
+														<double defaultValue="23.45" />
+													</datatype>
+												</parameter>
+											</properties>
+										</object>
+									</datatype>
+								</parameter>
+								<parameter sequence="2" name="loanInputs"
+									description="Exapmle loan inputs parameter." mandatory="true"
+									syndicate="false">
+									<datatype>
+										<object>
+											<properties>
+												<parameter sequence="1" name="loanInputsPreModRate"
+													description="Exapmle pre Mod Rate." mandatory="true"
+													syndicate="false">
+													<datatype>
+														<double defaultValue="23.45" />
+													</datatype>
+												</parameter>
+												<parameter sequence="2" name="loanInputsPreModTerm"
+													description="Exapmle pre Mod Rate." mandatory="true"
+													syndicate="false">
+													<datatype>
+														<double defaultValue="23.45" />
+													</datatype>
+												</parameter>
+												<parameter sequence="3" name="loanInputsPreModRateSLien"
+													description="Exapmle pre Mod Rate SLien." mandatory="true"
+													syndicate="false">
+													<datatype>
+														<double defaultValue="23.45" />
+													</datatype>
+												</parameter>
+												<parameter sequence="4" name="loanInputsPreModTermSlien"
+													description="Exapmle pre Mod Term SLien." mandatory="true"
+													syndicate="false">
+													<datatype>
+														<double defaultValue="23.45" />
+													</datatype>
+												</parameter>
+												<parameter sequence="5" name="MICoveragePct"
+													description="Exapmle pre Mod Term SLien." mandatory="true"
+													syndicate="false">
+													<datatype>
+														<double defaultValue="23.45" />
+													</datatype>
+												</parameter>
+												<parameter sequence="6" name="preModUPB"
+													description="Exapmle pre Mod Term SLien." mandatory="true"
+													syndicate="false">
+													<datatype>
+														<double defaultValue="23.45" />
+													</datatype>
+												</parameter>
+											</properties>
+										</object>
+									</datatype>
+								</parameter>
+								<parameter sequence="3" name="servicerInputs"
+									description="Exapmle servicer inputs." mandatory="true"
+									syndicate="false">
+									<datatype>
+										<object>
+											<properties>
+												<parameter sequence="1" name="servicerOwnedFlag"
+													description="Exapmle servicer owned flag." mandatory="false"
+													syndicate="false">
+													<datatype>
+														<string defaultValue="Y" minLength="1" maxLength="1" />
+													</datatype>
+												</parameter>
+											</properties>
+										</object>
+									</datatype>
+								</parameter>
+							</properties>
+						</object>
+					</type>
+				</array>
+			</datatype>
+		</parameter>
+	</input>
+	<output>
+		<parameter sequence="1" name="NPVs" description="NPVs Output"
+			mandatory="false" syndicate="false">
+			<datatype>
+				<object>
+					<properties>
+						<parameter sequence="1" name="aqmkFirstLienNPV"
+							description="aqmkFirstLienNPV." mandatory="false" syndicate="false">
+							<datatype>
+								<double />
+							</datatype>
+						</parameter>
+						<parameter sequence="2" name="aqmkSecondLienNPV"
+							description="aqmkSecondLienNPV." mandatory="false" syndicate="false">
+							<datatype>
+								<double />
+							</datatype>
+						</parameter>
+						<parameter sequence="3" name="NPVVector" description="NPVVector."
+							mandatory="false" syndicate="false">
+							<datatype>
+								<array>
+									<dimensions>
+										<dim>-1</dim>
+									</dimensions>
+									<type>
+										<double />
+									</type>
+								</array>
+							</datatype>
+						</parameter>
+						<parameter sequence="4" name="aqmkTotalDebtNPV"
+							description="aqmkTotalDebtNPV." mandatory="false" syndicate="false">
+							<datatype>
+								<double />
+							</datatype>
+						</parameter>
+						<parameter sequence="5" name="aqmkTotalDebtNPVSecondLien"
+							description="aqmkTotalDebtNPVSecondLien." mandatory="false"
+							syndicate="false">
+							<datatype>
+								<double />
+							</datatype>
+						</parameter>
+					</properties>
+				</object>
+			</datatype>
+		</parameter>
+		<parameter sequence="2" name="estimatedClaimAmountPout"
+			description="estimatedClaimAmountPout." mandatory="false" syndicate="false">
+			<datatype>
+				<double />
+			</datatype>
+		</parameter>
+	</output>
+</umg-matlab-io>

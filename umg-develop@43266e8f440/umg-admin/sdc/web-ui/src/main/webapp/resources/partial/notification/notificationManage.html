@@ -1,0 +1,41 @@
+<style>
+	polygon,rect {
+     fill  : #fff;
+  }
+</style>
+
+
+<div class="col-sm-12 paddingZero" id="gridbody">
+	<div class="box box-primary mainBoxDiv">
+	
+		<div class="row rowStyle" ng-show="responseMsgFlag">
+			<div id="nm_responseMsg" style="{{responseBackground}}">
+				<strong>{{responseMsg}}</strong>
+			</div>
+		</div>
+		<div class="box-body manageBoxBodyheight">
+			<br>
+			<div class="row result-row">
+				<strong class="result-header">Manage</strong>
+			</div>
+			<div class="headSpace"></div>
+			<div  id="eventDataGrid" ag-grid="gridOptions"
+						class="ag-blue manageGridHeight"></div>
+						
+			<div class="box manageButtonDivBox">
+				<div class="box-body paddingLeftZero">
+					<a id="nm_edit" ng-click="editEvent()"
+						class="btn btn-app btn-sm design-button" tooltip="Edit"
+						tooltip-placement="top" tooltip-trigger="mouseenter" ng-disabled = "eventListData.length==0"> 
+						<i class="fa fa-edit"></i>
+					</a><a id="nm_delete"
+						ng-click="deleteEvent()"
+						class="btn btn-app btn-sm design-button" tooltip="Delete"
+						tooltip-placement="top" tooltip-trigger="mouseenter" ng-disabled = "eventListData.length==0"> 
+						<i class="fa fa-remove"></i>
+					</a>				
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

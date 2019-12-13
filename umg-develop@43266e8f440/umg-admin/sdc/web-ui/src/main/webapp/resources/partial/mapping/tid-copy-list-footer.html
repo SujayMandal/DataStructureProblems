@@ -1,0 +1,41 @@
+<div class="box">
+	<div class="col-sm-12" style="padding-top: 10px; margin-bottom: 10px;">
+		
+		<div class="col-sm-6">
+			<!-- <div class="imgButtonSet" title="Add New Container">
+			</div> -->
+		</div>	
+		
+		<div class="col-sm-5">
+			<ul class="pagination pull-right" style="margin-bottom: 0px; margin-top: 0px;">
+
+				<li><a id="	firstPage"
+						title="First Page" ng-click="pageToFirst()"
+						>First</a></li>
+				<li><a id="previousPage"
+						 title="Previous Page"
+						ng-click="pageBackward()">&lt;</a></li>
+
+
+				<li><a id="currentPage"><input type="text" min="1" max="{{currentMaxPages}}"
+					ng-model="pagingOptions.currentPage" style="width: 50px; text-align: center; margin-top: -2px;" /> of
+					{{currentMaxPages}}</a></li>
+
+				<li><a id="nextPage"
+						 title="Next Page"
+						ng-click="pageForward()">&gt;</a></li>
+				<li><a id="lastPage"
+						title="Last Page" ng-click="pageToLast()">Last</a></li>
+
+			</ul>
+		</div>
+
+		<div class="col-sm-1">
+			<div class="pull-right">
+				<select id="setPageSize" ng-change="pageSizeChanged()" ng-model="pagingOptions.pageSize" 
+										ng-options="size as size for size in pagingOptions.pageSizes"></select>	
+			</div>
+		</div>
+
+	</div>
+</div>

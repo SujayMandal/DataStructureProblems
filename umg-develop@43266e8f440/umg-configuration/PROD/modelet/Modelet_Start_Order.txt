@@ -1,0 +1,97 @@
+			R MODELETs
+			
+#######	HUBZU_WEEK_N	#######			
+
+Modelet Server 4
+1. Start modelet_R_7903 in Modelet Server 4 (4 Cores and 16GB Ram)                <-DrunMatlab=false
+
+Modelet Server 3
+1. Start modelet_R_7903 in Modelet Server 3 (4 Cores and 16GB Ram)                <-DrunMatlab=false
+
+
+
+#######	HUBZU_WEEK_0	#######			
+
+Modelet Server 4
+1. Start modelet_R_7904 in Modelet Server 4 (4 Cores and 16GB Ram)                <-DrunMatlab=false
+
+Modelet Server 3
+1. Start modelet_R_7904 in Modelet Server 3 (4 Cores and 16GB Ram)                <-DrunMatlab=false
+
+
+
+
+#######	R_DEFAULT_POOL	#######			
+
+Modelet Server 1
+1. Start modelet_R_7902 in Modelet Server 1 (2 Cores and 8GB Ram)                  <-DrunMatlab=false
+
+Modelet Server 3
+1. Start modelet_R_7902 in Modelet Server 3 (4 Cores and 16GB Ram)                <-DrunMatlab=false
+
+
+
+
+#######	eCMA_Ocn		#######			
+
+Modelet Server 2
+1. Start modelet_R_7902 in Modelet Server 2 (2 Cores and 8GB Ram)                  <-DrunMatlab=false
+
+Modelet Server 4
+1. Start modelet_R_7902 in Modelet Server 4 (4 Cores and 16GB Ram)                <-DrunMatlab=false
+
+Modelet Server 3
+1. Start modelet_R_7905 in Modelet Server 3 (4 Cores and 8GB Ram)                  <-DrunMatlab=false				# NEWLY ADDED MODELET FOR ECMA_OCN POOL
+
+Modelet Server 4
+1. Start modelet_R_7905 in Modelet Server 4 (4 Cores and 16GB Ram)                <-DrunMatlab=false				# NEWLY ADDED MODELET FOR ECMA_OCN POOL
+
+
+
+#######	SOP_WEEK_0		#######			
+
+Modelet Server 3
+1. Start modelet_R_7906 in Modelet Server 3 (4 Cores and 8GB Ram)                  <-DrunMatlab=false				# NEWLY ADDED MODELET FOR SOP_WEEK_0 POOL
+
+
+
+#######	SOP_WEEK_N		#######			
+
+
+Modelet Server 4
+1. Start modelet_R_7906 in Modelet Server 4 (4 Cores and 16GB Ram)                <-DrunMatlab=false				# NEWLY ADDED MODELET FOR SOP_WEEK_N POOL
+
+
+
+			MATLAB MODELETs
+
+			
+#######	MATLAB_DEFAULT  #######
+
+Modelet Server 2
+1. Start modelet_Matlab_7900 in Modelet Server 2 (2 Cores and 8GB Ram)          <-DrunMatlab=true
+
+Modelet Server 1
+1. Start modelet_Matlab_7900 in Modelet Server 1 (2 Cores and 8GB Ram)          <-DrunMatlab=true
+
+Modelet Server 3
+1. Start modelet_Matlab_7900 in Modelet Server 3 (4 Cores and 16GB Ram)        <-DrunMatlab=true
+
+Modelet Server 4
+1. Start modelet_Matlab_7900 in Modelet Server 4 (4 Cores and 16GB Ram)        <-DrunMatlab=true
+
+Modelet Server 2
+1. Start modelet_Matlab_7901 in Modelet Server 2 (2 Cores and 8GB Ram)          <-DrunMatlab=true
+
+Modelet Server 1
+1. Start modelet_Matlab_7901 in Modelet Server 1 (2 Cores and 8GB Ram)          <-DrunMatlab=true
+
+
+
+#######	MATLAB_BATCH_POOL   #######
+
+Modelet Server 3
+1. Start modelet_Matlab_7901 in Modelet Server 3 (4 Cores and 16GB Ram)        <-DrunMatlab=true
+
+Modelet Server 4
+1. Start modelet_Matlab_7901 in Modelet Server 4 (4 Cores and 16GB Ram)        <-DrunMatlab=true

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umg-matlab-io xmlns="http://com.ca.umg.matlab.io/xml/ns/umg-matlab-io" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<input>
+		<nativefieldlist>
+			<native-field sequence="2" Name="nativeParam_1" Description="nativeParam1" required="true">
+				<mwstructarray>
+					<dimensions>
+						<dim>2</dim>
+					</dimensions>
+					<fields>
+						<field>
+							<fieldName>String</fieldName>
+							<fieldType>
+								<mwchararray/>
+							</fieldType>
+						</field>
+					</fields>
+				</mwstructarray>
+			</native-field>
+      <native-field sequence="3" Name="nativeParam_2" Description="nativeParam2" required="true">
+				<mwstructarray>
+					<dimensions>
+						<dim>2</dim>
+					</dimensions>
+					<fields>
+						<field>
+							<fieldName>String</fieldName>
+							<fieldType>
+								<mwchararray/>
+							</fieldType>
+						</field>
+					</fields>
+				</mwstructarray>
+			</native-field>
+		</nativefieldlist>
+		<fieldlist>
+			<simplefield sequence="1" Name="Param_1" Description="String" datatype="BOOLEAN" size="2" precision="2" required="true"/>
+      <simplefield sequence="4" Name="Param_2" Description="String" datatype="INTEGER" size="2" precision="2" required="true"/>
+		</fieldlist>
+	</input>
+	<output>
+		<nativefieldlist>
+			<native-field sequence="2" Name="String" Description="String" required="true">
+				<mwstructarray>
+					<dimensions>
+						<dim>2</dim>
+					</dimensions>
+					<fields>
+						<field>
+							<fieldName>String</fieldName>
+							<fieldType>
+								<mwchararray/>
+							</fieldType>
+						</field>
+					</fields>
+				</mwstructarray>
+			</native-field>
+		</nativefieldlist>
+		<fieldlist>
+			<simplefield sequence="2" Name="String" Description="String" datatype="DECIMAL" size="2" precision="2" required="true"/>
+		</fieldlist>
+	</output>
+</umg-matlab-io>

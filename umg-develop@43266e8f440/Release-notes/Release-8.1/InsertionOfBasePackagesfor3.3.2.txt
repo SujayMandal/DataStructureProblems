@@ -1,0 +1,1 @@
+1. Need to run the InsertScriptCreator.java in modelet server and take the insert scripts and run in th eumg_admin schema

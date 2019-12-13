@@ -1,0 +1,93 @@
+
+<style>
+.content {
+	height: 542px;
+}
+ polygon,rect {
+     fill  : #fff;
+  }
+  
+</style>
+
+
+<div class="col-sm-12" style="padding: 0px;" id="gridbody">
+<!-- ng-show="authTokenDetailsData.length > 0" -->
+
+	
+	<div class="box box-primary" style="margin-bottom:0px; box-shadow:none;">
+	
+		<div class="row" style="margin-top: 10px;margin-left: 0px; margin-right: 0px;">
+			<div id="ma-errorMsg" ng-show="msg.length > 0"
+									ng-animate="{show: 'show'}" class={{clazz}}
+									style="padding: 8px; margin-bottom: 10px;">
+									<strong>{{msg}}</strong>
+								</div>
+		</div>
+		<div class="box-body"
+			style="height: 364px;padding:0px;">
+			<br>
+			<div class="row result-row">
+				<strong class="result-header">Auth Codes of Tenant : {{currentTenant}}</strong>
+			</div>
+			<div class="headSpace"></div>
+			<div id="dashGrid"  ag-grid="gridOptions" class="ag-blue"
+				style="height: 300px;"></div>
+			<div>Note: Activating an auth code automatically deactivates any existing auth code.</div>
+			<div class="box" align=left
+				style="border-top: 0px; background: none; box-shadow: none;">
+				<div class="box-body" style="padding-left: 0px;">
+					<a id="addAuth"
+						ng-click="createNewAuthToken();" ng-disabled="authTokenDetailsData.length==0"
+						class="btn btn-app btn-sm design-button" tooltip="Add Auth Code"
+						tooltip-placement="top" tooltip-trigger="mouseenter"> <i
+						id="addAuthIcon" title="Add Auth Code" class="fa fa-plus"></i></a>
+					<a id="activateAuth"
+						ng-click="activationReqEnblr();" ng-disabled="activeState"
+						class="btn btn-app btn-sm design-button" tooltip="Activate"
+						tooltip-placement="top" tooltip-trigger="mouseenter"> <i
+						id="activateAuthIcon" title="Activate" class="fa fa-check"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- activation auth code pop-up -->
+<div class="modal" id="activateConfirmation" tabindex="-1"
+	role="dialog" aria-labelledby="activateConfirmationLabel"
+	aria-hidden="true"
+	ng-show="activationReq">
+	<div class="modal-dialog" style="width: 40%; height: 50%">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background-color: #3C8DBC; color: white;">
+				<button type="button" class="close" data-dismiss="modal"
+					ng-click="clearModal();" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Please confirm </h3>
+			</div>
+			<div class="modal-body" style="padding-bottom: 30px;">
+				<div class="form-group">
+					<span><strong>
+					Do you want to activate this auth code? Existing active auth code will be deactivated.
+					</strong></span>
+				</div>
+				<div class="form-group">
+					<span for=tenant.description class="col-sm-5 control-label">Reason<font color="red">*</font></span>
+					<div class="col-sm-9">
+						<textarea rows="1" cols="100" id="reason" maxlength="100"
+							name="reason" ng-model="comment"  ng-change="changeFunc();"
+							style="resize: none" class="form-control" required></textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer" style="background-color: #FFFFFF;">
+			<button type="button" class="btn btn-primary" data-dismiss="modal" ng-disabled="flag"
+				ng-click="activateAuthToken();clearModal();">OK</button>
+			<button type="button" class="btn btn-primary" data-dismiss="modal"
+				ng-click="clearModal();">Cancel</button>
+		</div>
+	</div>
+</div>

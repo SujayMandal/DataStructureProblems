@@ -1,0 +1,1 @@
+Delete FROM `umg_admin`.`SYSTEM_PARAMETER` where SYS_KEY = 'JMX_MODELET_PORT_MAPPING';

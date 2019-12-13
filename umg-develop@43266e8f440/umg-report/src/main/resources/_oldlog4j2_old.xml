@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="debug"
+	packages="com.ca.framework.core.logging.appender">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+	</Appenders>
+	<Loggers>
+		<!--Logger name="net.sf.jasperreports.engine.xml.JRXmlDigesterFactory" level="debug"/>
+        <Root level="debug">
+           <AppenderRef ref="SYSTEM_OUT"/>
+        </Root>
+        
+        <Logger name="net.sf.jasperreports.engine.query" level="debug"/>
+        <Root level="debug">
+           <AppenderRef ref="SYSTEM_OUT"/>
+        </Root -->
+        
+		<Root level="all">
+			<AppenderRef ref="Console" />
+		</Root>
+	</Loggers>
+</Configuration>

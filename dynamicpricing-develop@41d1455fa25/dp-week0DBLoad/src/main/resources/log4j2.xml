@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="DEBUG" monitorInterval="30">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+		<RollingRandomAccessFile name="RollingRandomAccessFile"
+			fileName="D:/logs/dp/app.log" filePattern="D:/logs/dp/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
+			<PatternLayout>
+				<Pattern>%d %p %c{1.} [%t] [%X{USER_ID}] [%X{PRODUCT_TYPE}] [%X{LOAN_NUMBER}] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="5 MB" />
+			</Policies>
+		</RollingRandomAccessFile>
+		<RollingRandomAccessFile name="SpringBootFile"
+			fileName="D:/logs/dp/framework.log" filePattern="D:/logs/dp/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.framework.gz">
+			<PatternLayout>
+				<Pattern>%d %p %c{1.} [%t] %m%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="5 MB" />
+			</Policies>
+		</RollingRandomAccessFile>
+	</Appenders>
+
+	<Loggers>
+		<Logger name="org.springframework" level="info" additivity="false">
+			<AppenderRef ref="SpringBootFile" />
+		</Logger>
+		<Logger name="org.hibernate" level="info" additivity="false">
+			<AppenderRef ref="SpringBootFile" />
+		</Logger>
+		<Logger name="com.hazelcast" level="info" additivity="false">
+			<AppenderRef ref="SpringBootFile" />
+		</Logger>
+		<Logger name="com.zaxxer" level="info" additivity="false">
+			<AppenderRef ref="SpringBootFile" />
+		</Logger>
+		<Logger name="com.fa" level="debug" additivity="false">
+			<AppenderRef ref="RollingRandomAccessFile" />
+		</Logger>
+		<Root level="info">
+			<AppenderRef ref="Console" />
+		</Root>
+	</Loggers>
+</Configuration>

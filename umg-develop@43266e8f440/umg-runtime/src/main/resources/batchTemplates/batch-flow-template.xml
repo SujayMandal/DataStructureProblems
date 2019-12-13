@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:integration="http://www.springframework.org/schema/integration"
+	xmlns:file="http://www.springframework.org/schema/integration/file"
+	xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:int-http="http://www.springframework.org/schema/integration/http"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration 
+		http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/file 
+		http://www.springframework.org/schema/integration/file/spring-integration-file.xsd
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/integration/http 
+		http://www.springframework.org/schema/integration/http/spring-integration-http.xsd">
+
+	<integration:channel id="runtimeRequests" >
+		<integration:queue/>
+	</integration:channel>
+	<integration:channel id="runtimeResponses" />
+	<integration:channel id="aggregatedResponses" />
+	<integration:channel id="filesOut" />
+	<integration:channel id="fileSplitChannel" />
+	<integration:publish-subscribe-channel id="fileOutputHandler" />
+	<integration:publish-subscribe-channel id="fileErrorHandler" />
+	<integration:publish-subscribe-channel id="${tenant_code}_batchOutputChannel" />
+	<bean
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer" />
+
+	<file:inbound-channel-adapter id="filesIn"
+		directory="file:${input}" scanner="batchScanner" filter="${tenant_code}_filter">
+		<integration:poller id="poller" fixed-delay="5000" max-messages-per-poll="-1" />
+	</file:inbound-channel-adapter>
+		
+	<integration:transformer output-channel="filesOut" ref="batchToListTranformer" input-channel="filesIn"/>
+	
+	<integration:recipient-list-router input-channel="filesOut">
+		<integration:recipient channel="fileErrorHandler" selector-expression="headers.ERROR" />
+		<integration:recipient channel="fileOutputHandler" selector-expression="!headers.ERROR" />
+		
+	</integration:recipient-list-router>
+	
+	<!-- Writing the ouput file with error description(in case of parsing error) to output folder START-->
+	<int:chain id="errorOutputFileProcessor" input-channel="fileErrorHandler" 
+				output-channel="${tenant_code}_batchOutputChannel">
+		<integration:transformer ref="listJsonTranformer"/>
+		<file:outbound-gateway  directory-expression="headers['SAN_PATH']+ T(java.io.File).separator +'${tenant_code}' + T(java.io.File).separator +'${batch-file}'+T(java.io.File).separator +'${output}'"/>	
+	</int:chain>
+	<!-- Writing the ouput file with error description(in case of parsing error) to output folder END-->
+
+	
+	
+	<!-- Writing files in IN-PROGRESS folder START -->
+	<integration:transformer ref="inputFileTransformer"
+		input-channel="fileOutputHandler" output-channel="filesInprogress" />
+		
+	<file:outbound-channel-adapter id="filesInprogress" directory-expression="headers['SAN_PATH'] + T(java.io.File).separator +'${tenant_code}' + T(java.io.File).separator +'${batch-file}'+T(java.io.File).separator +'${inprogress}'" />
+	
+	<!-- Writing files in IN-PROGRESS folder END -->	
+	
+	<!-- Writing files in ARCHIVE folder START -->	
+	<integration:transformer ref="inputFileTransformer"
+		input-channel="fileErrorHandler" output-channel="filesArchive" />
+		
+	<integration:transformer ref="inputFileTransformer"
+		input-channel="fileOutputHandler" output-channel="filesArchive" />
+		
+	<file:outbound-channel-adapter id="filesArchive" directory-expression="headers['SAN_PATH']+ T(java.io.File).separator +'${tenant_code}' + T(java.io.File).separator +'${batch-file}'+T(java.io.File).separator +'${archive}'"/>
+	<!-- Writing files in ARCHIVE folder END -->	
+	
+	<integration:transformer ref="listJsonTranformer"
+		input-channel="fileOutputHandler" output-channel="fileSplitChannel" />
+	
+	<!-- <integration:splitter input-channel="fileSplitChannel" output-channel="runtimeRequests"/>
+	
+	<integration:transformer ref="batchHttpHandler" input-channel="runtimeRequests" output-channel="runtimeResponses">
+   		<integration:poller fixed-delay="50" task-executor="batchTaskScheduler" receive-timeout="0" />
+	</integration:transformer>
+	
+	<integration:aggregator input-channel="runtimeResponses" output-channel="aggregatedResponses" ref="batchAggregator"/> -->
+	
+	<int:service-activator id="runtimeInvoker" ref="batchHttpHandler" input-channel="fileSplitChannel" output-channel="aggregatedResponses"/>
+	
+	<int:chain id="successOutputPreProcessor" input-channel="aggregatedResponses" output-channel="${tenant_code}_batchOutputChannel">
+		<integration:service-activator ref="handler"/>
+		<file:outbound-gateway directory-expression="headers['SAN_PATH']+ T(java.io.File).separator +'${tenant_code}' + T(java.io.File).separator +'${batch-file}'+T(java.io.File).separator +'${output}'"/>	
+	</int:chain>
+	
+	<bean id="${tenant_code}_locker" class="com.ca.umg.rt.file.lock.BatchFileLocker">
+		<property name="cacheRegistry" ref="cacheRegistry"></property>
+		<property name="name" value="${tenant_code}"></property>
+	</bean>	
+	
+	<bean id ="${tenant_code}_filter" class="com.ca.umg.rt.file.filter.BatchFileFilter"/>
+	
+	
+	<bean id="batchScanner" class="com.ca.umg.rt.file.scanner.BatchDirectoryScanner">
+		<property name="cacheRegistry" ref="cacheRegistry"></property>
+		<property name="locker" ref="${tenant_code}_locker"/>
+		<property name="filter" ref="${tenant_code}_filter"/>	
+		<property name="umgFileProxy" ref="umgFileProxy"/>
+		<property name="systemParameterProvider" ref="systemParam"/>
+		<property name="batchingDelegate" ref="batchingDelegateImpl"></property>
+	</bean>	
+	<bean id="batchAggregator" class="com.ca.umg.rt.batching.aggregator.BatchAggregator"></bean>
+</beans>

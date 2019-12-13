@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:int-http="http://www.springframework.org/schema/integration/http"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<int:publish-subscribe-channel id="errorHandlingChannel" />	
+	<int:logging-channel-adapter id="ftplogger" log-full-message="true"/>
+	
+	<int:channel id="logChannel">
+		<int:queue/>
+		<int:interceptors>
+			<int:wire-tap channel="ftplogger" />
+		</int:interceptors>
+	</int:channel>
+	
+	<bean id="loggingHandler" class="org.springframework.integration.handler.LoggingHandler">
+		<constructor-arg value="ERROR" />
+	</bean>
+	<!-- <bean id="systemParameterProvider" class="com.ca.framework.core.systemparameter.SystemParameterProviderImpl"/> -->
+	
+	<bean id="loggingEndpoint"
+		class="org.springframework.integration.endpoint.EventDrivenConsumer">
+		<constructor-arg index="0" ref="errorHandlingChannel" />
+		<constructor-arg index="1" ref="loggingHandler" />
+	</bean>
+	<bean id="batchTaskScheduler"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler" destroy-method="shutdown">
+		<property name="waitForTasksToCompleteOnShutdown" value="true" />
+		<property name="poolSize" value="${batch.threadPoolSize}"></property>
+		<property name="threadNamePrefix" value="batch-flow-scheduler-" />
+		<property name="rejectedExecutionHandler" ref="callerRunPolicy" />
+		<property name="errorHandler" ref="messagePublisingErrorHandler"/>
+	</bean>
+	<bean id="callerRunPolicy"
+		class="java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy" />
+	<bean id="messagePublisingErrorHandler"
+		class="org.springframework.integration.channel.MessagePublishingErrorHandler">
+		<property name="defaultErrorChannel" ref="errorHandlingChannel" />
+	</bean>
+	
+	<bean id="jsonConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/json" />
+	</bean>
+
+	<bean id="batchToListTranformer" class="com.ca.umg.rt.batching.transformer.BatchToListTranformer">
+		<property name="cacheRegistry" ref="cacheRegistry"></property>
+		<property name="batchingDelegate" ref="batchingDelegateImpl"></property>
+		<property name="lruContainer" ref="defaultLruContainer"></property>
+		<property name="systemParameterProvider" ref="systemParam"></property>
+		<property name="excelReader" ref="excelReader"></property>
+		<property name="umgFileProxy" ref="umgFileProxy"></property>
+		<property name="deploymentBO" ref="deploymentBOImpl"/>
+		<property name="poolObjectsLoader" ref="poolObjectsLoader"/>
+	</bean>
+	
+	<bean id="listJsonTranformer" class="com.ca.umg.rt.batching.transformer.ListJsonTranformer">
+		<property name="umgFileProxy" ref="umgFileProxy"/>
+		<property name="systemParameterProvider" ref="systemParam"/>
+	</bean>
+	<bean id="inputFileTransformer" class="com.ca.umg.rt.batching.transformer.InputFileTranformer"/>		
+	
+	
+	<bean id="handler" class="com.ca.umg.rt.batching.parser.BatchHandler" >
+		<property name="container" ref="defaultLruContainer"></property>
+		<property name="batchingDelegate" ref="batchingDelegateImpl"></property>
+		<property name="cacheRegistry" ref="cacheRegistry"></property>
+		<property name="jsonToExcelConverter" ref="jsonToExcelConverterImpl"></property>
+		<property name="systemParameterProvider" ref="systemParam"></property>
+		<property name="umgFileProxy" ref="umgFileProxy"/>	
+	</bean>
+	
+	<bean id="batchHttpHandler" class="com.ca.umg.rt.batching.http.BatchHttpHandler">
+		<property name="batchingDelegate" ref="batchingDelegateImpl"></property>
+		<property name="lruContainer" ref="defaultLruContainer"></property>
+		<property name="restTemplate" ref="umgRestTemplate"></property>
+		<property name="staticDataContainer" ref="staticDataContainer"></property>
+		<property name="systemParameterProvider" ref="systemParam"></property>
+		<property name="poolManager" ref="poolManager"></property>	
+	</bean>
+
+	<bean id="ftp_handler" class="com.ca.umg.rt.batching.ftp.FTPFileHandler" />
+</beans>

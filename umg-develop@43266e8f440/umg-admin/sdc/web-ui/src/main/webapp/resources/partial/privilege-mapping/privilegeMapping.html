@@ -1,0 +1,55 @@
+<style>
+.cl{
+	  left: 50%;
+	  right: auto;
+	  text-align: left;
+	  transform: translate(-50%, 0);
+	  max-height: 100px;
+	  margin: 0;
+	  padding: 0;
+	  list-style: none;
+	  overflow-x: hidden;
+}
+    .doesNotBelongHere{
+        font-weight: bold;
+    }
+.panel{
+    box-shadow: none !important;
+}
+</style>
+<html>
+    <div class="col-lg-12 box box-primary">
+    <div class="row rowStyle" ng-show="showErrorMessage == true || showSuccesssMessage == true">
+            <div id="priv_map_responseMsg" style="{{responseBackground}}">
+                <strong>{{showMessage}}</strong>
+            </div>
+    </div>
+        <div class="col-lg-12" style="text-align : center;padding-top:2%" >
+            <div class="col-lg-4"></div>
+	        <div class="form-group col-lg-4">
+			  <label for="sel1">Role Name:</label>
+			  <select class="form-control" id="sel1" ng-options = "key as key for (key , value) in rolesPrivilegesMapping" ng-model="role" ng-change="switchRole(role)"  >
+			    <!-- <option ng-repeat="(key, value) in roles" ng-click="switchRole('{{key}}','{{value}}')" >{{key}}</option> -->
+			  </select>
+			</div>
+		</div>
+         <br>
+         <br>
+            <div class="panel panel-default" style="margin-top : 4% ; border-color : transparent; text-align:center">
+              <!--   <div class="col-md-12">
+                    <picklist name="pktest1" size="20" data-pick-model="tselected" data-pick-options="v.name for v in toptions">
+                    </picklist>
+
+
+                </div> -->
+                   <div class="col-lg-12">
+				        <picklist left-list-rows="leftList" right-list-rows="rightList" list-width="350" list-height="350"
+				                   show-move-all-buttons/>
+				   </div>
+            </div>
+            <div class="col-lg-12" style="text-align : center;margin-top : 4% ;margin-bottom: 2%">
+                <button class="btn btn-primary btn-md" type="button" ng-click="saveList();">Save</button>
+                <button class="btn btn-primary btn-md" type="button" ng-click="reset();">Cancel</button>
+            </div>
+      </div>
+</html>

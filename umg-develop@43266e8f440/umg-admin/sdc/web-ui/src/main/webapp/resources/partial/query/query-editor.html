@@ -1,0 +1,240 @@
+<div id="query_editor" class="col-lg-12">
+<form name="qeForm" autocomplete="on">
+	<div class=col-lg-7>
+		<div class="box box-primary">
+			<div class="box-header with-border" >
+        	    <div class="col-lg-3" style="width:20%">
+        	    	Query Name<font color="red">*</font>
+        	    </div>
+        	    <div class="col-lg-3" style="width: 26%;">
+	        	    <input id="qeName" name="qeName" class="form-control" type="text" ng-model="qe.name" ng-disabled="editQueryFlag || viewQueryFlag" ng-minlength="3" ng-maxlength="50" ng-pattern="/^(_*)\w*[a-zA-Z0-9]+(_*)$/" placeholder="Enter Query Name" ng-required="true"/>
+					<div class="error-container ng-hide" ng-show="qeForm.qeName.$dirty &amp;&amp; qeForm.qeName.$invalid">
+				          <small class="error-msg" ng-show="qeForm.qeName.$error.required">Query name is required.</small>
+				          <small class="error-msg" ng-show="qeForm.qeName.$error.minlength">Query name is required to be at least 3 characters</small>
+				          <small class="error-msg" ng-show="qeForm.qeName.$error.maxlength">Query name cannot be longer than 50 characters</small>
+				          <small class="error-msg" ng-show="qeForm.qeName.$error.pattern">Query name is <b>SINGLE WORD</b> and can't contain any special character except <b>UNDERSCORE</b></small>
+			        </div>	
+			        
+        	    </div>
+        	    <div class="col-lg-3" style="text-align:right">
+        	    	Query Description<font color="red">*</font>
+        	    </div>
+        	    <div class="col-lg-3" style="width: 27%;">
+        	    	<textarea  style="resize: none;" id="qeDesc" name="qeDesc" class="form-control col-lg-12" ng-disabled="viewQueryFlag" ng-minlength="3" ng-maxlength="200" rows="2" cols="20" ng-model="qe.description" placeholder="Enter Description" ng-required="true"></textarea>
+					<div class="error-container ng-hide" ng-show="qeForm.qeDesc.$dirty &amp;&amp; qeForm.qeDesc.$invalid">
+				          <small class="error-msg" ng-show="qeForm.qeDesc.$error.required">Query description is required.</small>
+				          <small class="error-msg" ng-show="qeForm.qeDesc.$error.minlength">Query description is required to be at least 3 characters</small>
+				          <small class="error-msg" ng-show="qeForm.qeDesc.$error.maxlength">Query description cannot be longer than 200 characters</small>
+				    </div>
+        	    </div>
+        	    <div class="col-lg-12">
+        	    	<span>TID Name : {{qe.mapping.name}}</span>
+        	    </div>
+        	</div>
+        
+        	 <div class="box-body"  style=""> 
+        	 <div class="col-lg-2 pull-left">
+        	 	Select<font color="red">*</font>       
+			</div>
+			<div class="col-lg-10">
+					<span class="error-container ng-hide pull-right" ng-show="qeForm.qeStmt.$dirty &amp;&amp;qeForm.qeStmt.$invalid">
+				          <small class="error-msg" ng-show="qeForm.qeStmt.$error.required">Select statement is required.</small>
+				          <small class="error-msg" ng-show="qeForm.qeStmt.$error.minlength">Select statement is required to be at least 3 characters</small>
+				          <small class="error-msg" ng-show="qeForm.qeStmt.$error.maxlength">Select statement cannot be longer than 500 characters</small>
+				          <!-- <small class="error-msg" ng-show="qeForm.qeStmt.$error.pattern">Alias Name Mandatory</small> -->
+				        </span>
+			</div>
+			<div class="col-lg-12">
+				<textarea  style="resize:none;" id="qeStmt" name="qeStmt" class="input-block-level col-lg-12" rows="3" cols="102" ng-model="qe.queryObject.selectString" ng-disabled="viewQueryFlag" placeholder="column_name AS alias_name" ng-minlength="3" ng-maxlength="500" ng-required="true" ng-blur='setOutputParameters(qe.queryObject.selectString)'></textarea>
+			</div>
+			
+<!-- 			<div class="col-lg-12"><br></div> -->
+			<div class="col-lg-2 pull-left">
+        	 	From<font color="red">*</font>       
+			</div>
+			<div class="col-lg-10">
+					<span class="error-container ng-hide pull-right" ng-show="qeForm.qeFrom.$dirty &amp;&amp; qeForm.qeFrom.$invalid">
+				          <small class="error-msg" ng-show="qeForm.qeFrom.$error.required">Select from is required.</small>
+				          <small class="error-msg" ng-show="qeForm.qeFrom.$error.minlength">Select from is required to be at least 3 characters</small>
+				          <small class="error-msg" ng-show="qeForm.qeFrom.$error.maxlength">Select from cannot be longer than 200 characters</small>
+				        </span>
+			</div>
+			<div class="col-lg-12">
+					<input id="qeFrom" name="qeFrom" class="input-block-level col-lg-12" type="text" ng-minlength="3" ng-maxlength="200" ng-model="qe.queryObject.fromString" ng-disabled="viewQueryFlag" placeholder="table_name table_name_alias" ng-required="true" style="text-transform: uppercase;" ng-blur="fromSecToUpper();">
+			</div>
+<!-- 			<div class="col-lg-12"><br></div> -->
+			<div class="col-lg-2 pull-left">
+        	 	Where       
+			</div>
+			<div class="col-lg-10">
+					<span class="error-container ng-hide pull-right" ng-show="qeForm.qeWhr.$dirty &amp;&amp; qeForm.qeWhr.$invalid">
+				          <small class="error-msg" ng-show="qeForm.qeWhr.$error.minlength">Where clause is required to be at least 3 characters</small>
+				          <small class="error-msg" ng-show="qeForm.qeWhr.$error.maxlength">Where Clause cannot be longer than 500 characters</small>
+				          <small class="error-msg" ng-show="qeForm.qeWhr.$error.pattern">Sub Query is Not Allowed.</small>
+				        </span>
+			</div>
+
+			<div class="col-lg-12">
+				<textarea style="resize:none;" id="qeWhr" name="qeWhr" class="input-block-level col-lg-12" rows="3" cols="102" ng-model="qe.queryObject.whereClause" ng-disabled="viewQueryFlag" placeholder="#parameter#" ng-minlength="3" ng-maxlength="500" ng-pattern="/^((?![Ss][Ee][Ll][Ee][Cc][Tt][\s]).)*$/" ng-blur='setInputParameters(qe.queryObject.whereClause)'></textarea>			
+			</div>
+			
+			<div class="col-lg-2 pull-left">
+        	 	Order By       
+			</div>
+			<div class="col-lg-10">
+					<span class="error-container ng-hide pull-right" ng-show="qeForm.qeOrderBy.$dirty &amp;&amp; qeForm.qeOrderBy.$invalid">
+				          <small class="error-msg" ng-show="qeForm.qeOrderBy.$error.maxlength">Order By cannot be longer than 200 characters</small>
+				        </span>
+			</div>
+
+			<div class="col-lg-12">
+				<input id="qeOrderBy" name="qeOrderBy" class="input-block-level col-lg-12" type="text" ng-maxlength="200" ng-model="qe.queryObject.orderByString" ng-disabled="viewQueryFlag" placeholder="Order By ...">
+			</div>
+			
+			
+			</div>
+			
+			
+			<div class="box-footer clearfix" align="center">
+					<div class="col-lg-2 pull-left" style="width: 10.33333333%;">			
+						Rows<font color="red">*</font>
+					</div>
+					<div class="col-lg-3 pull-left">
+						<select id="rowType" name="rowtType" class="qeTextField" ng-model="qe.rowType" ng-disabled="viewQueryFlag">
+							<option ng-repeat="row in rows" value="{{row.value}}" ng-selected="row.value == qe.rowType">{{row.displayName}}</option>
+						</select>
+					</div>
+					<div class="col-lg-1"></div>
+					<div class="col-lg-4" style="width: 25.33333333%;">			
+						Return Data Type<font color="red">*</font>
+					</div>
+					<div class="col-lg-2 pull-left">
+						<select id="dataType" name="dataType" class="qeTextField" ng-model="qe.dataType" ng-disabled="viewQueryFlag">
+							<option ng-repeat="datatype in datatypes" value="{{datatype.value}}" ng-selected="datatype.displayName == qe.dataType">{{datatype.displayName}}</option>
+						</select>
+					</div>
+		
+			  	    <div class="col-lg-12">
+						<div id="qeErrMsg" class="error-msg txt-corner5" ng-show="showErrMsg" align="center">{{message}}</div>						
+						<div id="qeSuccessMsg" class="success-msg txt-corner5" ng-show="showSuccessMsg" align="center">{{message}}</div>		  
+					</div>
+					<div class="col-lg-12"><br></div>
+					<div class="col-lg-12">
+			<div id="buttonsDiv" align="center" >
+				<button id="qeSubmit" class="btn btn-primary btn-sm" type="submit" ng-show="!editQueryFlag && !viewQueryFlag" ng-disabled="!saveQueryFlag || publishedOrDeactivated" ng-click="formValidated = qeForm.$valid;saveQE()" title="Save Query">Save</button>
+				<button id="qeUpdate" class="btn btn-primary btn-sm" type="submit" ng-show="editQueryFlag && !viewQueryFlag" ng-disabled="!saveQueryFlag || publishedOrDeactivated" ng-click="formValidated = qeForm.$valid;updateQE()" title="Update Query">Update</button>
+				<button id="qeTest" class="btn btn-primary btn-sm" type="submit"  ng-click="formValidated = qeForm.$valid;testQE();launchQueryResultDailog();" title="Test Query" ng-disabled="enableTest && (message && !showSuccessMsg)" >Test</button>
+				<button id="qeCancel" class="btn btn-primary btn-sm" type="button" ng-click="viewTidMapping()" title="TID Mapping">Cancel</button>
+				<button id="qeListAll" class="btn btn-primary btn-sm" type="button" ng-click="viewQueriesForTID()" title="TID Queries">List All</button>
+			</div>
+			</div>
+           </div>
+		</div>
+	</div>
+	
+	<div class=col-lg-5>
+		<div class="box box-primary">
+			<div class="box-header with-border" >
+			<span>Input Parameters</span>
+			</div>
+			<div class="box-body"  style=""> 
+				<h3 ng-show="qe.inputParameters.length == 0">No TID Parameter Available</h3>
+                    <table id="qeIPTable" class="table no-margin" ng-show="qe.inputParameters.length > 0">
+                      <thead>
+                        <tr>
+                          <th>TID Parameter</th>
+                          <th>Sample Value</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="inputParam in qe.inputParameters">
+                          <td style="width:45%"><span class="addModelFont qeLabel pull-left" ng-class="{testdate: inputParam.name === 'TESTDATE'}">{{inputParam.name}}</span><br>
+								<small class="pull-left"><b>Type :</b> {{inputParam.dataType}}</small>
+						</td>
+                        <td>
+                        
+                        <!-- <div class="dropdown pull-left" class="updateTIDTextbox">
+							<a class="dropdown-toggle" id="testdate" role="button" data-toggle="dropdown" data-target="#" href="#">
+								<div ng-if="inputParam.dataType.indexOf('DATE') != -1" id="date" class="input-group" ng-model="inputParam.sampleValue">
+								<input type="text" class="form-control pull-left" id="paramValue" name="paramValue" placeholder="{{inputParam.dataType.substring(5)}} HH:mm:ss" data-format="MM-dd-yyyy HH:mm PP" value="{{inputParam.sampleValue}}" ng-disabled="true"/>
+								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+								</div>
+							</a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+								<datetimepicker data-ng-model="inputParam.sampleValue" data-datetimepicker-config="{ dropdownSelector: '#asOnDate', minuteStep:1 }" />
+							</ul>
+						</div> -->
+						<div class='input-group date pull-left' id='datetimepicker1' ng-if="inputParam.dataType.indexOf('DATE') != -1">
+								<input type="text" class="form-control"
+									ng-model="inputParam.sampleValue" date-time-picker
+									format="dateTimeFormat" /> <span class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</span>
+							</div>
+							
+							
+						<!-- <div class="dropdown pull-left" class="updateTIDTextbox">
+							<a class="dropdown-toggle" id="testdate" role="button" data-toggle="dropdown" data-target="#" href="#">
+								<div class="input-group">
+								<input type="text" class="form-control pull-left" value="{{inputParam.sampleValue | date:'MMM-dd-yyyy HH:mm a' }}" disabled readonly/>
+								<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span>
+								</div>
+							</a>
+							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+								<datetimepicker data-ng-model="inputParam.sampleValue" data-datetimepicker-config="{ dropdownSelector: '#asOnDate', minuteStep:1 }" />
+							</ul>
+						</div>	 -->	
+                        
+                     <!--       <div ng-if="inputParam.dataType.indexOf('DATE') != -1" id="date" class="input-append" date-time-picker ng-model="inputParam.sampleValue">
+			          <input class="form-control input-sm" type="text" id="paramValue" name="paramValue" placeholder="{{inputParam.dataType.substring(5)}} HH:mm:ss" data-format="MM-dd-yyyy HH:mm PP" value="{{inputParam.sampleValue}}" ng-disabled="true"/>&nbsp;
+			          <span class="glyphicon glyphicon-calendar">
+			            <i data-time-icon="icon-time" data-date-icon="icon-calendar"></i>
+			          </span>
+			        </div> -->
+      				<div ng-if="inputParam.dataType.indexOf('DATE') == -1">
+					<input id="paramValue" name="paramValue" type="text" ng-model="inputParam.sampleValue" placeholder="Enter Param Value" ng-required="true"/>
+					</div>
+                        
+						</td>
+                        </tr>
+                      </tbody>
+                    </table>
+			</div>
+		</div>
+		
+				<div class="box box-primary">
+			<div class="box-header with-border" >
+			<span>Output Parameters</span>
+			</div>
+			<div class="box-body"  style=""> 
+				<h4 align=center ng-show="qe.outputParameters.length == 0">No Output Parameter Available</h4>
+				<div class="table-responsive">
+                    <table id="qeOPTable" class="table no-margin" ng-show="qe.outputParameters.length > 0">
+                      <thead>
+                        <tr>
+                          <th>Column Name</th>
+                          <th>Type</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="outputParam in qe.outputParameters">
+                          <td style="width:50%" >{{outputParam.name}}</td>
+						  <td align="left" >{{outputParam.dataType}}</td>
+
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+			</div>
+		</div>
+		
+		
+	</div>
+
+</form>
+</div>
+<div ng-show="showResult">
+	<hr>
+	<h3 align="center">Result Set</h3>
+	<div class="umg-grid query-data_gr center-div" ng-grid="resultSetGrid"></div>
+</div>

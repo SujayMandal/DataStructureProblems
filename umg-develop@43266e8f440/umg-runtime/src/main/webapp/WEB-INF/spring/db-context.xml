@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	   xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	   xsi:schemaLocation="http://www.springframework.org/schema/data/mongo http://www.springframework.org/schema/data/mongo/spring-mongo.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<description>Example configuration to get you started.</description>
+
+	<bean id="entityManagerFactory"
+		  class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="${entitymanager.packages.to.scan}" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+				<property name="generateDdl" value="${db.generateDdl}" />
+				<property name="databasePlatform" value="${db.dialect}" />
+				<property name="showSql" value="${db.showSql}" />
+			</bean>
+		</property>
+		<property name="persistenceProvider" ref="persistanceProvider" />
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.format_sql">${db.format_sql}</prop>
+				<prop key="org.hibernate.envers.audit_table_suffix">${audit_suffix}</prop>
+			</props>
+		</property>
+		<property name="persistenceUnitManager">
+			<bean
+					class="org.springframework.data.jpa.support.MergingPersistenceUnitManager">
+				<property name="persistenceXmlLocations">
+					<list>
+						<value>classpath*:META-INF/*persistence*.xml</value>
+					</list>
+				</property>
+				<property name="defaultDataSource" ref="dataSource" />
+			</bean>
+		</property>
+		<property name="persistenceUnitName" value="spring-jpa" />
+	</bean>
+
+	<bean id="persistanceProvider"
+		  class="com.ca.framework.core.db.persistance.HibernatePersistenceProviderMT" />
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="jpaDialect">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />
+		</property>
+	</bean>
+
+	<bean id="dataSource"
+		  class="com.ca.framework.core.db.persistance.TenantRoutingDataSource">
+		<property name="defaultTargetDataSource" ref="umgAdminDataSource"></property>
+	</bean>
+
+
+	<bean id="umgAdminDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${db.driver}" />
+		<property name="jdbcUrl" value="${db.url}" />
+		<property name="user" value="${db.username}" />
+		<property name="password" value="${db.password}" />
+
+		<!-- these are C3P0 properties -->
+		<property name="checkoutTimeout" value="${db.connectionTimeout}" />
+		<property name="preferredTestQuery" value="SELECT 1" />
+		<property name="maxConnectionAge" value="${db.maxConnectionAge}" />
+		<property name="autoCommitOnClose" value="${db.defaultAutoCommit}" />
+		<property name="maxIdleTime" value="${db.maxIdleTime}" />
+		<property name="minPoolSize" value="${db.minPoolSize}" />
+		<property name="maxPoolSize" value="${db.maxPoolSize}" />
+		<!-- uncomment these if you need tracking for db connections -->
+		<!-- <property name="debugUnreturnedConnectionStackTraces" value="true"/>
+			<property name="unreturnedConnectionTimeout" value="60"/> -->
+	</bean>
+
+	<!-- <bean id="umgAdminDataSource" class="com.jolbox.bonecp.BoneCPDataSource"
+		destroy-method="close"> <property name="driverClass" value="${db.driver}"
+		/> <property name="jdbcUrl" value="${db.url}" /> <property name="username"
+		value="${db.username}" /> <property name="password" value="${db.password}"
+		/> <property name="poolName" value="umg-admin" /> <property name="deregisterDriverOnClose"
+		value="true" /> <property name="connectionTimeout" value="${db.connectionTimeout}"/>
+		<property name="connectionTestStatement" value="SELECT 1"/> <property name="maxConnectionAge"
+		value="${db.maxConnectionAge}"/> <property name="defaultAutoCommit" value="${db.defaultAutoCommit}"/>
+		</bean> -->
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<jpa:repositories base-package="com.ca.umg.business.*.dao, com.ca.pool.model.*.*.*" />
+
+	<jpa:auditing auditor-aware-ref="auditorAwareBean" />
+
+	<bean id="auditorAwareBean" class="com.ca.framework.core.db.domain.AuditorAwareImpl" />
+
+	<bean id="propertyConfigurer"
+		  class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>file:${db.properties}</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- <mongo:db-factory id="mongoDbFactory" dbname="${mongo.db.name}" username="${mongo.db.username}"
+		password="${mongo.db.password}" host="${mongo.host.ip}" port="${mongo.db.port}"/> -->
+
+	<!-- MONGO CONNECTION POOLING AND REPLICA SET CONFIGURATION -->
+	<mongo:db-factory id="mongoDbFactoryReplica" dbname="${mongo.db.name}"
+					  mongo-ref="mongoSet" username="${mongo.username}" password="${mongo.password}"
+					  authentication-dbname="${mongo.db.name}" />
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactoryReplica" />
+	</bean>
+
+	<!-- <mongo:mongo id="mongoSet" replica-set="${mongo_replica_set}"> <mongo:options
+		connections-per-host="${mongo.connectionsPerHost}" connect-timeout="${mongo.connectTimeout}"
+		max-wait-time="${mongo.maxWaitTime}" /> </mongo:mongo> -->
+
+	<mongo:mongo-client id="mongoSet" replica-set="${mongo_replica_set}"
+						credentials="${mongo.username}:${mongo.password}@${mongo.db.name}">
+		<mongo:client-options connections-per-host="${mongo.connectionsPerHost}"
+							  connect-timeout="${mongo.connectTimeout}" max-wait-time="${mongo.maxWaitTime}" />
+	</mongo:mongo-client>
+
+</beans>

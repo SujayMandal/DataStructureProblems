@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:int-http="http://www.springframework.org/schema/integration/http"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+	xmlns:int-xml="http://www.springframework.org/schema/integration/xml"
+	xmlns:int-script="http://www.springframework.org/schema/integration/scripting"
+	xmlns:int-jmx="http://www.springframework.org/schema/integration/jmx"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/integration/jmx http://www.springframework.org/schema/integration/jmx/spring-integration-jmx.xsd
+		http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm.xsd
+		http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc.xsd
+		http://www.springframework.org/schema/integration/xml http://www.springframework.org/schema/integration/xml/spring-integration-xml.xsd
+		http://www.springframework.org/schema/integration/script http://www.springframework.org/schema/integration/scripting/spring-integration-scripting.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<int:channel id="requestChannel">
+		<int:interceptors>
+			<int:wire-tap channel="audit-channel"/>
+		</int:interceptors>
+	</int:channel>
+	<int:channel id="responseChannel">
+		<int:interceptors>
+			<int:wire-tap channel="audit-channel"/>
+		</int:interceptors>
+	</int:channel>
+
+	<int-http:inbound-gateway id="requestGateWay"
+		supported-methods="POST" request-channel="requestChannel"
+		reply-channel="responseChannel" mapped-response-headers="Content-Type"
+		path="/modelname" reply-timeout="5000" message-converters="bean.jsonConverter"
+		request-payload-type="java.util.Map">
+	</int-http:inbound-gateway>
+
+	<int:bridge id="input-bridge" input-channel="requestChannel"
+		output-channel="request-to-map-transformer-channel" />
+
+	<int:channel id="request-to-map-transformer-channel" />
+	<int:transformer id="request-transformer-1"
+		input-channel="request-to-map-transformer-channel" output-channel="header-enricher-1"
+		ref="requestToMapTransformer" method="transform" />
+
+	<int:channel id="header-enricher-1" />
+	<int:header-enricher input-channel="header-enricher-1"
+		output-channel="enricher-1-in">
+		<int:header name="reqeust-date"
+			expression="payload.request.header.date != null ? payload.request.header.date : T(java.lang.System).currentTimeMillis().toString()" />
+		<int:header name="future"
+			expression="T(java.lang.System).currentTimeMillis()+10000" />
+		<int:header name="mappingName" value="aqmk" />
+	</int:header-enricher>
+
+	<!-- Enrich-1 Start -->
+	<int:channel id="enricher-1-in" />
+	<int:channel id="enricher-1-out" />
+	<int:enricher id="enricher-1" input-channel="enricher-1-in"
+		output-channel="enricher-1-out" request-channel="jdbc-query-1-request"
+		reply-channel="jdbc-query-1-reply"
+		request-payload-expression="payload.request.data.ServicerData.propertyInfo.propertyZip">
+		<int:property name="hpiFactorArray" expression="payload" />
+	</int:enricher>
+	<int:channel id="jdbc-query-1-request" />
+	<int:channel id="jdbc-query-1-reply" />
+	<int:chain id="chain-1" input-channel="jdbc-query-1-request"
+		output-channel="jdbc-query-1-reply">
+		<int-jdbc:outbound-gateway id="jdbc-query-1"
+			query="SELECT HPI.HPI_FCTR FROM SYND_DATA_MSA_CODE MSA,SYND_DATA_HPI_FACTOR HPI
+				WHERE HPI.MSA_CODE=MSA.MSA_CODE
+				AND MSA.ZIP_CODE=:payload 
+				AND MSA.SYNDICATEDVERID=(SELECT VERSION_ID FROM SYNDICATED_DATA WHERE TABLE_NAME='SYND_DATA_MSA_CODE' AND :headers[timestamp] BETWEEN VALID_FROM AND COALESCE(VALID_TO,:headers[future]))
+				AND HPI.SYNDICATEDVERID=(SELECT VERSION_ID FROM SYNDICATED_DATA WHERE TABLE_NAME='SYND_DATA_HPI_FACTOR' AND :headers[timestamp] BETWEEN VALID_FROM AND COALESCE(VALID_TO,:headers[future]))
+				ORDER BY HPI.HPI_DATE"
+			data-source="umgAdminDataSource" requires-reply="false"
+			max-rows-per-poll="0" row-mapper="stringToDoubleArrayRowMapper" />
+	</int:chain>
+	<!-- Enrich-1 End -->
+
+	<!-- Enrich-2 Start -->
+	<int:channel id="enricher-2-out" />
+	<int:enricher id="enricher-2" input-channel="enricher-1-out"
+		output-channel="enricher-2-out" request-channel="jdbc-query-2-request"
+		reply-channel="jdbc-query-2-reply"
+		request-payload-expression="payload.request.data.ServicerData.propertyInfo.propertyState">
+		<int:property name="reoStigmaArray" expression="payload" />
+	</int:enricher>
+	<int:channel id="jdbc-query-2-request" />
+	<int:channel id="jdbc-query-2-reply" />
+	<int:chain id="chain-2" input-channel="jdbc-query-2-request"
+		output-channel="jdbc-query-2-reply">
+		<int-jdbc:outbound-gateway id="jdbc-query-2"
+			query="SELECT REO.BET0,REO.BET1,REO.BET2,REO.BET3,REO.BET4,REO.BET5 FROM SYND_DATA_REO_STIGMA REO
+				WHERE REO.STAT_CODE=:payload AND REO.LESS_THAN_100K=0
+				AND REO.SYNDICATEDVERID=(SELECT VERSION_ID FROM SYNDICATED_DATA WHERE TABLE_NAME='SYND_DATA_REO_STIGMA' AND :headers[timestamp] BETWEEN VALID_FROM AND COALESCE(VALID_TO,:headers[future]))"
+			data-source="umgAdminDataSource" requires-reply="false"
+			row-mapper="stringToDoubleArrayRowMapper" />
+	</int:chain>
+	<!-- Enrich-2 End -->
+
+	<!-- Enrich-3 Start -->
+	<int:channel id="enricher-3-out" />
+	<int:enricher id="enricher-3" input-channel="enricher-2-out"
+		output-channel="enricher-3-out" request-channel="jdbc-query-3-request"
+		reply-channel="jdbc-query-3-reply"
+		request-payload-expression="payload.request.data.ServicerData.propertyInfo.propertyZip">
+		<int:property name="incomeGrowthArray" expression="payload" />
+	</int:enricher>
+	<int:channel id="jdbc-query-3-request" />
+	<int:channel id="jdbc-query-3-reply" />
+	<int:chain id="chain-3" input-channel="jdbc-query-3-request"
+		output-channel="jdbc-query-3-reply">
+		<int-jdbc:outbound-gateway id="jdbc-query-3"
+			query="SELECT INCM_GRWT FROM SYND_DATA_INCOME_GROWTH IG, SYND_DATA_MSA_CODE MSA 
+				WHERE IG.MSA_CODE = MSA.MSA_CODE
+				AND MSA.ZIP_CODE=:payload
+				AND IG.SYNDICATEDVERID=(SELECT VERSION_ID FROM SYNDICATED_DATA WHERE TABLE_NAME='SYND_DATA_INCOME_GROWTH' AND :headers[timestamp] BETWEEN VALID_FROM AND COALESCE(VALID_TO,:headers[future]))
+				ORDER BY YEAR"
+			data-source="umgAdminDataSource" requires-reply="false"
+			max-rows-per-poll="0" row-mapper="stringToDoubleArrayRowMapper" />
+	</int:chain>
+	<!-- Enrich-3 End -->
+
+
+	<!-- Enrich-4 Start -->
+	<int:channel id="enricher-4-out" />
+	<int:enricher id="enricher-4" input-channel="enricher-3-out"
+		output-channel="enricher-4-out" request-channel="jdbc-query-4-request"
+		reply-channel="jdbc-query-4-reply" request-payload-expression="payload.request.data">
+		<int:property name="spp" expression="payload" />
+	</int:enricher>
+	<int:channel id="jdbc-query-4-request" />
+	<int:channel id="jdbc-query-4-reply" />
+	<int:chain id="chain-4" input-channel="jdbc-query-4-request"
+		output-channel="jdbc-query-4-reply">
+		<int-jdbc:outbound-gateway id="jdbc-query-4"
+			query="SELECT 
+				F.FMAC_FCLS_TIME_LINE,S.MRKT_TIME, S.FCLS_LEGL_FEE_MIN, S.REPR_COST_PCNT, S.MNTN_COST, S.UTIL_COST_PCNT,S.BRKR_FEE_PCNT, 
+				S.CLSE_COST_PCNT, S.HOA_FEE, S.PURE_MRKT_TIME, S.EVCT_TIME, S.REDEM_TIME
+				FROM SYND_DATA_SPP S, SYND_DATA_FMAC_TIME_LINE F 
+				WHERE S.stat_code = F.stat_code
+				AND S.prop_type_code = :payload.PropertyTypeCode 
+				AND S.prop_valu_code = :payload.PropertyValueCode
+				AND S.stat_code = :payload.ServicerData.propertyInfo.propertyState
+				AND S.SYNDICATEDVERID=(SELECT VERSION_ID FROM SYNDICATED_DATA WHERE TABLE_NAME='SYND_DATA_SPP' AND :headers[timestamp] BETWEEN VALID_FROM AND COALESCE(VALID_TO,:headers[future]))
+				AND F.SYNDICATEDVERID=(SELECT VERSION_ID FROM SYNDICATED_DATA WHERE TABLE_NAME='SYND_DATA_FMAC_TIME_LINE' AND :headers[timestamp] BETWEEN VALID_FROM AND COALESCE(VALID_TO,:headers[future]))"
+			data-source="umgAdminDataSource" requires-reply="false" />
+	</int:chain>
+	<!-- Enrich-4 End -->
+
+	<!-- Enrich-5 Start -->
+	<int:channel id="enricher-5-out" />
+	<int:enricher id="enricher-5" input-channel="enricher-4-out"
+		output-channel="enricher-5-out" request-channel="jdbc-query-5-request"
+		reply-channel="jdbc-query-5-reply" request-payload-expression="payload.request.data">
+		<int:property name="defaultIncomeGrowthArray" expression="payload" />
+	</int:enricher>
+	<int:channel id="jdbc-query-5-request" />
+	<int:channel id="jdbc-query-5-reply" />
+	<int:chain id="chain-5" input-channel="jdbc-query-5-request"
+		output-channel="jdbc-query-5-reply">
+		<int-jdbc:outbound-gateway id="jdbc-query-5"
+			query="SELECT avg(INCM_GRWT) as avgincome FROM SYND_DATA_INCOME_GROWTH IG
+				WHERE IG.SYNDICATEDVERID=(SELECT VERSION_ID FROM SYNDICATED_DATA WHERE TABLE_NAME='SYND_DATA_INCOME_GROWTH' AND :headers[timestamp] BETWEEN VALID_FROM AND COALESCE(VALID_TO,:headers[future]))
+				"
+			data-source="umgAdminDataSource" max-rows-per-poll="0"
+			requires-reply="false" row-mapper="stringToDoubleArrayRowMapper" />
+	</int:chain>
+	<!-- Enrich-5 End -->
+
+	<!-- Enrich-6 Start -->
+	<int:channel id="enricher-6-out" />
+	<int:enricher id="enricher-6" input-channel="enricher-5-out"
+		output-channel="enricher-6-out" request-channel="jdbc-query-6-request"
+		reply-channel="jdbc-query-6-reply" request-payload-expression="payload.request.data">
+		<int:property name="startingYearIncomeGrowth" expression="payload" />
+	</int:enricher>
+	<int:channel id="jdbc-query-6-request" />
+	<int:channel id="jdbc-query-6-reply" />
+	<int:chain id="chain-6" input-channel="jdbc-query-6-request"
+		output-channel="jdbc-query-6-reply">
+		<int-jdbc:outbound-gateway id="jdbc-query-6"
+			query="select min(YEAR) as MIN_YEAR from SYND_DATA_INCOME_GROWTH IG
+				WHERE IG.SYNDICATEDVERID=(SELECT VERSION_ID FROM SYNDICATED_DATA WHERE TABLE_NAME='SYND_DATA_INCOME_GROWTH' AND :headers[timestamp] BETWEEN VALID_FROM AND COALESCE(VALID_TO,:headers[future]))"
+			data-source="umgAdminDataSource" requires-reply="false" />
+	</int:chain>
+	<!-- Enrich-6 End -->
+
+	<!-- Enrich-7 Start -->
+	<int:channel id="enricher-7-out" />
+	<int:enricher id="enricher-7" input-channel="enricher-6-out"
+		output-channel="enricher-7-out" request-channel="jdbc-query-7-request"
+		reply-channel="jdbc-query-7-reply" request-payload-expression="payload.request.data">
+		<int:property name="nationalHpiFactor" expression="payload" />
+	</int:enricher>
+	<int:channel id="jdbc-query-7-request" />
+	<int:channel id="jdbc-query-7-reply" />
+	<int:chain id="chain-7" input-channel="jdbc-query-7-request"
+		output-channel="jdbc-query-7-reply">
+		<int-jdbc:outbound-gateway id="jdbc-query-7"
+			query="SELECT HPI_FCTR FROM SYND_DATA_HPI_FACTOR HPI
+				WHERE MSA_CODE = 'National' 
+				AND HPI.SYNDICATEDVERID=(SELECT VERSION_ID FROM SYNDICATED_DATA WHERE TABLE_NAME='SYND_DATA_HPI_FACTOR' AND :headers[timestamp] BETWEEN VALID_FROM AND COALESCE(VALID_TO,:headers[future]))
+				ORDER BY HPI_DATE"
+			data-source="umgAdminDataSource" max-rows-per-poll="0"
+			requires-reply="false" row-mapper="stringToDoubleArrayRowMapper" />
+	</int:chain>
+	<!-- Enrich-7 End -->
+
+	<!-- Enrich-8 Start -->
+	<int:channel id="enricher-8-out" />
+	<int:enricher id="enricher-8" input-channel="enricher-7-out"
+		output-channel="enricher-8-out" request-channel="jdbc-query-8-request"
+		reply-channel="jdbc-query-8-reply" request-payload-expression="payload.request.data">
+		<int:property name="keyAssumptions" expression="payload" />
+	</int:enricher>
+	<int:channel id="jdbc-query-8-request" />
+	<int:channel id="jdbc-query-8-reply" />
+	<int:chain id="chain-8" input-channel="jdbc-query-8-request"
+		output-channel="jdbc-query-8-reply">
+		<int-jdbc:outbound-gateway id="jdbc-query-8"
+			query="SELECT * FROM SYND_DATA_SYS_RULES SR
+				WHERE SR.SYNDICATEDVERID=(SELECT VERSION_ID FROM SYNDICATED_DATA WHERE TABLE_NAME='SYND_DATA_SYS_RULES' AND :headers[timestamp] BETWEEN VALID_FROM AND COALESCE(VALID_TO,:headers[future]))"
+			data-source="umgAdminDataSource" max-rows-per-poll="0"
+			requires-reply="false" />
+	</int:chain>
+	<!-- Enrich-8 End -->
+
+	<int:transformer id="" input-channel="enricher-8-out"
+		output-channel="enricher-me2-in" ref="matlabTransformer" />
+
+	<bean id="matlabTransformer" class="com.ca.umg.rt.transformer.MatlabTransformer">
+		<property name="cacheController" ref="cacheController" />
+	</bean>
+
+	<!-- Outbound enricher -->
+	<int:channel id="enricher-me2-in" />
+	<int:channel id="enricher-me2-out" />
+	<int:enricher id="enricher-me2" input-channel="enricher-me2-in"
+		output-channel="enricher-me2-out" request-channel="http-me2-in"
+		reply-channel="http-me2-out" request-payload-expression="payload.result">
+		<int:property name="response" expression="payload" />
+	</int:enricher>
+	<int:channel id="http-me2-in" />
+	<int:channel id="http-me2-out" />
+	<int:chain id="chain-me2" input-channel="http-me2-in"
+		output-channel="http-me2-out">
+		<int-http:outbound-gateway id="me2Outbound"
+			url="http://localhost:5050/umg-me2/modelExecEngine/execute"
+			http-method="POST" expected-response-type="java.util.Map" charset="UTF-8">
+		</int-http:outbound-gateway>
+	</int:chain>
+	<!-- Outbound enricher -->
+
+	<int:bridge id="output-bridge" input-channel="enricher-me2-out"
+		output-channel="responseChannel" />
+
+	<context:property-placeholder />
+	
+	<int-jmx:mbean-export id="integrationMBeanExporter"
+		default-domain="${jmxExportDomain}" />
+
+	<int:channel id="audit-channel" />
+	<int:logging-channel-adapter id="audit-channel-adpater"
+		channel="audit-channel"  logger-name="com.umg.rt.flows.1-audit" />
+</beans>

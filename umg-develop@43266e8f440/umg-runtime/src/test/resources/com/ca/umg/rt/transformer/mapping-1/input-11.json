@@ -1,0 +1,24 @@
+{
+  "header" : {
+    "modelName" : "bug 1395",
+    "majorVersion" : 4,
+    "minorVersion" : 0,
+    "date" : "2015-05-06T11:01:00.000",
+    "transactionId" : "adf4b46b-cad5-438e-85d1-e18e82bb0c39"
+  },
+  "data" : {
+    "testDoubleArr" : [ 2.5 ],
+    "testStr3" : "SHA",
+    "testStr2" : "HAMP",
+    "InterestRate" : 0.0,
+    "testBool3" : true,
+    "testInt1" : 0,
+    "testBool2" : true,
+    "testInt2" : 0,
+    "testBool1" : true,
+    "testDouble3" : 0.0,
+    "testDouble2" : 7.5,
+    "testInt3" : 0,
+    "Month" : "UMG"
+  }
+}

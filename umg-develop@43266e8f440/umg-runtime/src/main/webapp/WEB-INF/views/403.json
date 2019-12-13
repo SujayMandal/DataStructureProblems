@@ -1,0 +1,4 @@
+{
+  "errorCode": "403",
+  "errorMessage": "Unauthorized access! Current login user, do not have permission to access this page. Please Login as privileged user."
+}

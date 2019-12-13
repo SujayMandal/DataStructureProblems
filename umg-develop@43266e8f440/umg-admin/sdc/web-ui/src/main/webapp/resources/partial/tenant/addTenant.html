@@ -1,0 +1,183 @@
+<div id="addTenantSucMsg" ng-class="messageClass"
+	ng-show="showMessage" align="center" ng-bind-html="message"></div>
+<div id="mandatoryFieldMsg" ng-class="messageClass" ng-show="ng-class != ng-submitted && !showMessage"
+	align="center">Mandatory fields not entered</div>
+<style>
+	.submitted .ng-invalid{
+	        border: 1px solid red;
+	}
+</style>
+<!-- form starts -->
+<form id="addTenantForm" name="addTenantForm" ng-class="{'submitted': submitted}" ng-submit="save()" autocomplete="off">
+	<div class="col-md-12">
+		<div class="box box-primary">
+			<div class="form-horizontal">
+				<div class="box-body">
+					<div class="col-md-6 form-group">
+						<span for=tenant.code class="col-sm-5 control-label">Tenant
+							Code<font color="red">*</font><a href="#" data-toggle="tooltip" data-placement="right" title="Unique code for a tenant. Cannot contain spaces or special characters.">
+							<span class="glyphicon glyphicon-question-sign"></span></a></span>
+						<div class="col-sm-7">
+							<input type="text" id="tenant.code" name="tenantCode" maxlength="10"
+								onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 48 && event.charCode <= 57)"
+								ng-model="newTenant.code" ng-paste="pasteTenantCode($event.originalEvent)"
+								class="form-control" required/>
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=tenant.name class="col-sm-5 control-label">Tenant
+							Name<font color="red">*</font></span>
+						<div class="col-sm-7">
+							<input type="text" id="tenant.name" name="tenantName"
+								ng-model="newTenant.name"
+								class="form-control" required/>
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=tenant.description class="col-sm-5 control-label">Tenant
+							Description<font color="red">*</font></span>
+						<div class="col-sm-7">
+							<textarea rows="1" cols="40" id="tenant.description"
+								name="tenantDesc" ng-model="newTenant.description"
+								style="resize: none" class="form-control" required></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12" ng-repeat='address in newTenant.addresses'>
+		<div class="box box-primary">
+			<div class="form-horizontal">
+				<div class="box-body">
+					<div class="col-md-6 form-group">
+						<span for=address.address1 class="col-sm-5 control-label">Address1<font color="red">*</font></span>
+						<div class="col-sm-7">
+							<input type="text" id="address.address1" name="address1"
+								ng-model="address.address1" class="form-control" required/>
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=address.address2 class="col-sm-5 control-label">Address2</span>
+						<div class="col-sm-7">
+							<input type="text" id="address.address2" name="address2"
+								ng-model="address.address2" class="form-control"/>
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=address.city class="col-sm-5 control-label">City<font color="red">*</font></span>
+						<div class="col-sm-7">
+							<input type="text" id="address.city" name="city"
+								ng-model="address.city" class="form-control" required/>
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=address.state class="col-sm-5 control-label">State<font color="red">*</font></span>
+						<div class="col-sm-7">
+							<input type="text" id="address.state" name="state"
+								ng-model="address.state" class="form-control" required/>
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=address.country class="col-sm-5 control-label">Country<font color="red">*</font></span>
+						<div class="col-sm-7">
+							<input type="text" id="address.country" name="country"
+								ng-model="address.country" class="form-control" required/>
+						</div>
+					</div>
+					<div class="col-md-6 form-group">
+						<span for=address.zip class="col-sm-5 control-label">Zip<font color="red">*</font></span>
+						<div class="col-sm-7">
+							<input type="text" id="address.zip" name="zip" maxlength="6"
+								ng-model="address.zip" class="form-control" required/>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<div class="box box-primary">
+			<div class="form-horizontal">
+				<div class="box-body col-md-6  form-group" ng-repeat='tenantConfig in newTenant.tenantConfigs'>
+					<div class="col-md-12">
+						<span for=tenantConfig.value class="col-sm-5 control-label"
+							ng-if="tenantConfig.systemKey.key != '' && tenantConfig.systemKey.key != undefined">
+							<strong>{{tenantConfig.systemKey.key}}</strong> [
+							{{tenantConfig.systemKey.type}} ]<font ng-show="showTimeUnit(tenantConfig.systemKey.key)">(sec)</font><font ng-show="showMandatoryStar(tenantConfig.systemKey.key);" color="red">*</font>
+							<a href="#" ng-show="checkIntField(tenantConfig.systemKey.key)" data-toggle="tooltip" data-placement="right" title="Field can only contain positive integers.">
+							<span class="glyphicon glyphicon-question-sign"></span></a>
+						</span>
+						<div class="col-sm-7"
+							ng-if="tenantConfig.systemKey.key.indexOf('ENABLED') == -1  && tenantConfig.systemKey.key.indexOf('PASSWORD') == -1 && tenantConfig.systemKey.key != 'EXCEL'&& tenantConfig.systemKey.key != 'defaultAutoCommit' && tenantConfig.systemKey.key != 'ModelOutput_Validation' && tenantConfig.systemKey.key != 'AcceptableValues' && tenantConfig.systemKey.key != 'FTP' && !checkIntField(tenantConfig.systemKey.key) && !showMandatoryStar(tenantConfig.systemKey.key)">
+							<input type="text" id="tenantConfig.value"
+								name="tenantConfig.value" ng-model="tenantConfig.value"
+								class="form-control" />
+						</div>
+						<div class="col-sm-7"
+							ng-if="tenantConfig.systemKey.key.indexOf('ENABLED') == -1  && tenantConfig.systemKey.key.indexOf('PASSWORD') == -1 && tenantConfig.systemKey.key != 'EXCEL'&& tenantConfig.systemKey.key != 'defaultAutoCommit' && tenantConfig.systemKey.key != 'ModelOutput_Validation' && tenantConfig.systemKey.key != 'AcceptableValues' && tenantConfig.systemKey.key != 'FTP' && !checkIntField(tenantConfig.systemKey.key) && showMandatoryStar(tenantConfig.systemKey.key)">
+							<input type="text" id="tenantConfig.value"
+								name="tenantConfig.value" ng-model="tenantConfig.value" ng-disabled = "tenantConfig.systemKey.key.toUpperCase() == 'DRIVER'"
+								class="form-control" required/>
+						</div>
+						<div class="col-sm-7"
+							ng-if="tenantConfig.systemKey.key.indexOf('ENABLED') == -1  && tenantConfig.systemKey.key.indexOf('PASSWORD') == -1 && tenantConfig.systemKey.key != 'EXCEL'&& tenantConfig.systemKey.key != 'defaultAutoCommit' && tenantConfig.systemKey.key != 'ModelOutput_Validation' && tenantConfig.systemKey.key != 'AcceptableValues' && tenantConfig.systemKey.key != 'FTP' && checkIntField(tenantConfig.systemKey.key) && !showMandatoryStar(tenantConfig.systemKey.key)">
+							<input type="text" id="tenantConfig.value"
+								name="tenantConfig.value" ng-model="tenantConfig.value"
+								onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" ng-paste="pasteSysKeyValue($event.originalEvent,tenantConfig.systemKey.key)"
+								class="form-control" />
+						</div>
+						<div class="col-sm-7"
+							ng-if="tenantConfig.systemKey.key.indexOf('ENABLED') == -1  && tenantConfig.systemKey.key.indexOf('PASSWORD') == -1 && tenantConfig.systemKey.key != 'EXCEL'&& tenantConfig.systemKey.key != 'defaultAutoCommit' && tenantConfig.systemKey.key != 'ModelOutput_Validation' && tenantConfig.systemKey.key != 'AcceptableValues' && tenantConfig.systemKey.key != 'FTP' && checkIntField(tenantConfig.systemKey.key) && showMandatoryStar(tenantConfig.systemKey.key)">
+							<input type="text" id="tenantConfig.value"
+								name="tenantConfig.value" ng-model="tenantConfig.value"
+								onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" ng-paste="pasteSysKeyValue($event.originalEvent,tenantConfig.systemKey.key)"
+								class="form-control" required/>
+						</div>
+						
+						<div class="col-sm-7"
+							ng-if="tenantConfig.systemKey.key.indexOf('ENABLED') != -1 || tenantConfig.systemKey.key == 'EXCEL' || tenantConfig.systemKey.key == 'FTP' || tenantConfig.systemKey.key == 'defaultAutoCommit' || tenantConfig.systemKey.key == 'ModelOutput_Validation' || tenantConfig.systemKey.key == 'AcceptableValues'">
+							<input type="checkbox" ng-model="tenantConfig.value" ng-checked="tenantConfig.systemKey.key == 'defaultAutoCommit' || tenantConfig.systemKey.key == 'ModelOutput_Validation' || tenantConfig.systemKey.key == 'AcceptableValues'" ng-disabled="tenantConfig.systemKey.key == 'defaultAutoCommit' || tenantConfig.systemKey.key == 'FTP'"/>
+						</div>
+											
+						<div class="col-sm-7"
+							ng-if="tenantConfig.systemKey.key.indexOf('PASSWORD') != -1">
+							<input type="password" ng-model="tenantConfig.value"
+								class="form-control" />
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div align="center">
+		<div class="col-sm-3">
+		</div>
+		<!-- ng-if="currentStateObj.name == 'addTenant'" -->
+		<div class="col-sm-3" >
+			<button style="width: 120px" type="submit" id="save"
+				class="btn btn-primary" ng-click="submitted= true;">Save</button>
+		</div>
+		<!-- ng-if="currentStateObj.name == 'addTenant'" -->
+		<div class="col-sm-3" >
+			<button style="width: 120px" type="button" id="cancel"
+				class="btn btn-primary" ng-click="submitted = false;initialSetup()">Cancel</button>
+		</div>
+		<!-- <div class="col-sm-2" ng-if="currentStateObj.name == 'tenantConfig'">
+			<button style="width: 120px" type="button" id="update"
+				class="btn btn-primary" ng-click="submitted= true;">Save</button>
+		</div>
+		<div class="col-sm-2" ng-if="currentStateObj.name == 'tenantConfig'">
+			<button style="width: 120px" type="button" id="batchDeploy"
+				class="btn btn-primary" ng-disabled="!batchDisabled"
+				ng-click="batchDeploy()">Deploy Batch</button>
+		</div>
+		<div class="col-sm-2" ng-if="currentStateObj.name == 'tenantConfig'">
+			<button style="width: 120px" type="button" id="batchUndeploy"
+				class="btn btn-primary" ng-disabled="!batchDisabled"
+				ng-click="batchUndeploy()">Undeploy Batch</button>
+		</div>	 -->
+		<div class="col-sm-3">
+		</div>	
+	</div>
+</form>

@@ -1,0 +1,59 @@
+<hazelcast
+	xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-3.2.xsd"
+	xmlns="http://www.hazelcast.com/schema/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<group>
+		<name>umg-preprod</name>
+		<password>umg-preprod-pass</password>
+	</group>
+
+
+	<network>
+		<port auto-increment="true" port-count="100">5701</port>
+		<outbound-ports>
+			<!-- Allowed port range when connecting to other nodes. 0 or * means use 
+				system provided port. -->
+			<ports>0</ports>
+		</outbound-ports>
+		<join>
+			<multicast enabled="false">
+				<multicast-group>224.2.3.7</multicast-group>
+				<multicast-port>54327</multicast-port>
+			</multicast>
+			<tcp-ip enabled="true">
+				<member>10.52.82.194</member>
+				<member>10.52.82.198</member>
+<member>10.52.82.201</member>
+<member>10.52.82.206</member>
+<member>10.52.82.207</member>
+			</tcp-ip>
+		</join>
+	</network>
+<partition-group enabled="true" group-type="CUSTOM">
+	<member-group>
+		<interface>10.52.82.194</interface>
+		<interface>10.52.82.198</interface>
+		<interface>10.52.82.201</interface>
+	</member-group>
+</partition-group>
+	<queue name="DISTRIBUTED_QUEUE">
+		<!-- Maximum size of the queue. When a JVM's local queue size reaches the 
+			maximum, all put/offer operations will get blocked until the queue size of 
+			the JVM goes down below the maximum. Any integer between 0 and Integer.MAX_VALUE. 
+			0 means Integer.MAX_VALUE. Default is 0. -->
+		<max-size>0</max-size>
+		<!-- Number of backups. If 1 is set as the backup-count for example, then 
+			all entries of the map will be copied to another JVM for fail-safety. 0 means 
+			no backup. -->
+		<backup-count>1</backup-count>
+
+		<!-- Number of async backups. 0 means no backup. -->
+		<async-backup-count>0</async-backup-count>
+
+		<empty-queue-ttl>-1</empty-queue-ttl>
+	</queue>
+
+	<set name="CACHE">
+		<backup-count>1</backup-count>
+	</set>
+</hazelcast>

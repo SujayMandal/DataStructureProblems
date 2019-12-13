@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/task 
+		http://www.springframework.org/schema/task/spring-task-3.1.xsd
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<context:component-scan base-package="com.ca.framework.core.util" />
+	<import resource="classpath:message-resources.xml" />
+	
+	<bean id="integrationRepository" class="com.ca.umg.rt.repository.ClasspathIntegrationRepository">
+		<property name="flowPattern" value="classpath*:**/*-integration-flow.xml"></property>
+	</bean>
+	
+	<bean id="defaultCacheRegistry" 
+			class="com.ca.framework.core.cache.registry.impl.DefaultCacheRegistry">
+		<constructor-arg name="configFile" value="hazelcast-config-test.xml" />
+	</bean>
+	
+	<bean id="mappingTransformer" class="com.ca.umg.rt.transformer.MappingInputTransformer">
+		<property name="cacheRegistry" ref="defaultCacheRegistry"/>
+	</bean>
+	<bean id="modelTransformer" class="com.ca.umg.rt.transformer.ModelRequestTransformer">
+		<property name="cacheRegistry" ref="defaultCacheRegistry"/>
+	</bean>
+	
+</beans>

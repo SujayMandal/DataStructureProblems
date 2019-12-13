@@ -1,0 +1,14 @@
+
+Please modify the modelet startup scripts as follows to 
+
+1. Remove following jvm arguments
+		a. runMatlab
+		b. runR
+		c. enableGC
+		d. gcDelay
+
+2. Add new jvm parameter "executionLanguage". The accepted values are R,Matlab or Excel.
+
+Sample modelet startup script : 
+-Druntime=R -Dlogroot=7904 -Dport=7904 -DserverType=SOCKET -DsanPath=D:\sanpath\san -Dworkspace=D:\Workspace\matlab -Dloglevel=debug -DrTempPath=D:\Workspace\matlab -Dlog4j.configurationFile="file:\\D:\conf\modelet\log4j2.xml" -Dhazelcast.config="D:\conf\modelet\hazelcast-client-config.xml" -DhttpConnectionPooling.properties="file:\D:\conf\modelet\httpConnectionPooling.properties"  -Djava.library.path="D:\Installs\rJava_0.9-6\rJava\jri\x64;C:\jdk1.7.0_75\bin;" -DexecutionLanguage=Excel -DexecutionEnvironment=Windows
+

@@ -1,0 +1,3 @@
+
+
+UPDATE `RA_TNT_APP_PARAMS` SET `ATTR_VALUE`='SELECT a.loannumber , a.PROPSTRNBR, a.PROPSTREET, a.PROPCITY, a.STATE, a.PROPZIP, a.PROPTYPE, a.ORGPRINBAL, a.CURPRINBAL, a.PIPMTAMT, a.ESCROWPMT, a.OCCPTYPE, a.FAIRMKTVAL, a.CREDITSCORE, a.PURCHASEPRICE, a.CREDITSCOREDT, a.ORGAPPRVAL, b.referral_dt as REO_DATE, c.upb_res FROM arlt_arlt_mortgage1 a left outer join REO_ER_PROPS b on a.loannumber = b.LOAN_TEMP left outer join SHAHMAYU.REO_SALES_MASTER c on a.loannumber = c.loan_num WHERE a.loannumber = ?' WHERE  `ATTR_KEY`='RR_QUERY';

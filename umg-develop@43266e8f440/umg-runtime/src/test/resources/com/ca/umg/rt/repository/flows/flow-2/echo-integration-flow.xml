@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/integration"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:int-http="http://www.springframework.org/schema/integration/http"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+						http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+  						http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<channel id="requestChannel" />
+	<channel id="responseChannel" />
+
+	<int-http:inbound-gateway id="echoHttpGateway"
+		supported-methods="GET" request-channel="requestChannel"
+		reply-channel="responseChannel"
+		mapped-response-headers="Return-Status, Return-Status-Msg, HTTP_RESPONSE_HEADERS"
+		path="/echo2" reply-timeout="3000">
+	</int-http:inbound-gateway>
+
+	<transformer input-channel="requestChannel" output-channel="responseChannel" expression="payload.toUpperCase()" />
+
+</beans:beans>

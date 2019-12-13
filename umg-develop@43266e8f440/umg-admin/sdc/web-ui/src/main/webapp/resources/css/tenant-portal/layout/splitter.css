@@ -1,0 +1,72 @@
+html,body {
+	height: 100%;
+	min-height:600px;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	min-width:950px;
+}
+
+#splitterContainer { /* Main splitter element */
+	border: 3px solid orange;
+	height: 75%;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	/* background: #f4f4f4; */
+	min-width: 500px;
+}
+
+#leftPane {
+	padding-left:10px;
+	float: left;
+	width: 300px;
+	height: 100%;
+	/* border-top: solid 1px #9cbdff; */
+	/* background: #c4dcfb; */
+	overflow: auto;
+}
+
+#rightPane { /*Contains toolbar and horizontal splitter*/
+	float: left;
+	width: *%;
+	height: 100%;
+	margin-left: 3px;
+}
+
+/* Splitbar styles; these are the default class names and required styles */
+.splitbarV {
+	float: left;
+	width: 5px;
+	height: 100%;
+	line-height: 0px;
+	font-size: 0px;
+	/* border-left: solid 1px #9cbdff;
+	border-right: solid 1px #9cbdff; */
+	background: #cbe1fb url(panev.gif) 0% 50%;
+}
+
+.splitbuttonV {
+cursor:pointer;
+	margin-top: -41px;
+	margin-left: -4px;
+	top: 50%;
+	position: relative;
+	height: 83px;
+	width: 10px;
+	background: transparent url(panevc.gif) 10px 50%;
+}
+
+.splitbuttonV.invert {
+	margin-left: 0px;
+	background: transparent url(panevc.gif) 0px 50%;
+}
+
+.splitbarV.working,.splitbuttonV.working{
+	-moz-opacity: .50;
+	filter: alpha(opacity = 50);
+	opacity: .50;
+}
+
+
+

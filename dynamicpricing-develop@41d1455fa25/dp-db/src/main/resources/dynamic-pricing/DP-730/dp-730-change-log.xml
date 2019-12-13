@@ -1,0 +1,25 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+
+	<changeSet author="SYSTEM" id="dp_730_Tag">
+		<tagDatabase tag="dp_730" />
+	</changeSet>
+
+
+	<changeSet author="SYSTEM" id="dp_730">
+
+		<sqlFile dbms="mysql" encoding="utf8" path="dp_730.sql"
+			relativeToChangelogFile="true" splitStatements="true" stripComments="true" />
+
+		<rollback>
+			<sqlFile dbms="mysql" encoding="utf8" path="dp_730_rollback.sql"
+				relativeToChangelogFile="true" splitStatements="true" stripComments="true" />
+		</rollback>
+
+	</changeSet>
+
+
+</databaseChangeLog>

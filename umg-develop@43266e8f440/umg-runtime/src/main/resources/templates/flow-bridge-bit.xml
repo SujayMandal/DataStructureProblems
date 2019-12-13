@@ -1,0 +1,1 @@
+<int:bridge id="input-bridge" input-channel="${in-channel-id}"  output-channel="${out-channel-id}" />

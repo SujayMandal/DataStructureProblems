@@ -1,0 +1,258 @@
+<style>
+.chart1 {
+	height: 178px;
+	width: 100%;
+	margin: 0 auto;
+}
+
+.chart2 {
+	height: 178px;
+	width: 100%;
+	margin: 0 auto;
+}
+
+.chart3 {
+	height: 150px;
+	width: 160%;
+	margin: 0 auto;
+}
+
+.ac-chart {
+	width: 75% !important;
+}
+
+.ac-title {
+	text-anchor: start !important;
+	font-family: Arial !important;
+	font-size: 13px !important;
+	font-weight: bold !important;
+	stroke: none !important;
+	stroke-width: 0px !important;
+	fill: rgb(0, 0, 0) !important;
+}
+
+.ac-legend table tbody tr td, th {
+	padding: 5px;
+}
+/* .ac-chart svg g {
+translate(230.625,91);
+} */
+.box.box-solid.box-primary {
+	border: 0px solid #27556F;
+}
+
+.box.box-solid.box-primary>.box-header {
+	color: #fff;
+	background: #495463;
+	background-color: #495463;
+}
+
+.box-body {
+	background-color: #e3e3e3;
+}
+
+.box-header {
+	padding: 2px;
+	height: 28px;
+}
+
+.box-header .box-title {
+	font-size: 12px;
+	padding-left: 5px;
+	font-weight: 600;
+}
+
+#one {
+	width: 56px;
+	height: 50px;
+	background: #4daea9;
+}
+
+.col-sm-3 {
+	height: 210px !important;
+}
+
+.col-sm-6 {
+	width: 50%;
+	height: 237px;
+}
+
+.content {
+	height: 726px !important;
+	padding: 0px;
+}
+
+.content-header {
+	padding: 3px;
+}
+
+.date-ragnge {
+	background: #f1f1f1;
+	cursor: pointer;
+	padding: 7px 25px;
+	border: 1px solid #ccc;
+	/* width: 92%; */
+	/* height: 34px; */
+	width: 90%;
+	height: 34px;
+	/* margin-left: 15px; */
+	border-radius: 2px;
+}
+.apply-btn {
+width: 40%; 
+height: 34px;
+border-radius: 2px;
+background-color: #495463;
+color: #fff;
+}
+.apply-btn:hover {
+background-color: #495463 !important;
+color: #fff !important;
+}
+.grid {
+background-color: transparent;
+}
+</style>
+
+
+<!-- top 4 boxes start -->
+<div class="row">
+	<div class="col-md-12" style="padding-bottom: 13px;">
+		<div class="col-md-3">
+			<div id="reportrange" style="text-align: center;" class="date-ragnge">
+				<i class="fa fa-calendar"></i>&nbsp; <span></span> <i
+					class="fa fa-caret-down"></i>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<button type="button" class="btn btn-primary btn-block btn-sm apply-btn"
+				ng-click="initializeAllTenant()">Apply</button>
+		</div>
+				<div class="col-md-7"></div>
+	</div>
+</div>
+
+
+
+<!-- bar graph start -->
+<div class="col-sm-6">
+	<div class="box box-primary box-solid">
+		<div class="box-header with-border">
+			<h3 class="box-title">Tenant Transaction Metrics</h3>
+		</div>
+		<div class="box-body">
+			<div google-chart chart="barObject" style=""></div>
+		</div>
+	</div>
+</div>
+<div class="col-sm-6">
+	<div class="box box-primary box-solid">
+		<div class="box-header with-border">
+			<h3 class="box-title">RA Usage Trend</h3>
+		</div>
+		<!-- /.box-header -->
+		<div class="box-body" id="allTntChart"></div>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12" style="padding-bottom: 13px;">
+		<div class="col-md-3">
+			<div id="slctreportrange" style="text-align: center;"
+				class="date-ragnge">
+				<i class="fa fa-calendar"></i>&nbsp; <span></span> <i
+					class="fa fa-caret-down"></i>
+			</div>
+		</div>
+		<div class="col-md-2">
+			<div class="btn-group" style="width: 100%">
+				<button style="width: 90%; height: 34px; border-radius: 2px;"
+					type="button" class="btn btn-default btn-block btn-sm"
+					ng-click="columnSelect()">
+					Select Tenant &nbsp<span class="caret"></span>
+				</button>
+				<ul style="width: 100%; padding-left: 5%;" class="dropdown-menu"
+					id="colDisp">
+					<li ng-repeat="tnt in tenants"><input type="checkbox"
+						id={{tnt.trim()}} ng-model="active"
+						ng-click="change(tnt.trim(), active)" style="padding-left: 4%">{{tnt}}</input><br>
+					</li>
+					<!-- prepareTimeBasedPieChart();prepareTimeBasedBarChart(); prepareTimeBasedChart();-->
+				</ul>
+			</div>
+
+			<!-- <div style="padding-left:50%;" class="checkbox" ng-repeat="model in models">
+<label> <div class="checkbox_{{$index}}"><input type="checkbox" ng-change="prepareTimeBasedChart();prepareTimeBasedPieChart();prepareTimeBasedBarChart();" ng-model="model.display">{{model.modelName}}</div></label>
+</div> -->
+
+
+		</div>
+		<div class="col-md-2">
+			<button type="button" class="btn btn-primary btn-block btn-sm apply-btn"
+				ng-click="initSelectedTenant()">Apply</button>
+		</div>
+		<div class="col-md-5"></div>
+	</div>
+</div>
+<!-- bar graph end -->
+
+
+<!--  area graph end -->
+
+
+
+
+
+<!-- top 4 boxes end -->
+
+
+<!-- the area graph start-->
+
+<div class="col-md-6"
+	style="overflow-y: auto; overflow-x: hidden; background: white">
+	
+	<!-- /.box-body -->
+	<div class="box box-primary box-solid">
+		<div class="box-header with-border">
+			<h3 class="box-title">Model Usage Metrics</h3>
+		</div>
+		<!-- /.box-header -->
+		<div class="box-body" google-chart chart="pieObject">
+<!-- 			<div   /></div>
+ -->		</div>
+	</div>
+	 <div class="box box-primary box-solid">
+		<div class="box-header with-border">
+			<h3 class="box-title">Model Usage Trend</h3>
+		</div>
+		<div class="box-body" id="selectedTntChart">
+		</div>
+	</div>
+
+
+	<!-- /.box-body -->
+</div>
+<div class="col-md-6 grid" style="background: white">
+	<div class="box box-primary box-solid">
+		<div class="box-header with-border">
+			<h3 class="box-title">Error Transaction List (latest 100)</h3>
+		</div>
+		<!-- /.box-header -->
+		<div class="umg-grid "
+			style="background-color: white; height: 434px; overflow-y: auto; overflow-x: hidden; border-bottom: 0px;"
+			ng-grid="tableGrid_TOP_HUNDRD_TXN"></div>
+
+	</div>
+</div>
+
+<div class="col-md-12 grid" style="background: white">
+	<div class="box box-primary box-solid">
+		<div class="box-header with-border">
+			<h3 class="box-title">Usage Dynamics</h3>
+		</div>
+		<!-- /.box-header -->
+		<div class="umg-grid"
+			style="background-color: transparent; height: 300px; overflow-y: auto; overflow-x: hidden; border-bottom: 0px;"
+			ng-grid="tableGrid_API"></div>
+	</div>
+	<!-- /.box-body -->
+</div>

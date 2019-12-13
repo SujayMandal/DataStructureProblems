@@ -1,0 +1,3 @@
+use umg_admin;
+INSERT INTO `SYSTEM_PARAMETER` (`ID`,`SYS_KEY`,`DESCRIPTION`,`SYS_VALUE`,`IS_ACTIVE`,`CREATED_BY`,`CREATED_ON`,`LAST_UPDATED_BY`,`LAST_UPDATED_ON`) VALUES(UUID(),'OBJECT_SIZE_FLAG','Enable and disable the Object size calculation','false','Y','system',UNIX_TIMESTAMP(CURDATE()),'system',UNIX_TIMESTAMP(CURDATE()));
+commit;

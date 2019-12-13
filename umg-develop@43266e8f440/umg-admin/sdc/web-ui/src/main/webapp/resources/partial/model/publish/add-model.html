@@ -1,0 +1,492 @@
+<style>
+.nav-tabs>li {
+	background-color: #BABFBF;
+}
+
+.nav-tabs>li:not (.active )>a {
+	color: #848C8C;
+}
+
+.glyphicon-remove {
+	color: #d43f3a;
+}
+
+.glyphicon-ok {
+	color: #398439;
+}
+</style>
+
+<div class="col-lg-12" style="text-align: center; padding: 0;">
+	<div class="nav-tabs-custom" style="box-shadow: none;">
+		<ul class="nav nav-tabs" style="border: none;">
+			<li ng-class="tabOneActive ? 'active':''" class="nav-tabs-li"><a
+				class="tabs-anchor" data-target="#create_new_model_tab"
+				ng-click="clearAndSwitchTab('CreateNewVersion','CreateNewModel',$event);"
+				data-toggle="tab" id="createNewModelTab">Create New Model</a></li>
+			<li ng-class="tabTwoActive ? 'active':''" class="nav-tabs-li"><a
+				class="tabs-anchor" data-target="#create_new_version_tab"
+				data-toggle="tab"
+				ng-click="clearAndSwitchTab('CreateNewModel','CreateNewVersion',$event);"
+				id="createNewVersionTab">Create New Version</a></li>
+		</ul>
+		<div class="col-lg-8 " style="text-align: left; padding-left: 0px;">
+			<div class="box box-primary"
+				style="border: 2px solid #AAAAAA; overflow: hidden; height: 700px;">
+				<div class="tab-content">
+					<!-- Start of create new model tab -->
+					<div class="tab-pane active" id="create_new_model_tab">
+						<br />
+						<div id="createNewModelOptions">
+							<label class="default" style="padding-left: 20px;"> <input
+								type="radio" id="createNewModelFromScratch"
+								ng-model="createNewModelMode" name="createNewModelMode"
+								value='CreateFromScratch' ng-change="resetImportStatus();" /> <span
+								style="font-size: 15px; font-weight: 600;"> Create From
+									Scratch </span>
+							</label> <label class="default" style="padding-left: 50px;"> <input
+								type="radio" name="createNewModelMode"
+								id="createNewModelImportFile" ng-model="createNewModelMode"
+								value='ImportFromFile' ng-change="resetImportStatus();" /> <span
+								style="font-size: 15px; font-weight: 600;"> Import From
+									File </span>
+							</label>
+						</div>
+
+						<!--  start of import version -->
+						<div
+							ng-hide="createNewModelMode == 'CreateFromScratch' || importedFileName != ''">
+							<div ng-include
+								src="'resources/partial/model/publish/import-version.html'"></div>
+						</div>
+						<!--  end of import version -->
+
+						<!-- Start of create new model from scratch form -->
+						<div
+							ng-show="createNewModelMode == 'CreateFromScratch' || importedFileName != ''">
+							<div ng-include
+								src="'resources/partial/model/publish/model-publish-form.html'"></div>
+						</div>
+						<!--  End of create new model from scratch form -->
+					</div>
+					<!-- End of craete new model tab Start of create new version tab -->
+					<div class="tab-pane" id="create_new_version_tab">
+						<br />
+						<div id="createNewVersionOptions">
+							<label class="default" style="padding-left: 20px;"> <input
+								type="radio" id="createNewVersionFromScratch"
+								ng-model="createNewVersionMode" name="createNewVersionMode"
+								value='CreateFromScratch' ng-change="resetImportStatus();" /> <span
+								style="font-size: 15px;"> <b>Create From Scratch </b></span>
+							</label> <label class="default" style="padding-left: 50px;"> <input
+								type="radio" id="createNewVersionImportFile"
+								ng-model="createNewVersionMode" name="createNewVersionMode"
+								value='ImportFromFile' ng-change="resetImportStatus();" /> <span
+								style="font-size: 15px;"> <b>Import From File</b>
+							</span>
+							</label>
+						</div>
+
+						<!--  start of import version -->
+						<div
+							ng-hide="createNewVersionMode == 'CreateFromScratch' || importedFileName != ''">
+							<div ng-include
+								src="'resources/partial/model/publish/import-version.html'"></div>
+						</div>
+						<!--  end of import version -->
+
+						<!-- Start of create new version from scratch form -->
+						<div
+							ng-show="createNewVersionMode == 'CreateFromScratch' || importedFileName != ''">
+							<div ng-include
+								src="'resources/partial/model/publish/model-publish-form.html'"></div>
+						</div>
+						<!--  End of create new version from scratch form -->
+
+					</div>
+					<!-- End of create new version tab -->
+				</div>
+			</div>
+		</div>
+
+
+		<div class="col-lg-4" style="text-align: center; padding-right: 0px;">
+			<div class="box box-primary"
+				ng-show="!publishingInProgress && !(versionSaved || versionFailed)"
+				style="height: 250px; border: 2px solid #AAAAAA; margin-bottom: -4px;">
+				<div style="height: 100%;">
+					<h1 style="padding-top: 20%; font-weight: bold; opacity: 0.15;">STATUS</h1>
+				</div>
+			</div>
+			<div class="box box-primary"
+				ng-show="publishingInProgress || versionSaved || versionFailed"
+				ng-class="{'box box-info' : publishingInProgress, 'box box-success' : showSuccess!='' || versionSaved!='' ,'box box-danger' : versionFailed!='' || showErr!=''}"
+				ng-style="{height:showStatusBlock? '250px':'45px'}"
+				style="border-left: 2px solid #AAAAAA; border-right: 2px solid #AAAAAA; border-bottom: 2px solid #AAAAAA; margin-bottom: -4px;">
+				<div class="box-header with-border">
+					<div class="col-sm-5" style="text-align: left;"
+						ng-show="versionSaved">
+						<span class="badge badge-success">{{versionStatus}}</span>
+					</div>
+					<div class="col-sm-5" style="text-align: left;"
+						ng-show="versionFailed">
+						<span class="badge badge-danger">{{versionStatus}}</span>
+					</div>
+					<div class="col-sm-5" style="text-align: left;"
+						ng-show="publishingInProgress">
+						<span class="badge badge-info">In Progress</span>
+					</div>
+					<div class="col-sm-5" style="text-align: right;">
+						<span ng-show="showReportURL && (reportUrl!=null)"
+							style="text-align: right;">
+							<button class="btn btn-sm btn-success" type="button" style="height: 20px;padding-top: 0px;"
+								ng-click="downloadReport();">Download Report</button>
+						</span>
+					</div>
+					<div class="col-sm-2" style="text-align: right;">
+						<span class="btn" ng-class="{'glyphicon glyphicon-chevron-down' : !showStatusBlock, 'glyphicon glyphicon-chevron-up' : showStatusBlock}"
+							style="text-align: right;height: 20px;padding-top: 0px;" ng-click="showStatusBlock = !showStatusBlock"></span>
+					</div>
+				</div>
+				<div class="box-body" ng-show="showStatusBlock">
+					<ul style="padding-left: 0px;">
+						<div class="col-sm-12">
+							<div class="col-sm-9 control-label" style="text-align: left;"><li>Validating Inputs</li></div>
+							<div class="col-sm-3"
+								ng-class="{'glyphicon glyphicon-ok' : actionsCompleted >= 0, 'glyphicon glyphicon-remove' : actionsCompleted == -1 && !publishingInProgress,'glyphicon glyphicon-hourglass' : actionsCompleted == -1 && publishingInProgress}"
+								style="text-align: right;"></div>
+						</div>
+						<div class="col-sm-12" ng-show="showManifestFileStatus">
+							<div class="col-sm-9 control-label" style="text-align: left;"><li>Validating
+								Manifest</li></div>
+							<div class="col-sm-3"
+								ng-class="{'glyphicon glyphicon-ok' : actionsCompleted >= 1, 'glyphicon glyphicon-remove' : actionsCompleted == 0 && !publishingInProgress,'glyphicon glyphicon-hourglass' : actionsCompleted == 0 && publishingInProgress}"
+								style="text-align: right;"></div>
+						</div>
+						<div class="col-sm-12">
+							<div class="col-sm-9 control-label" style="text-align: left;"><li>Validating
+								Checksum</li></div>
+							<div class="col-sm-3"
+								ng-class="{'glyphicon glyphicon-ok' : actionsCompleted >= 2, 'glyphicon glyphicon-remove' : actionsCompleted == 1 && !publishingInProgress,'glyphicon glyphicon-hourglass' : actionsCompleted == 1 && publishingInProgress}"
+								style="text-align: right;"></div>
+						</div>
+						<div class="col-sm-12">
+							<div class="col-sm-9 control-label" style="text-align: left;"><li>Uploading
+								Model Package</li></div>
+							<div class="col-sm-3"
+								ng-class="{'glyphicon glyphicon-ok' : actionsCompleted >= 3, 'glyphicon glyphicon-remove' : actionsCompleted == 2 && !publishingInProgress,'glyphicon glyphicon-hourglass' : actionsCompleted == 2 && publishingInProgress}"
+								style="text-align: right;"></div>
+						</div>
+						<div class="col-sm-12">
+							<div class="col-sm-9 control-label" style="text-align: left;"><li>Validating
+								IO definition</li></div>
+							<div class="col-sm-3"
+								ng-class="{'glyphicon glyphicon-ok' : actionsCompleted >= 4, 'glyphicon glyphicon-remove' : actionsCompleted == 3 && !publishingInProgress,'glyphicon glyphicon-hourglass' : actionsCompleted == 3 && publishingInProgress}"
+								style="text-align: right;"></div>
+						</div>
+						<div class="col-sm-12" ng-show="showReportTemplateStatus">
+							<div class="col-sm-9 control-label" style="text-align: left;"><li>Validate Report template</li></div>
+							<div class="col-sm-3"
+								ng-class="{'glyphicon glyphicon-ok' : actionsCompleted >= 5, 'glyphicon glyphicon-remove' : actionsCompleted == 4 && !publishingInProgress,'glyphicon glyphicon-hourglass' : actionsCompleted == 4 && publishingInProgress}"
+								style="text-align: right;"></div>
+						</div>
+						<div class="col-sm-12">
+							<div class="col-sm-9 control-label" style="text-align: left;"><li>Obtaining
+								Modelet</li></div>
+							<div class="col-sm-3"
+								ng-class="{'glyphicon glyphicon-ok' : actionsCompleted >= 6, 'glyphicon glyphicon-remove' : actionsCompleted == 5 && !publishingInProgress,'glyphicon glyphicon-hourglass' : actionsCompleted == 5 && publishingInProgress}"
+								style="text-align: right;"></div>
+						</div>
+						<div class="col-sm-12">
+							<div class="col-sm-9 control-label" style="text-align: left;"><li>Loading
+								Libraries</li></div>
+							<div class="col-sm-3"
+								ng-class="{'glyphicon glyphicon-ok' : actionsCompleted >= 7, 'glyphicon glyphicon-remove' : actionsCompleted == 6 && !publishingInProgress,'glyphicon glyphicon-hourglass' : actionsCompleted == 6 && publishingInProgress}"
+								style="text-align: right;"></div>
+						</div>
+						<div class="col-sm-12">
+							<div class="col-sm-9 control-label" style="text-align: left;"><li>Loading
+								Model Package</li></div>
+							<div class="col-sm-3"
+								ng-class="{'glyphicon glyphicon-ok' : actionsCompleted >= 8, 'glyphicon glyphicon-remove' : actionsCompleted == 7 && !publishingInProgress,'glyphicon glyphicon-hourglass' : actionsCompleted == 7 && publishingInProgress}"
+								style="text-align: right;"></div>
+						</div>
+						<div class="col-sm-12">
+							<div class="col-sm-9 control-label" style="text-align: left;"><li>Executing
+								test transaction</li></div>
+							<div class="col-sm-3"
+								ng-class="{'glyphicon glyphicon-ok' : actionsCompleted >= 9, 'glyphicon glyphicon-remove' : actionsCompleted == 8 && !publishingInProgress,'glyphicon glyphicon-hourglass' : actionsCompleted == 8 && publishingInProgress}"
+								style="text-align: right;"></div>
+						</div>
+						<div class="col-sm-12" ng-show="showReportTemplateStatus">
+							<div class="col-sm-9 control-label" style="text-align: left;"><li>Testing
+								Report</li></div>
+							<div class="col-sm-3"
+								ng-class="{'glyphicon glyphicon-ok' : actionsCompleted >= 10, 'glyphicon glyphicon-remove' : actionsCompleted == 9 && !publishingInProgress,'glyphicon glyphicon-hourglass' : actionsCompleted == 9 && publishingInProgress}"
+								style="text-align: right;"></div>
+						</div>
+					</ul>
+				</div>
+			</div>
+			<div class="box box-primary"
+				ng-show="!(versionSaved || versionFailed)"
+				style="height: 454px; border: 2px solid #AAAAAA;">
+				<div style="height: 100%;">
+					<h1 style="padding-top: 20%; font-weight: bold; opacity: 0.15;">RESULTS</h1>
+				</div>
+			</div>
+			<div class="box box-primary"
+				ng-show="(versionSaved || versionFailed)"
+				ng-style="{height:showStatusBlock? '454px':'659px'}"
+				style="border: 2px solid #AAAAAA;">
+				<div class="box-body" ng-show="openOutput || showErr || showSuccess"
+					style="overflow: overlay; text-align: left;"
+					ng-style="{height:showStatusBlock? '450px':'655px'}">
+
+					<div id="successMsg" ng-show="showSuccess">
+						<ul ng-show="reportDownloadError"
+							ng-class="reportDownloadError?'error-msg':'success-msg'">
+							<li style="text-align: left;"><span>Report download
+									failed : {{reportDownloadStatus}}</span></li>
+						</ul>
+
+						<ul ng-show="showReportURL"
+							ng-class="(reportUrl==null)?'error-msg':'success-msg'">
+							<li style="text-align: left;"><span>Report generation
+									status: {{reportExecutionStatus}}</span></li>
+						</ul>
+
+						<ul ng-show="showReportURL && (reportUrl==null)"
+							ng-class="showReportURL?'error-msg':'success-msg'">
+							<li style="text-align: left;"><span>Error message :
+									{{reportErrorMessage}}</span></li>
+						</ul>
+						<span><json-explorer ng-if="tenantOutput!=null"
+								json-data="{{tenantOutput}}"></json-explorer></span>
+					</div>
+					<div id="inputErrMsg"
+						ng-show="versionSubmitted && inputValidationErrors.length > 0">
+						<h6>
+							<b><u>Input Definition Validation Failures</u></b>
+						</h6>
+						<ol>
+							<li ng-repeat="msg in inputValidationErrors track by $index"><span ng-bind-html="msg"></span></li>
+						</ol>
+					</div>
+					<div id="outputErrMsg"
+						ng-show="versionSubmitted && outputValidationErrors.length > 0">
+						<h6>
+							<b><u>Output Definition Validation Failures</u></b>
+						</h6>
+						<ol>
+							<li ng-repeat="msg in outputValidationErrors track by $index"><span ng-bind-html="msg"></span></li>
+						</ol>
+					</div>
+					<div id="supportingDocErrMsg"
+						ng-show="versionSubmitted && supportingDocValidationErrors.length > 0">
+						<h6>
+							<b><u>Supporting Doc Failures</u></b>
+						</h6>
+						<ol>
+							<li ng-repeat="msg in supportingDocValidationErrors track by $index"><span>{{msg}}</span></li>
+						</ol>
+					</div>
+					<div id="execErrMsg"
+						ng-show="versionSubmitted && execFailureErrors.length > 0">
+						<h6>
+							<b><u>Execution Failures</u></b>
+						</h6>
+						<ol>
+							<li ng-repeat="msg in execFailureErrors track by $index"><span>{{msg}}</span></li>
+						</ol>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+
+<!-- Existing model library pop up start -->
+<div class="modal" id="libModal" tabindex="-1" role="dialog"
+	aria-labelledby="libModalLabel" aria-hidden="true"
+	ng-show="pickExistingLib">
+	<div class="modal-dialog" style="width: 80%; height: 50%">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background-color: #3C8DBC; color: white;">
+				<button type="button" class="close" data-dismiss="modal"
+					ng-click="resetpickExistingLibFlag(true);" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="input-group input-group-sm" style="width: 30%">
+					<input class="form-control" id="searchLib"
+						placeholder="Type to Search Library ..." ng-model="srchLibTxt"
+						type="text">
+					<div class="input-group-btn">
+						<button class="btn btn-sm btn-primary" type="button"
+							ng-click="setFilteredLibraries(srchLibTxt)">Go!</button>
+					</div>
+					<!-- /btn-group -->
+				</div>
+			</div>
+			<div class="modal-body">
+				<div ng-show="modelApiDetails.length > 0">
+					<div id="libGrid" class="umg-grid" style="height: 390px;"
+						ng-grid="modelLibGrid"></div>
+				</div>
+				<div style="text-align: center;"
+					ng-show="modelApiDetails.length == 0 && srchLibTxt == ''">No
+					Record Found.</div>
+				<div style="text-align: center;"
+					ng-show="modelApiDetails.length == 0 && srchLibTxt != ''">No
+					Record Found For This Search Criteria.</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-primary"
+					aria-hidden="true" data-dismiss="{{modalVar}}"
+					ng-click="clearModal();resetpickExistingLibFlag(false);">OK</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Existing model library pop up End -->
+
+<!-- Existing model definition Pop-up  start-->
+<div class="modal" id="defModal" tabindex="-1" role="dialog"
+	aria-labelledby="defModalLabel" aria-hidden="true"
+	ng-show="pickExistingIODefn">
+	<div class="modal-dialog" style="width: 80%; height: 50%">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background-color: #3C8DBC; color: white;">
+				<button type="button" class="close" data-dismiss="modal"
+					ng-click="resetLaunchExistingIODefn(true);" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="input-group input-group-sm" style="width: 30%">
+					<input class="form-control" id="searchDef"
+						placeholder="Type to Search Model Definition ..."
+						ng-model="srchDefTxt" type="text">
+					<div class="input-group-btn">
+						<button class="btn btn-sm btn-primary" type="button"
+							ng-click="setFilteredDefinitions(srchDefTxt)">Go!</button>
+					</div>
+					<!-- /btn-group -->
+				</div>
+			</div>
+			<div class="modal-body">
+				<div ng-show="modelApiDetails.length > 0">
+					<div id="defGrid" class="umg-grid" style="height: 390px;"
+						ng-grid="modelDefGrid"></div>
+				</div>
+				<div style="text-align: center;"
+					ng-show="modelApiDetails.length == 0 && srchDefTxt == ''">No
+					Record Found.</div>
+				<div style="text-align: center;"
+					ng-show="modelApiDetails.length == 0 && srchDefTxt != ''">No
+					Record Found For This Search Criteria.</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary"
+					data-dismiss="modalVar"
+					ng-click="clearModal();resetLaunchExistingIODefn(false);">OK</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Existing model library pop up start -->
+<div class="modal" id="reportModal" tabindex="-1" role="dialog"
+	aria-labelledby="ModalReportLabel" aria-hidden="true"
+	ng-show="pickExistingReport">
+	<div class="modal-dialog" style="width: 80%; height: 50%">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background-color: #3C8DBC; color: white;">
+				<button type="button" class="close" data-dismiss="modal"
+					ng-click="resetpickExistingReportFlag(true);" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="input-group input-group-sm" style="width: 30%">
+					<input class="form-control" id="searchReport"
+						placeholder="Type to Search Report ..." ng-model="srchReportTxt"
+						type="text">
+					<div class="input-group-btn">
+						<button class="btn btn-sm btn-primary" type="button"
+							ng-click="setFilteredReports(srchReportTxt)">Go!</button>
+					</div>
+					<!-- /btn-group -->
+				</div>
+			</div>
+			<div class="modal-body">
+				<div ng-show="modelApiDetails.length > 0">
+					<div id="reportGrid" class="umg-grid" style="height: 390px;"
+						ng-grid="modelReportGrid"></div>
+				</div>
+				<div style="text-align: center;"
+					ng-show="modelApiDetails.length == 0 && srchReportTxt == ''">No
+					Record Found.</div>
+				<div style="text-align: center;"
+					ng-show="modelApiDetails.length == 0 && srchReportTxt != ''">No
+					Record Found For This Search Criteria.</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-primary"
+					aria-hidden="true" data-dismiss="{{modalVar}}"
+					ng-click="clearModal();resetpickExistingReportFlag(false);">OK</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Existing model library pop up End -->
+<!-- Existing model definition Pop-up  end-->
+
+<!-- Import model form start -->
+<!-- <div class="modal" id="createModeByImportFile" tabindex="-1"
+	role="dialog" aria-labelledby="createModeByImportFileLabel"
+	aria-hidden="true"
+	ng-show="createNewModelMode == 'ImportFromFile' || createNewVersionMode == 'ImportFromFile'">
+	<div class="modal-dialog" style="width: 40%; height: 50%">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background-color: #3C8DBC; color: white;">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">x</span>
+				</button>
+				<h3 class="modal-title">Import File</h3>
+			</div>
+			<div class="modal-body" style="padding-bottom: 30px;">
+				<div class="form-group">
+					<span for="versionZipFile" class="col-sm-4 control-label">Zip
+						File<font color="red">*</font>
+					</span>
+					<div class="col-md-4">
+						<input class="form-control input-sm" id="version_zip_1"
+							name="versionZipFile" type="text"
+							value="{{versionImport.versionZipFile.name}}" readonly>
+					</div>
+					<div class="col-md-2">
+						<span class="btn btn-primary btn-sm btn-file" style="width: 60px"
+							tooltip="Upload Zip File" tooltip-placement="top"
+							tooltip-trigger="mouseenter">Browse<input
+							id="version_zip_browse" name="versionZipFile" type="file"
+							file-model="versionImport.versionZipFile"
+							ng-model="versionImport.versionZipFile" accept=".zip">
+						</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal-footer" style="background-color: #FFFFFF;">
+			<button type="button" class="btn btn-primary" data-dismiss="modal" ui
+				ng-click="versionZipFile = ''; cancelForm();">Cancel</button>
+			<button type="button" class="btn btn-primary" data-dismiss="modal"
+				ng-disabled = "angular.isUndefined(versionImport.versionZipFile) || versionImport.versionZipFile == ''";
+				ng-click="extractVersionPackage();">Upload</button>
+		</div>
+	</div>
+</div> -->
+<!-- Import model form end -->

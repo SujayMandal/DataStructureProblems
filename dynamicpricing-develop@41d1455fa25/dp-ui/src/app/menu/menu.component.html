@@ -1,0 +1,143 @@
+<div class="container-fluid">
+  <div class=" sidebar-overall ">
+    <div class="version-code-display ">
+      <ul>
+          <li class="pointer" (click)="menuHide( 'reportmenu1') " routerLinkActive="active" *ngIf="reportSelected">
+              <a id="qareport" [ngClass]="activeEle('reportmenu1') ">
+                  <img class="icon " src="assets/images/download.png" /><label>Week N QA Report</label></a>
+            </li>
+          <li class="pointer" (click)="menuHide( 'reportmenu2') " routerLinkActive="active" *ngIf="reportSelected">
+              <a id="qareport2" [ngClass]="activeEle('reportmenu2') ">
+                  <img class="icon " src="assets/images/download.png" /><label>Week 0 QA Report</label></a>
+            </li>
+          <li class="pointer" (click)="menuHide( 'reportmenu3') " routerLinkActive="active" *ngIf="reportSelected">
+              <a id="qareport3" [ngClass]="activeEle('reportmenu3') ">
+                  <img id="excludRpt" class="icon " src="assets/images/download.png" /><label>Permanent Exclusion <br> report</label></a>
+            </li>
+
+        <li class="pointer" (click)="menuHide( 'menu0') " routerLinkActive="active" *ngIf="weekNSelected">
+          <a id="fetch " [ngClass]="activeEle('menu0') ">
+              <img class="icon " src="assets/images/download.png" /><label>Fetch</label></a>
+        </li>
+
+        <li class="pointer" (click)="menuHide( 'menu1') " routerLinkActive="active" *ngIf="!searchSelected && !reportSelected ">
+          <a id="upload " [ngClass]="activeEle('menu1') ">
+              <img class="icon " src="assets/images/upload.png" /><label>Upload</label></a>
+        </li>
+        <li class="pointer" (click)="menuHide( 'menu2') " routerLinkActive="active" *ngIf="!searchSelected  && !reportSelected">
+          <a id="dashboard " [ngClass]="activeEle('menu2') ">
+              <img class="icon " src="assets/images/speedometer.png" /><label>Dashboard</label></a>
+        </li>
+        <li class="pointer" (click)="menuHide( 'menu5') " routerLinkActive="active" *ngIf="searchSelected">
+          <a id="search_history " [ngClass]="activeEle('menu5') ">
+              <img id="search" class="icon " src="assets/images/history.png" /><label>Recommendation <br> History</label></a>
+        </li>
+        <li class="pointer" (click)="menuHide( 'menu6') " routerLinkActive="active" *ngIf="searchSelected">
+          <a id="search_future " [ngClass]="activeEle('menu6') ">
+              <img id="search" class="icon " src="assets/images/future.png" /><label>Future <br> Recommendation</label></a>
+        </li>
+        <li class="pointer" (click)="menuToggle()" *ngIf="!searchSelected  && !reportSelected">
+          <a id="buckets" [ngClass]="activeEle('menu3')">
+            <img class="icon" src="assets/images/funnel.png" />
+            <label>Filter Buckets</label>
+            <i id = "menu3" class="myAcc-arrow-icon" ></i>
+          </a>
+        </li>
+        <div class="filter-buckets">
+          <li class="pointer" [hidden]="!filterBucketActive || !week0Selected || sopWeek0Selected" (click)="menuHide('menu31') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu31')">Client Mismatch</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || !week0Selected" (click)="menuHide('menu32') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu32')">Duplicate Asset</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || !week0Selected || sopWeek0Selected" (click)="menuHide('menu33') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu33')">SS</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || !week0Selected" (click)="menuHide('menu34') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu34')">Unsupp AV</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || !week0Selected || sopWeek0Selected" (click)="menuHide('menu35') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu35')">RR/RTNG Failure</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || !week0Selected || sopWeek0Selected" (click)="menuHide('menu36') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu36')">Unsupp PropType</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || !weekNSelected" (click)="menuHide('menu46') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu46')">Successful / Underreview</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || !weekNSelected" (click)="menuHide('menu39') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu39')">Hubzu Failure</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || !weekNSelected" (click)="menuHide('menu45') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu45')">Odd Listing</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || !weekNSelected" (click)="menuHide('menu44') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu44')">Assignment</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || !weekNSelected" (click)="menuHide('menu40') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu40')">Unsupp State</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || !weekNSelected" (click)="menuHide('menu41') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu41')">SS & PMI</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || !weekNSelected || sopWeekNSelected" (click)="menuHide('menu42') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu42')">SOP</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || !weekNSelected || !sopWeekNSelected" (click)="menuHide('menu47') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu47')">Vacant</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || !weekNSelected" (click)="menuHide('menu43') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu43')">Active Listings</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || sopWeek0Selected" (click)="menuHide('menu37') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu37')">Model Fail</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive || week0Selected || sopWeek0Selected" (click)="menuHide('menu48') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu48')">Past 12 Cycles</a>
+          </li>
+          <li class="pointer" [hidden]="!filterBucketActive" (click)="menuHide('menu38') " routerLinkActive="active">
+            <a [ngClass]="activeEle('menu38')">Processed</a>
+          </li>
+        </div>
+        <li class="pointer" (click)="menuHide( 'menu4') " routerLinkActive="active" *ngIf="!searchSelected  && !reportSelected">
+          <a id="output " [ngClass]="activeEle('menu4') ">
+              <img class="icon " src="assets/images/file.png" /><label>Output</label></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="block" [hidden]="!reportmenu1">
+    <app-report-block></app-report-block>
+  </div>
+<div class="block" [hidden]="!reportmenu2">
+    <app-report-block></app-report-block>
+  </div>
+<div class="block" [hidden]="!reportmenu3">
+    <app-permanent-report></app-permanent-report>
+  </div>
+
+<div class="block" [hidden]="!menu0">
+  <app-fetch-block></app-fetch-block>
+</div>
+
+<div class="block" [hidden]="!menu1">
+  <app-upload-block></app-upload-block>
+</div>
+
+<div class="block" [hidden]="!menu2">
+  <app-dashboard-block></app-dashboard-block>
+</div>
+
+<div class="block" [hidden]="menu0 || menu1 || menu2 || menu4 || menu5 || menu6">
+  <app-filter-grid></app-filter-grid>
+</div>
+
+<div class="block" [hidden]="!menu4">
+  <app-output-grid></app-output-grid>
+</div>
+
+<div class="block" [hidden]="!menu5 && !menu6">
+  <app-search></app-search>
+</div>

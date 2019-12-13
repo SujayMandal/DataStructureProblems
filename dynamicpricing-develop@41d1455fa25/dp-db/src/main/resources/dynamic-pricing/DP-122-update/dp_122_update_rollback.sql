@@ -1,0 +1,3 @@
+
+
+UPDATE `COMMAND` SET `ACTIVE`=TRUE WHERE `NAME`='weekNAssignmentFilter' and `PROCESS`='WEEKN_NRZ';

@@ -1,0 +1,430 @@
+
+<!-- Adding New Pool And Filteration -->
+
+<div class="box box-primary">
+    <div class="box-body">
+		<div class="col-lg-1">
+			<button type="button" class="btn btn-primary" ng-click="showPoolCreationForm = true; clearNewPool();">Add New Pool</button>
+		</div>
+		<div class="col-lg-2">
+			<input type="search" id="search_string_id" class="form-control input-sm" ng-model="search_string" placeholder="Type to search pool"/>
+		</div>
+		<div class="col-lg-1">
+			<button type="button" class="btn btn-primary" ng-disabled="search_string.trim() == '' " ng-click="searchPool()">Search</button>
+		</div>
+		<div class="box-tools pull-right">
+			<!-- <span class="label label-info">{{modeletServerCount}}</span>
+			<span class="label label-info">{{rModeletsCount}}</span>
+			<span class="label label-info">{{matlabModeletsCount}}</span> -->
+		</div>
+		
+	</div>
+</div>
+<div id="createPoolSuccessMsg" class="success-msg" ng-show="showSuccesssMessage" align="center">{{showMessage}}</div>
+<div id="poolErrorMsg" class="error-msg" ng-show="showFailureMessage" align="center">{{showMessage}}</div>
+<!-- Pool Display Grid -->
+<div class="box box-solid box-primary">
+        <div class="box-header">
+        <table style="width: 100%">
+        	<tr>
+        		<td width="9%"><h3 class="box-title" style="font-size:15px;">Pool Name</h3></td>
+        		<td width="8%"><h3 class="box-title" style="font-size:15px;">Modelling Environment</h3></td>
+        		<td width="8%"><h3 class="box-title" style="font-size:15px;">Execution Environment</h3></td>
+        		<td width="8%"><h3 class="box-title" style="font-size:15px;">Tenant</h3></td>        		
+        		<td width="8%"><h3 class="box-title" style="font-size:15px;">Transaction Mode</h3></td>
+        		<td width="8%"><h3 class="box-title" style="font-size:15px;">Transaction Type</h3></td>
+        		<td width="10%"><h3 class="box-title" style="font-size:15px;">Model & Version</h3></td>
+        		<td width="8%"><h3 class="box-title" style="font-size:15px;">Channel</h3></td>
+        		<td width="8%"><h3 class="box-title" style="font-size:15px;">Wait Time  <br> (in sec)</h3></td>
+        		<td width="8%"><h3 class="box-title" style="font-size:15px;">Total Modelets</h3></td>
+        		<td width="8%"><h3 class="box-title" style="font-size:15px;"># Available</h3></td>
+        		<td width="8%"><h3 class="box-title" style="font-size:15px;"># Unavailable</h3></td>
+        	</tr>
+        </table>
+        </div><!-- /.box-header -->
+</div>
+<!-- Pool Creation Form -->
+<table style="width: 100%">
+	<tr ng-show="showPoolCreationForm">
+   	<td>
+	<div  id="createPoolRow" class="box box-default" style="margin-top: -21px;">
+	  <div class="box-header with-border">
+	  <table style="width: 100%">
+        	<tr>
+        		<td width="9%">			
+        			<input type="text" style="width: 95%;" onkeypress="return (event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode >= 48 && event.charCode <= 57) || (event.charCode == 95)" ng-paste="pastePoolName($event.originalEvent)" id="pool_name" class="form-control input-sm pull-left" ng-model="newPool.pool.poolName" placeholder="Enter Name" title="Can only take one of a-z ,A-Z ,0-9,_ characters."/>
+				</td>
+				<td width="8%">
+				<div >
+				<select class="form-control" id="new_env" ng-model="newPool.poolCriteriaDetails.executionLanguage" ng-change="newSelectEnvironment(newPool.poolCriteriaDetails.executionLanguage)" ng-disabled="newPool.pool.poolName == ''" style="border: none;">
+					<option ng-repeat="e in environments"
+						value="{{e}}" ng-selected="e.toUpperCase()==newPool.poolCriteriaDetails.executionLanguage.toUpperCase()">{{e}}</option>
+				</select>
+			  	</div>				
+				</td>  
+				<td width="8%">
+				<div >
+				<select class="form-control" id="new_exc_env" ng-model="newPool.poolCriteriaDetails.executionEnvironment" ng-change="newSelectExcEnvironment(newPool.poolCriteriaDetails.executionEnvironment)" ng-disabled="newPool.pool.poolName == ''" style="border: none;">
+					<option ng-repeat="ee in executionEnvironments"
+						value="{{ee}}" ng-selected="ee.toUpperCase()==newPool.poolCriteriaDetails.executionEnvironment.toUpperCase()">{{ee}}</option>
+				</select>
+			  	</div>				
+				</td>     		
+        		<td width="8%">
+        		<div  >
+				<select class="form-control" id="new_tenant" ng-model="newPool.poolCriteriaDetails.tenant" ng-change="newSelectTenant(newPool.poolCriteriaDetails.tenant)" ng-disabled="newPool.pool.poolName == ''" style="border: none;">
+					<option ng-repeat="(t,n) in tenants" 
+						value="{{t}}" ng-selected="t.toUpperCase()==newPool.poolCriteriaDetails.tenant.toUpperCase()">{{n}}</option>
+				</select>
+			   	</div>
+        		</td>
+        		<td width="8%">
+        		<div  >
+				<select class="form-control" id="new_mode" ng-model="newPool.poolCriteriaDetails.transactionMode" ng-change="newSelectMode(newPool.poolCriteriaDetails.transactionMode)" ng-disabled="newPool.pool.poolName == ''" style="border: none;">
+					<option ng-repeat="tm in transactionModes"
+						value="{{tm}}" ng-selected="tm.toUpperCase()==newPool.poolCriteriaDetails.transactionMode.toUpperCase()">{{tm}}</option>
+				</select>
+			   	</div>
+        		</td>   
+        		<td width="8%">
+        		<div  >
+				<select class="form-control" id="new_transaction" ng-model="newPool.poolCriteriaDetails.transactionType" ng-disabled="newPool.pool.poolName == ''" style="border: none;">
+					<option ng-repeat="tt in transactionTypes"
+						value="{{tt}}" ng-selected="tt.toUpperCase()==newPool.poolCriteriaDetails.transactionType.toUpperCase()">{{tt}}</option>
+				</select>
+			   	</div>
+				</td>
+        	  		
+        		<td width="10%">
+        		<div >
+				<select class="form-control" id="new_model" ng-model="newPool.poolCriteriaDetails.model" ng-disabled="newPool.pool.poolName == ''" style="border: none;">
+					<option ng-repeat="m in tenantSpecificModel"
+						value="{{m}}" ng-selected="m.toUpperCase()==newPool.poolCriteriaDetails.model.toUpperCase()">{{m}}</option>
+				</select>
+			   	</div>
+        		</td>
+        		<td width="8%">
+        		<div  >
+				<select class="form-control" id="new_channel" ng-model="newPool.poolCriteriaDetails.channel" ng-disabled="newPool.pool.poolName == ''" style="border: none;">
+					<option ng-repeat="c in channels"
+						value="{{c}}" ng-selected="c.toUpperCase()==newPool.poolCriteriaDetails.channel.toUpperCase()">{{c}}</option>
+				</select>
+			   	</div>
+        		</td>
+        		<td width="8%">
+					<input type="text" style="width: 95%;" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" ng-paste="pasteWaitTime($event.originalEvent)" id="pool_timeout" class="form-control input-sm pull-left" ng-model="newPool.pool.waitTimeout" placeholder="Enter Time" title="Can only take positive integer not less than 60."/>
+        		</td>
+        		<td width="14%"></td>
+        		<td width="5%">
+        				<button type="submit" class="btn btn-primary" ng-click="createPool()" ng-disabled="newPool.poolCriteriaDetails.executionLanguage=='Select' || newPool.pool.poolName=='' || newPool.pool.waitTimeout==''">Save</button>
+        		</td>
+        		<td width="5%">
+        			<div class="box-tools pull-right">
+	      				<button class="btn btn-box-tool" data-toggle="tooltip" title="Cancel"><i class="fa fa-times" ng-click="showPoolCreationForm = false; clearNewPool();"></i></button>
+	    			</div>
+        		</td>
+        	</tr>
+        </table>
+      <div id="createPoolErrorMsg" class="error-msg" ng-show="showErrorMessage" align="center">{{showMessage}}</div>
+	  </div>
+	</div>
+	</td>
+   </tr>
+   <tr ng-repeat="pool in modeletPools | filter:searchText" ng-show="pool.pool.poolName != 'SYSTEM_TEMP_POOL'">
+   	<td>
+	<div  id="pool_{{$index}}" class="box box-default" data-drop="dragEnd(pool.pool)" data-jqyoui-options ng-model="pool.modeletClientInfoList" jqyoui-droppable="{multiple:true, onDrop: 'validateMove()'}" style="margin-top: -21px;">
+	  <div class="box-header with-border">
+	  <table style="width: 100%">
+        	<tr>
+        		<td width="9%">{{pool.pool.poolName}}</td>
+
+
+				<td width="8%">{{pool.poolCriteriaDetails.executionLanguage}}</td>
+<!--         		<td width="10%">{{pool.poolCriteriaDetails.environment}}
+        						<div class="btn-group" role="group">
+									<span data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> 
+										<i class="fa fa-toggle-down" style="color: #3C8DBC;margin-left: 5px;font-size: small;margin-top:-35px;"></i>
+									</span>
+									
+									<ul class="dropdown-menu">
+										<li ng-repeat="e in environments"><a ng-click="selectEnvironment(pool, e)">{{e}}</a></li>
+										<li role="separator" class="divider"></li>
+										<li><a>Environments</a></li>
+									</ul>
+									
+								</div>
+        		</td>
+ -->        
+				<td width="8%">{{pool.poolCriteriaDetails.executionEnvironment}}</td>
+        		
+        		<td width="8%">
+        		<div ng-show="pool.pool.poolName != 'SYSTEM_TEMP_POOL'" >
+				<select class="form-control" id="existing_tenant" ng-model="pool.poolCriteriaDetails.tenant" ng-change="selectModel(pool)" ng-disabled="pool.pool.defaultPool == 1" style="border: none;">
+					<option ng-repeat="(t,n) in tenants"
+						value="{{t}}" ng-selected="t.toUpperCase()==pool.poolCriteriaDetails.tenant.toUpperCase()">{{n}}</option>
+				</select>
+			   	</div>
+        		</td>
+        		<td width="8%">
+        		<div ng-show="pool.pool.poolName != 'SYSTEM_TEMP_POOL'" >
+				<select class="form-control" id="existing_mode"  ng-model="pool.poolCriteriaDetails.transactionMode" ng-change="selectChannelAndModel(pool)" ng-disabled="pool.pool.defaultPool == 1" style="border: none;">
+					<option ng-repeat="t in transactionModes"
+						value="{{t}}" ng-selected="t.toUpperCase()==pool.poolCriteriaDetails.transactionMode.toUpperCase()">{{t}}</option>
+				</select>
+			   	</div>
+        		</td>
+        		<td width="8%">
+        		<div ng-show="pool.pool.poolName != 'SYSTEM_TEMP_POOL'" >
+				<select class="form-control" id="existing_type"  ng-model="pool.poolCriteriaDetails.transactionType" ng-disabled="pool.pool.defaultPool == 1" style="border: none;">
+					<option ng-repeat="t in transactionTypes"
+						value="{{t}}" ng-selected="t.toUpperCase()==pool.poolCriteriaDetails.transactionType.toUpperCase()">{{t}}</option>
+				</select>
+			   	</div>
+				</td>        	
+        		<td width="10%">
+        		<div ng-show="pool.pool.poolName != 'SYSTEM_TEMP_POOL'">
+				<select class="form-control" id="existing_model" ng-model="pool.poolCriteriaDetails.model" ng-disabled="pool.pool.defaultPool == 1" style="border: none;">
+					<option ng-repeat="t in pool.tenantSpecificModel"
+						value="{{t}}" ng-selected="t.toUpperCase()==pool.poolCriteriaDetails.model.toUpperCase()">{{t}}</option>
+				</select>
+			   	</div>
+        		</td>
+        		<td width="8%">
+        		<div ng-show="pool.pool.poolName != 'SYSTEM_TEMP_POOL'" >
+				<select class="form-control" id="existing_channel"  ng-model="pool.poolCriteriaDetails.channel" ng-disabled="pool.pool.defaultPool == 1" style="border: none;">
+					<option ng-repeat="c in channels"
+						value="{{c}}" ng-selected="c.toUpperCase()==pool.poolCriteriaDetails.channel.toUpperCase()">{{c}}</option>
+				</select>
+			   	</div>
+				</td>
+        		<td width="8%">
+					<input ng-if="pool.pool.poolName != 'SYSTEM_TEMP_POOL'" type="text" style="width: 95%;" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" id="pool_timeout" ng-paste="pasteExistingWaitTime($event.originalEvent,$index)" class="form-control input-sm pull-left" ng-model="pool.pool.waitTimeout" placeholder="Enter Timeout" title="Can only take positive integer not less than 60."/>
+        		</td>
+        		<td width="8%"><span class="badge bg-light-blue">{{getTotalModeletCount(pool)}}</span></td>
+        		<!-- <td width="10%"><input type="text" ng-model="pool.pool.modeletCount" value="{{getTotalModeletCount(pool)}}"  ng-if="pool.pool.poolName != 'SYSTEM_TEMP_POOL'"></span></td>-->
+        		<td width="8%"><span class="badge bg-green">{{getTotalActiveModeletCount(pool)}}</span></td>
+        		<td width="8%"><span class="badge bg-red">{{getInactiveModeletCount(pool)}}</span></td>
+        	</tr>
+        </table>
+        
+	    <div class="box-tools pull-right">
+	      <button class="btn btn-box-tool" data-toggle="tooltip" title="Drop Pool" ng-hide="pool.pool.defaultPool == 1 || pool.pool.poolName == 'SYSTEM_TEMP_POOL'" ng-disabled="pool.pool.modeletCount != 0"><i class="fa fa-trash-o" style="color: red; font-size: large;" ng-click="deletePool(pool)"></i></button>
+	    </div><!-- /.box-tools -->
+	  
+	  </div><!-- /.box-header -->
+				<div class="box-body" ng-show="true">
+					<div class="col-md-12">
+						<div class="col-md-2"
+							ng-repeat="modelet in pool.modeletClientInfoList track by modeletTrackingId(modelet)"
+							style="padding-right: 3px;">
+							<div data-drag="{{isModeletDraggable(modelet)}}"
+								data-jqyoui-options="{revert: true}"
+								ng-model="pool.modeletClientInfoList"
+								jqyoui-draggable="{index: {{$index}}, animate:true, onStart:'dragStart(modelet)'}"
+								style="padding: 1px;" ng-hide="!modelet.memberHost">
+								<div class="btn"
+									ng-class="getModeletClass(modelet.modeletStatus)"
+									title="{{modelet.switchMessage}} modelet {{modelet.modeletName}}"
+									ng-click="switchState(modelet);"
+									ng-disabled="modelet.stateSwitch || modelet.executionLanguage.toUpperCase()=='MATLAB' || modelet.executionLanguage.toUpperCase()=='EXCEL' || (modelet.executionLanguage.toUpperCase()=='R' && modelet.execEnvironment.toUpperCase()=='WINDOWS') || modelet.modeletStatus.toUpperCase()=='BUSY'">
+									<span class="glyphicon glyphicon-off"></span>
+								</div>
+								<div class="btn btn-default" ng-disabled="modelet.stateSwitch" ng-show="modelet.executionLanguage.toUpperCase()=='MATLAB' || modelet.executionLanguage.toUpperCase()=='EXCEL'"
+									tooltip="{{modelet.profiler}}" tooltip-placement="right" tooltip-trigger="mouseenter">{{modelet.host + ':'+ modelet.port }}
+								</div>
+								<div class="btn btn-default" ng-disabled="modelet.stateSwitch" ng-show="modelet.executionLanguage.toUpperCase()=='R' && modelet.rServePort != 0"
+									tooltip="{{modelet.profiler}}" tooltip-placement="right" tooltip-trigger="mouseenter">{{modelet.host + ':'+ modelet.port + '/' + modelet.rServePort}}
+								</div>
+								<div class="btn btn-default" ng-disabled="modelet.stateSwitch" ng-show="modelet.executionLanguage.toUpperCase()=='R' && modelet.rServePort == 0"
+									tooltip="{{modelet.profiler}}" tooltip-placement="right" tooltip-trigger="mouseenter">{{modelet.host + ':'+ modelet.port }}
+								</div>
+							</div>
+							<!-- <div data-drag="{{isModeletDraggable(modelet.status)}}" data-jqyoui-options="{revert: 'invalid'}" ng-model="pool.modelets" jqyoui-draggable="{index: {{$index}},animate:true}" style="padding: 5px;" ng-hide="!modelet.ip"> 
+						<div class="btn dropdown-toggle" ng-class="getModeletClass(modelet.status)" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{modelet.ip + ':'+ modelet.port}}<span class="caret" style="margin-left: 10px;"></span></div>
+						<ul class="dropdown-menu">
+								<li><a href="#">Retry</a></li>
+								<li><a href="#">Restart</a></li>
+								<li><a href="#">Kill</a></li>
+								<li role="separator" class="divider"></li>
+								<li><a href="#">{{modelet.capacity}}</a></li>
+						</ul>
+					</div> -->
+						</div>
+					</div>
+				</div>
+				<!-- /.box-body -->
+	</div><!-- /.box -->
+	</td>
+   </tr>
+</table>
+
+
+<!-- Button Bar -->
+<div class="col-md-8">
+	<div class="col-md-4">
+		<div class="col-md-3 btn btn-success" ng-disabled="true" style="opacity: 1;"><span class="glyphicon glyphicon-off"></span></div>
+		<div class="col-md-9" style="padding-top: 5px"> Modelet is active </div>
+	</div>
+	<div class="col-md-4">
+		<div class="col-md-3 btn btn-danger" ng-disabled="true" style="opacity: 1;"><span class="glyphicon glyphicon-off"></span></div>
+		<div class="col-md-9" style="padding-top: 5px"> Modelet is inactive </div>
+	</div>
+	<div class="col-md-4">
+		<div class="col-md-3 btn btn-default" ng-disabled="true" style="opacity: 1;background-color: #f4f4f4;"><span class="glyphicon glyphicon-off"></span></div>
+		<div class="col-md-9" style="padding-top: 5px"> Modelet is busy </div>
+	</div>
+</div>
+<div class="col-md-4">
+	<div class="modal-footer" role="group">
+  		<button type="button" class="btn btn-sm btn-primary" ng-click="init()">Cancel</button>
+  		<button type="button" class="btn btn-sm btn-primary" ng-click="save()">Commit</button>
+  		<button type="button" class="btn btn-sm btn-primary" ng-click="launchRestartPopUp()">Modelet Restart</button>
+	</div>
+</div>
+<!-- <div class="col-md-12 info-msg" id="rServeInfoMsg" align="left">For R Modelets, statuses shown are RServe statuses</div> -->
+
+<!-- Modelet Auto Restart pop up -->
+<div class="modal" id="restartModal" tabindex="-1" role="dialog"
+	aria-labelledby="restartModalLabel" aria-hidden="true"
+	ng-show="openPopUp">
+	<div class="modal-dialog" style="width: 80%;">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background-color: #3C8DBC; color: white; height: 40px;">
+				<button type="button" class="close" data-dismiss="modal"
+					ng-click="closeRestartPopUp();" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body" style="height:500px; overflow: auto;">
+				<div class="box box-solid box-primary">
+					<div class="box-header">
+						<table style="width: 100%">
+							<tr>
+								<td width="30%"><h3 class="box-title"
+										style="font-size: 15px;">Tenant Code</h3></td>
+								<td width="30%"><h3 class="box-title"
+										style="font-size: 15px;">Model & Version</h3></td>
+								<td width="30%"><h3 class="box-title"
+										style="font-size: 15px;">Restart Transaction Count</h3></td>
+								<td width="10%"><h3 class="box-title"
+										style="font-size: 15px;"></h3></td>
+							</tr>
+						</table>
+					</div>
+				</div>	
+					<table style="width: 100%" ng-show="showRowCreationForm">
+					<tr>
+						<td>
+							<div id="createRestartRow" class="box box-default"
+								style="margin-top: -21px;">
+								<div class="box-header with-border">
+									<table style="width: 100%">
+										<tr>
+											<td width="30%">
+												<div>
+													<select class="form-control" id="new_row_tenant" title="Select Tenant"
+														ng-model="newRow.tenantId"
+														ng-change="newRowSelectTenant(newRow.tenantId)"
+														style="border: none;">																									
+														<option  ng-repeat="(t,n) in tenantsWithoutAny" value="{{t}}"
+															ng-selected="t.toUpperCase()==newRow.tenantId.toUpperCase()">{{n}}</option>
+													</select>
+												</div>
+											</td>
+											<td width="30%">
+												<div>
+													<select class="form-control" id="new_row_model" title="Select Model & Version"
+														ng-model="newRow.modelNameAndVersion"
+														ng-change="newRowSelectModel()"
+														ng-disabled="newRow.tenantId == ''"
+														style="border: none;">
+														<option ng-repeat="m in modelNamesBySelectedTenant" value="{{m}}"
+															ng-selected="m.toUpperCase()==newRow.modelNameAndVersion.toUpperCase()">{{m}}</option>
+													</select>
+												</div>
+											</td>
+											<td width="30%"><input type="text" style="width: 95%;"
+												onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+												ng-paste="pasteCount($event.originalEvent)"
+												id="new_row_count" class="form-control input-sm pull-left"
+												ng-model="newRow.restartCount" placeholder="Enter Count"
+												title="Can only take positive integer less than 10000." />
+											</td>
+											<td width="5%">
+												<button type="submit" class="btn btn-primary" ng-click="addRestartConfig();"
+													ng-disabled="newRow.tenantId == '' || newRow.modelNameAndVersion == '' || newRow.restartCount == null">Save</button>
+											</td>
+											<td width="5%">
+												<div class="box-tools pull-right">
+													<button class="btn btn-box-tool" data-toggle="tooltip"
+														title="Cancel">
+														<i class="fa fa-times"
+															ng-click="showRowCreationForm = false; clearNewRow();"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+									</table>
+									<div id="createRowErrorMsg" class="error-msg" ng-show="createRestartError" align="center">{{createRestartErrorMessage}}</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+					</table>			
+					<table style="width: 100%">
+					<tr ng-repeat="configRow in restartConfigRows">
+						<td>
+							<div id="configRow_{{$index}}" class="box box-default"
+								ng-model="pool.modeletClientInfoList"
+								style="margin-top: -21px;">
+								<div class="box-header with-border">
+									<table style="width: 100%">
+										<tr>
+											<td width="30%">{{configRow.tenantId}}</td>
+											<td width="30%">{{configRow.modelNameAndVersion}}</td>
+											<td width="30%"><input
+												type="text" style="width: 95%;"
+												onkeypress="return (event.charCode >= 48 && event.charCode <= 57)"
+												id="row_count_{{$index}}"
+												ng-paste="pasteExistingCount($event.originalEvent,$index)"
+												class="form-control input-sm pull-left"
+												ng-model="configRow.restartCount" placeholder="Enter Count"
+												title="Can only take positive integer less than 10000." />
+											</td>
+											<td width="10%">
+												<div class="box-tools pull-right">
+													<button class="btn btn-box-tool" data-toggle="tooltip"
+														title="Delete restart configuration">
+														<i class="fa fa-trash-o"
+															style="color: red; font-size: large;"
+															ng-click="deleteRestartConfig(configRow)"></i>
+													</button>
+												</div>
+											</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</table>
+			</div>
+			<div class="modal-footer">
+				<div class="col-md-6 success-msg" id="rowErrorMsg"
+					ng-hide="restartError" align="left">{{restartMessage}}</div>
+				<div class="col-md-6 error-msg" id="rowErrorMsg"
+					ng-show="restartError" align="left">{{restartMessage}}</div>
+				<div class="col-md-6">
+					<button type="button" class="btn btn-sm btn-primary"
+						aria-hidden="true" ng-click="showRowCreationForm = true">Add</button>
+					<button type="button" class="btn btn-sm btn-primary"
+						aria-hidden="true" ng-click="updateRestartConfig();">Update</button>
+					<button type="button" class="btn btn-sm btn-primary"
+						aria-hidden="true" data-dismiss="{{modalVar}}"
+						ng-click="closeRestartPopUp();">Cancel</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

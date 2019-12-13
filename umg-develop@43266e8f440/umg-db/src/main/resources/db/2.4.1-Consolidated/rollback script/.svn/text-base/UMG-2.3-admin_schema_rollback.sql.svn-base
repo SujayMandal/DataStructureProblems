@@ -1,0 +1,20 @@
+use UMG_ADMIN;
+
+alter table USER_ROLES drop index unq_user_per_role_per_tenant;
+alter table USER_ROLES drop column TENANT_CODE;
+
+drop table if exists USERS_LOGIN_AUDIT;
+DROP TABLE IF EXISTS COMMAND;
+
+alter table USERS drop index unq_user_per_tennant;
+alter table USERS drop column TENANT_CODE;
+
+alter table USERS drop column NAME,
+drop column OFFICIAL_EMAIL,
+drop column ORGANIZATION,
+drop column COMMENTS,
+drop column CREATED_ON,
+drop column LAST_ACTIVATED_ON,
+drop column LAST_DEACTIVATED_ON;
+
+COMMIT;

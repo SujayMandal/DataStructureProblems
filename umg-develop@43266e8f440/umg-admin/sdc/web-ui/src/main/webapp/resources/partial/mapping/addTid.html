@@ -1,0 +1,366 @@
+<style>
+#donate {
+	margin: 0px! important;
+}
+
+tbody tr td {
+	padding: 2px! important;
+}
+
+label {
+	margin-bottom: 0px! important;
+}
+
+.table{
+ margin-bottom: 0px;
+}
+</style>
+
+
+
+<!-- Pick API Pop-up -->
+<div class="modal" id="pickModal" tabindex="-1" role="dialog"
+	aria-labelledby="pickModalLabel" aria-hidden="true" ng-show="ViewTidCopyInfoDiv">
+	<div class="modal-dialog" style="width: 60%; height: 60%" >
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #3C8DBC;color:white;height: 60px;">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div class="input-append">
+					<input type="search" id="search_container" class="form-control"
+								ng-model="searchString" placeholder="type to search API..."
+								style="width: 200px">
+				</div>
+			</div>
+			<div class="modal-body" style="height: 405px! important;">
+				<div id="tid_PickGrid" class="umg-grid" style="height: 335px;"
+							ng-grid="apiGridOptions"></div>		
+									
+									
+			<div id="gridfooter" ng-include
+				src=" 'resources/partial/mapping/tid-copy-list-footer.html' "></div>						
+			</div>
+			<!-- <div id="gridfooter" ng-include
+				src=" 'resources/partial/mapping/tid-copy-list-footer.html' "></div> -->
+			<div class="modal-footer">
+			
+				<div class="col-md-3">
+				</div>
+				<div class="col-md-3">
+					<button id="tidCopy.select" type="button" class="col-md-12 btn btn-primary"
+						data-dismiss="modal" ng-click="selectTidCopy()"
+						ng-hide="doneDisable" ng-disabled="selectedAPI.length == 0">Select</button>
+				</div>
+				<div class="col-md-3">
+					<button id="tidCopy.cancel" type="button" class="col-md-12 btn btn-primary"
+						data-dismiss="modal" ng-click="cancelTidCopy()"
+						ng-disabled="cancelDisable">Cancel</button>
+				</div>
+				<div class="col-md-3">
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<form name="AddTid" class="form-horizontal">
+	<div>
+		<div id="tidErrMsg" class="error-msg txt-corner5" ng-show="showMessage" align="center">{{message}}</div>						
+		<div id="tidSuccessMsg" class="success-msg txt-corner5" ng-show="showSuccessMessage" align="center">{{message}}</div>		  
+	</div>
+					
+	<div class="col-md-12" id="tid-add" title="Add I/O Mapping"
+		align="center">
+		<div class="box box-primary" id="topcontent">
+			<div class="box-body" id="addTid.tableDisplay" style="padding-bottom:0px !important;">
+				<div class="col-md-3 form-group">
+					<span class="col-sm-6 control-label">API
+						Name :</span> <span class="col-sm-6 control-label">{{apiName}}</span>
+				</div>
+				<div class="col-md-3 form-group">
+					<span class="col-sm-9 control-label">Version
+						No :</span> <span class="col-sm-3 control-label">{{versionNo}}</span>
+				</div>
+				<div class="col-md-6 form-group">
+					<span for="addTid.tcopy" class="col-sm-4 control-label"
+						>Copy From :</span>
+					<div class="col-sm-5">
+						<input id="addTid.tcopy" type="text" name="tcopy"
+							class="form-control input-sm" ng-model="addTid.tcopy"
+							placeholder="API to copy" ng-disabled="tcopyDisable" readonly/>
+					</div>
+					<div class="col-sm-3">
+						<span class="btn btn-primary btn-sm" id="addTid.Pick"
+							type="button" ng-click="browseTidList()" data-toggle="modal"
+							data-target="#pickModal" ng-disabled="tcopyDisable" ng-click="browseTidList()">Pick & Copy</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col-md-12">
+		<div class="form-group col-md-8" align="center">
+			<div id="donate">
+				<label class="default" style="width: 300px"> <input
+					type="radio" id="addTid.inputmapping" name="inoutmapping"
+					value="INPUTMAPPING" ng-model="addTid.iomapping" ng-disabled="intern"
+					ng-change="extractChangedMapping()" /> <span> <b>Input
+							Mapping</b>
+				</span>
+				</label> <label class="default" style="width: 300px"> <input
+					type="radio" id="addTid.outputmapping" name="inoutmapping"
+					value="OUTPUTMAPPING" ng-model="addTid.iomapping"
+					ng-change="extractChangedMapping()" /> <span> <b>Output
+							Mapping</b>
+				</span>
+				</label>
+			</div>
+		</div>
+		<div class="input-group form-group input-group-sm col-md-4">
+			<input type="search" class="form-control" id="free_search_text"
+				ng-model="searchOption.searchText" placeholder="type to search">
+			<div class="input-group-btn">
+				<button id="search" type="submit" class="btn btn-primary"
+					ng-click="search()">Search</button>
+			</div>
+		</div>
+	</div>
+	<!-- <div ag-grid="gridOptions" class="ag-fresh col-md-12 form-group"
+			style="height: 375px"></div> -->
+	<div class="col-md-12">
+		<div class="box box-primary">
+			<tree-grid tree-data="tree_data" tree-control="my_tree"
+				outer-param="sysMapping" on-click="my_tree_handler(branch)"
+				col-defs="col_defs" expand-on="expanding_property"
+				on-select="my_tree_handler(branch)" expand-level="0"
+				icon-leaf="glyphicon glyphicon-globe" style="height: 325px"></tree-grid>
+		</div>
+	</div>
+	<div class="col-md-12" align="center">
+		<div class="col-md-1"></div>
+		<div class="col-md-2">
+			<button style="width: 110px" type="button" class="btn btn-primary btn-sm"
+				id="addTid.tidFinalize" ng-disabled="publishedOrDeactivated"
+				ng-click="saveTidMidMapping(tree_data,false)">Update</button>
+		</div>
+		<div class="col-md-2">
+			<button style="width: 110px" type="button" class="btn btn-primary btn-sm"
+				id="AddTIDParam.add" ng-click="addParamTID()" ng-disabled="divgreyout || addTid.iomapping=='OUTPUTMAPPING'" >Add
+				Param</button>
+		</div>
+		<div class="col-md-2">
+			<button style="width: 110px" type="button" class="btn btn-primary btn-sm"
+				id="addTid.lstQuery" ng-disabled="lstQueryDisable"
+				ng-click="listQuery(tree_data)">List Queries</button>
+		</div>
+		<div class="col-md-2">
+			<button style="width: 110px" type="button" id="addTid.createQuery"
+				class="btn btn-primary btn-sm"
+				ng-disabled="crtQueryDisable || publishedOrDeactivated"
+				ng-click="createQuery(tree_data)">Write Queries</button>
+		</div>
+		<div class="col-md-2">
+			<button style="width: 110px" type="button" class="btn btn-primary btn-sm"
+				id="addTid.cancel" ng-disabled="cancelled" ng-click="cancel()">Cancel</button>
+		</div>
+		<div class="col-md-1"></div>
+	</div>
+</form>
+
+
+
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" style="display: none">
+	<div class="modal-dialog" style="margin-top: 6%; width: 80%;">
+		<div class="modal-content">
+
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">x</span>
+				</button>
+				<h3 class="modal-title">Add Parameter</h3>
+			</div>
+
+			<form class="form-horizontal">
+				<div class="modal-body" style="color: #484848 ! important">
+
+					<div class="form-group">
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label">Parent Hierarchy :</label>
+							<div class="col-sm-6">
+								<select id="ParentHierarchy" class="form-control"
+									ng-model="parentHierarchy">
+									<option>Base</option>
+									<option ng-show="rowSelectFlag">{{selectedRow.flatenedName}}</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label">Dimension :</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control"
+									ng-model="addTID.dimension" name="dimension">
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-6" ng-show="showExpose">
+							<label class="col-sm-6 control-label">Skip in Tenant API
+								:</label>
+							<div class="col-sm-6">
+								<select id="TenantAPI" class="form-control"
+									ng-model="addTID.exposedToTenant">
+									<option value="true">true</option>
+									<option value="false"
+										ng-selected="false==addTID.exposedToTenant">false</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label">Parameter name :</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control"
+									ng-model="addTID.paramLabel" name="paramName"
+									placeholder="Enter Label" ng-required="true" ng-disabled="visibleParamTID"/>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label">Description :</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control"
+									ng-model="addTID.description" name="desc"
+									placeholder="add description">
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label">Mandatory
+								Flag(original) :</label>
+							<div class="col-sm-6">
+								<select id="ManFlagOri" class="form-control"
+									ng-model="addTID.mandatory" ng-disabled="mandatoryDisabled">
+									<option value="true">true</option>
+									<option value="false" ng-selected="false==addTID.mandatory">false</option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label">Default value :</label>
+							<div class="col-sm-6">
+								<input id="AddTIDUpdate.defaultValue" class="form-control"
+									name="defaultValue" type="text" ng-model="addTID.defaultValue"
+									ng-disabled="visibleInfoTID" placeholder="Enter Default Value"
+									ng-show="!dateTID" /> <input type="date" id="AddTID.dateField"
+									class="form-control" ng-model="addTID.defaultValue"
+									ng-disabled="visibleInfoTID" ng-show="dateTID" />
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label">Syndicate flag :</label>
+							<div class="col-sm-6">
+								<select id="SynFlag" class="form-control"
+									ng-model="addTID.syndicate">
+									<option value="true">true</option>
+									<option value="false" ng-selected="false==addTID.syndicate">false</option>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label">Data Type :</label>
+							<div class="col-sm-6">
+								<select id="DataType" class="form-control"
+									ng-model="addTID.dataType" name="dataType"
+									ng-disabled="visibleInfoTID"
+									ng-options="datatype for datatype in dataTypes">
+								</select>
+							</div>
+							<!-- <div class="col-sm-6" ng-show="!showDataType">
+								<input id="AddTIDUpdate.numericDataType" type="text"
+									class="form-control" name="numericdataType"
+									ng-model="addTID.dataType" ng-disabled="visibleInfoTID">
+								</input>
+							</div> -->
+						</div>
+						<div class="col-sm-6" ng-show="showSize">
+							<label class="col-sm-6 control-label">Length :</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" positive-numbers
+									ng-model="addTID.size" name="length"
+									ng-disabled="visibleInfoTID" placeholder="Enter Size">
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-6" ng-show="showPrecision">
+							<label class="col-sm-6 control-label">Precision :</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control"
+									ng-model="addTID.precision" name="precision" positive-numbers
+									ng-disabled="visibleInfoTID" />
+							</div>
+						</div>
+						<div class="col-sm-6" ng-show="showFormat">
+							<label class="col-sm-6 control-label">Pattern :</label>
+							<div class="col-sm-6">
+								<select id="DataFormat" class="form-control"
+									ng-model="addTID.dataFormat" name="pattern"
+									ng-disabled="visibleInfoTID"
+									ng-options="dataformat for dataformat in dataFormat" required>
+								</select>
+							</div>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label">Parameter sequence
+								:</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control"
+									ng-model="addTID.sequence" name="paramSeq" disabled>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<!-- <label class="col-sm-6 control-label" style="padding: 0px;">Mandatory
+								Flag(from mapping screen) :</label>
+							<div class="col-sm-6">
+								<select id="ManFlagUpdated" class="form-control"
+									ng-model="addTID.manFlagUpdated">
+									<option value="true">True</option>
+									<option value="false">False</option>
+								</select>
+							</div> -->
+
+							<div id="AddTIDUpdate.errorMsg" class="error-msg"
+								ng-show="showTIDMessage">{{tidMessage}}</div>
+
+						</div>
+					</div>
+
+				</div>
+
+
+				<div class="modal-footer">
+					<button type="submit" class="btn btn-primary"
+						ng-click="addNewTidParameter(addTID)" data-dismiss="{{modalDismiss}}">Save</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+

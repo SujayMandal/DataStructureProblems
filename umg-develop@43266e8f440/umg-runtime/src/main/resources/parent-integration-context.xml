@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:int="http://www.springframework.org/schema/integration"
+	xmlns:oxm="http://www.springframework.org/schema/oxm" xmlns:int-http="http://www.springframework.org/schema/integration/http"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/integration/http http://www.springframework.org/schema/integration/http/spring-integration-http.xsd
+		http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+		http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+	<int:publish-subscribe-channel id="errorHandlingChannel" />
+	<bean id="loggingHandler" class="org.springframework.integration.handler.LoggingHandler">
+		<constructor-arg value="ERROR" />
+	</bean>
+	<bean id="loggingEndpoint"
+		class="org.springframework.integration.endpoint.EventDrivenConsumer">
+		<constructor-arg index="0" ref="errorHandlingChannel" />
+		<constructor-arg index="1" ref="loggingHandler" />
+	</bean>
+	<bean id="taskScheduler"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler"
+		destroy-method="destroy">
+		<property name="poolSize" value="10"></property>
+		<property name="threadNamePrefix" value="flow-scheduler-" />
+		<property name="rejectedExecutionHandler" ref="callerRunPolicy" />
+		<property name="errorHandler" ref="messagePublisingErrorHandler" />
+		<property name="waitForTasksToCompleteOnShutdown" value="true" />
+	</bean>
+	<bean id="callerRunPolicy"
+		class="java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy" />
+	<bean id="messagePublisingErrorHandler"
+		class="org.springframework.integration.channel.MessagePublishingErrorHandler">
+		<property name="defaultErrorChannel" ref="errorHandlingChannel" />
+	</bean>
+
+	<bean id="jsonConverter"
+		class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+		<property name="supportedMediaTypes" value="application/json" />
+	</bean>
+
+	<bean id="requestValidator" class="com.ca.umg.rt.validator.ModelRequestValidator">
+		<property name="cacheRegistry" ref="cacheRegistry" />
+		<property name="deploymentBO" ref="deploymentBOImpl"></property>
+	</bean>	
+	
+	<bean id="customValidator" class="com.ca.umg.rt.validator.CustomValidator">
+		<property name="cacheRegistry" ref="cacheRegistry" />
+		<property name="deploymentBO" ref="deploymentBOImpl"></property>
+	</bean>
+	
+	<bean id="mappingInputTransformer" class="com.ca.umg.rt.transformer.MappingInputTransformer">
+		<property name="cacheRegistry" ref="cacheRegistry" />
+		<property name="deploymentBO" ref="deploymentBOImpl"></property>
+	</bean>
+
+	<bean id="modelRequestTransformer" class="com.ca.umg.rt.transformer.ModelRequestTransformer">
+		<property name="cacheRegistry" ref="cacheRegistry" />
+		<property name="deploymentBO" ref="deploymentBOImpl" />
+		<property name="staticDataContainer" ref="staticDataContainer" />
+		<property name="systemParameterProvider" ref="systemParam" />
+	</bean>
+	
+	
+	<bean id ="modelResponseFactory" class="com.ca.umg.rt.response.ModelResponseFactory">
+		<property name="systemParameterProvider" ref="systemParam" />
+	</bean>
+
+	<bean id="modelResponseTransformer" class="com.ca.umg.rt.transformer.ModelResponseTransformer">
+		<property name="cacheRegistry" ref="cacheRegistry" />
+		<property name="deploymentBO" ref="deploymentBOImpl"></property>
+		<property name = "responseFactory" ref="modelResponseFactory"></property>
+		<property name="systemParameterProvider" ref="systemParam" />
+	</bean>
+	
+	<bean id="mappingOutputTransformer" class="com.ca.umg.rt.transformer.MappingOutputTransformer">
+		<property name="cacheRegistry" ref="cacheRegistry" />
+		<property name="deploymentBO" ref="deploymentBOImpl"></property>
+	</bean>
+	<bean id="me2ResponseValidatorTransformer"
+		class="com.ca.umg.rt.transformer.ModelResponseValidatorTransformer" />
+	<bean id="requestToMapTransformer" class="com.ca.umg.rt.transformer.PayloadToMapTransformer" />
+	<bean id="contentEnricher" class="com.ca.umg.rt.transformer.ContentEnrichTransformer" />
+	<bean id="jdbcValidateTransformer" class="com.ca.umg.rt.transformer.JdbcValidateTransformer" />
+	<bean id="me2FailoverTransformer" class="com.ca.umg.rt.transformer.MeTwoFailoverTransformer" />
+
+	<bean id="errorUnWrapper" class="com.ca.umg.rt.transformer.ErrorUnWrapper">
+		<constructor-arg name="dataSource" ref="dataSource" />
+		<constructor-arg name="notificationTriggerDelegate" ref="notificationTriggerDelegate" />
+        <constructor-arg name="poolObjectsLoader" ref="poolObjectsLoader" />
+	</bean>
+
+	<bean id="arrayRowMapper" class="com.ca.umg.rt.util.ArrayRowMapper" />
+	
+	<bean id="logMongoHandler" class="com.ca.umg.rt.transformer.LogHandler">
+		<property name="mongoTransactionLogDAO" ref="mongoTransactionLogDAOImpl" />
+		<property name="transactionLogDAO" ref="transactionLogDAOImpl"></property>
+	</bean>
+
+    <bean class="com.ca.umg.rt.transformer.MongoLogAdapter" id="logadapter" init-method="init" destroy-method="destroy">
+        <property name="mongoTransactionLogDAO" ref="mongoTransactionLogDAOImpl" />
+        <property name="transactionLogDAO" ref="transactionLogDAOImpl"></property>
+        <property name="moveFileAdapter" ref="moveFileAdapter"></property>
+        <property name="batchingDelegate" ref="batchingDelegateImpl"></property>
+    </bean>
+    
+	<bean id="me2Executor" class="com.ca.umg.rt.transformer.Me2Executor">
+		<property name="modelExecutorBO" ref="modelExecutorBOImpl"></property>
+	</bean>
+	
+	<bean id="bulkFileTransformer" class="com.ca.umg.rt.transformer.BulkFileTransformer"></bean>
+
+</beans>

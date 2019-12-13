@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<import resource="classpath:app-context.xml" />
+
+	<bean id="fileRequestProcessingScheduler"
+		class="com.ca.umg.file.scheduler.FileRequestProcessingScheduler" />
+
+	<bean id="fileRequestProcessor" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg value="com.ca.umg.file.processor.FileRequestProcessor" />
+	</bean>
+
+	<bean id="runtimeClient" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg value="com.ca.umg.file.rt.RuntimeClient" />
+	</bean>
+
+	<bean id="dataContainers" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg value="com.ca.umg.file.container.DataContainers" />
+	</bean>
+
+	<bean id="cacheRegistry"
+		class="com.ca.framework.core.cache.registry.impl.DefaultCacheRegistry">
+		<constructor-arg name="configFile" value="hazelcast-config.xml" />
+	</bean>
+
+	<bean id="umgRestTemplate" class="org.mockito.Mockito"
+		factory-method="mock">
+		<constructor-arg value="org.springframework.web.client.RestTemplate" />
+	</bean>
+
+
+
+</beans>

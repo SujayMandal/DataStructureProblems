@@ -1,0 +1,92 @@
+<div class=>
+<div class="col-sm-12 zeroPaddingLeft">
+	<div id="container_demo" class="box-body">
+		<div class="extraPaddingTopBottom backgroundColorDiv alignLeft">
+			<b class="textMessage">
+				<div ng-bind-html="approveMessage"></div>
+			</b>
+		</div>
+		<div class="box box-primary noBorderTop" ng-show="noError">
+			<div class="box-header box-header-div3 {{validErrorResponse? 'errorBackgroundDiv' : ''}}">
+				<i class="fa fa-info-circle"></i>
+				<h3 class="box-title fontWeight600">Model Status</h3>
+			</div>
+			<div class="box-body boxBodyDiv zeroPadding">
+				<div class="col-sm-12 borderBottom rowPadding">
+					<div class="col-sm-4 zeroPaddingLeft boldText">
+						Model Name
+					</div>
+					<div class="col-sm-8">
+						{{modelDetails.name}}
+					</div>
+				</div>
+				<div class="col-sm-12 borderBottom rowPadding">
+					<div class="col-sm-4 zeroPaddingLeft boldText">
+						Model Description
+					</div>
+					<div class="col-sm-8">
+						{{modelDetails.description}}
+					</div>
+				</div>
+				<div class="col-sm-12 borderBottom rowPadding">
+					<div class="col-sm-4 zeroPaddingLeft boldText">
+						Model Version
+					</div>
+					<div class="col-sm-8">
+						{{modelDetails.majorVersion}}
+						.
+						{{modelDetails.minorVersion}}
+					</div>
+				</div>
+				<div class="col-sm-12 borderBottom rowPadding">
+					<div class="col-sm-4 zeroPaddingLeft boldText">
+						Status
+					</div>
+					<div class="col-sm-8">
+						{{modelDetails.status}}
+					</div>
+				</div>
+				<div class="col-sm-12 borderBottom rowPadding">
+					<div class="col-sm-4 zeroPaddingLeft boldText">
+						Tenant
+					</div>
+					<div class="col-sm-8">
+						{{modelDetails.tenantName}}
+					</div>
+				</div>
+				<div class="col-sm-12 borderBottom rowPadding">
+					<div class="col-sm-4 zeroPaddingLeft boldText">
+						Created By
+					</div>
+					<div class="col-sm-8">
+						{{modelDetails.createdBy}}
+					</div>
+				</div>
+				<div class="col-sm-12 borderBottom rowPadding">
+					<div class="col-sm-4 zeroPaddingLeft boldText">
+						Created On
+					</div>
+					<div class="col-sm-8">
+						{{modelDetails.createdDateTime}}
+					</div>
+				</div>
+				<div class="col-sm-12 borderBottom rowPadding">
+					<div class="col-sm-4 zeroPaddingLeft boldText">
+						Approved By
+					</div>
+					<div class="col-sm-8">
+						{{modelDetails.publishedBy}}
+					</div>
+				</div>
+				<div class="col-sm-12 rowPadding">
+					<div class="col-sm-4 zeroPaddingLeft boldText">
+						Approved On
+					</div>
+					<div class="col-sm-8">
+						{{modelDetails.publishedDateTime}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

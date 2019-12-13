@@ -1,0 +1,52 @@
+
+/**************************************************************
+ This style sheets will be loaded when home.jsp is loaded,
+ other style sheets are referenced in this CSS so that
+ number of css link in the home.jsp can be reduced to one
+ 
+ Note :-
+FRAMEWORKS & LIBS should import first because 
+if you want to customize any of the features it should be in the imported order
+overriding will happen on the loading order. 
+   
+ =============================================== */
+ @import url(../../css/reset.css);
+ /************************************************************ 
+                 IMPORTING FRAMEWORKS & LIBS                */
+                 
+                 
+/* GRID  */   
+@import url(../../css/grid/ng-grid-style.css);
+@import url(../../css/grid/model-grid.css);       
+@import url(../../css/grid/ng-grid.css);
+@import url(layout/grid-style.css);
+
+
+/* BOOTSTRAP  */
+/* css required for ui bootstrap - tabs */
+@import url(../../lib/bootstrap/bootstrap-3.3.2-dist/css/bootstrap.min.css);
+@import url(../../lib/bootstrap/bootstrap-3.3.2-dist/css/bootstrap-theme.min.css);
+/*  DATE PICKER */
+@import url(../../lib/datetimepicker-0.3.8-0/src/css/datetimepicker.css);
+
+ /**======================================================= */
+ /************************************************************
+                           COMMON CSS                       */
+                          
+@import url(../../css/umg/layout/text.css);
+@import url(../../css/umg/layout/images.css); 
+ /**======================================================= */
+ /************************************************************
+                   IMPORTING PROJECT RELATED CSS            */
+ @import url(layout/splitter.css);
+ @import url(layout/report.css);
+ @import url(layout/div-table.css);
+ @import url(style/common-ui.css);
+ @import url(style/popup-menu.css);
+ 
+ 
+ @import url(../../css/toastr/toastr.min.css);
+
+
+
+ /**======================================================= */

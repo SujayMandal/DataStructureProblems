@@ -1,0 +1,51 @@
+    <!-- Grid Header -->
+<div id="sp_gridheader" class="box box-primary">
+
+    <div class="box-body" style="padding-top: 5px;">
+        <div class="row" style="padding-bottom: 5px;">
+            <div class="col-sm-8">
+                <div style="padding: 5px; margin-bottom: 0px;"></div>
+            </div>
+            <div class="col-sm-4"></div>
+        </div>
+
+        <!-- Body Portion Of Grid -->
+        <div id="sp_gridbody">
+            <div class="box-body" ng-show="true">
+                <div class="col-md-12">
+                    <div class="col-md-2" ng-repeat="modelet in modeletclientList track by modeletTrackingId(modelet)" style="padding-right: 3px;">
+                        <div class="btn btn-sm"
+                             ng-class="getModeletClass(modelet.modeletStatus);"
+                             style="width:125px;margin-top:10px;" ng-click="showProcessList(modelet);"
+                             ng-disabled="getModeletDisbaledStatus(modelet);">
+                            {{modelet.host + ':'+ modelet.port }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" ng-show="showEditPopup">
+    <div class="modal-dialog" style="margin-top: 4%">
+        <div class="modal-content" style="width:120%">
+            <div class="modal-header" style="background-color: #3C8DBC; color: white;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="closeNewModal()">
+                    <span aria-hidden="true">x</span>
+                </button>
+                <h3 class="modal-title">Process Running on Modelet </h3>
+            </div>
+                <div class="modal-body">
+
+                    <div ng-show="showFailureMessage">{{showMessage}}</div>
+                    <div ng-repeat="process in processsList" ng-show="showSuccesssMessage" class="list-group-item list-group-item">{{process}}</div>
+
+                </div>
+                <div class="modal-footer">
+
+                </div>
+        </div>
+    </div>
+</div>

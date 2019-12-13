@@ -1,0 +1,630 @@
+
+<style>
+#centerRow>#center>.ag-list-selection {
+	text-align: left;
+}
+
+#center {
+	float: left;
+}
+
+.ag-cell {
+	text-align: center ! important;
+}
+
+.ag-header-cell {
+	text-align: center ! important;
+}
+
+.modal-title {
+	color: #fff ! important;
+}
+
+#south {
+	display: none !important;
+}
+
+.ag-header-cell-menu-button {
+	opacity: 1 ! important;
+}
+
+.col-md-2 {
+    width: 17.666667%;
+}
+
+polygon, rect {
+	fill: #fff;
+}
+
+.rag-red {
+	background-color: lightcoral ! important;
+}
+</style>
+
+
+
+
+<div id="dashboardErrorMsg" class="error-msg" ng-show="showMessage" align="center">{{errorMessage}}</div>
+<form name="TransactionDashboardForm" class="form-horizontal">
+	
+	<div class="box box-primary" style="margin-bottom: 5px;    box-shadow: none;">
+        <div class="box-body" id="TransactionDashboard.tableDisplay">
+            <div class="col-md-12" style="text-align: left; padding-left: 0px">
+                    <div class="row">
+                    <!-- <div class="col-md-1"></div> -->
+                   <div class="col-md-3">
+                  <span class="form-label"> Search based on </span>
+                    <select id="searchType"  name="searchType" class="form-control"  
+                        ng-init="searchType = searchTypeList[0]" 
+                        ng-model="filter.searchType" 
+                        ng-change="searchChange(filter.searchType)"
+                        ng-options="searchType for searchType in searchTypeList">
+                    </select>
+                  </div>
+                <div class="col-md-2 ">
+                <span class="form-label">&nbsp;</span>
+                    <div>
+                        <button id="TransactionDashboard.search" type="button"
+                            class="btn btn-primary" ng-disabled="searchDisable ? TransactionDashboardForm.$error.required : searchDisable" ng-click="searchTransactions()" style="width: 40%; margin-right:10%;"> 
+                            Search</button>
+                        <button id="TransactionDashboard.clear" type="button"
+                            class="btn btn-primary" ng-click="clear()" style="width: 40%;">
+                            Clear</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+	
+	<div class="box box-primary" id="topcontent"
+		style="margin-bottom: -8px;    box-shadow: none;">
+		<div class="box-body" id="TransactionDashboard.tableDisplay">
+			<div class="col-md-12" style="text-align: left; padding-left: 0px">
+				<div class="col-md-2 " style="padding-left: 0px">
+					<span class="form-label" > Model
+						Name </span><span ng-show="modelNameMndt" style="color:red">*</span>
+				</div>
+				<div class="col-md-2 ">
+					<span class="form-label" > Model
+						Version </span><span ng-show="majorVersionMndt" style="color:red">*</span>
+				</div>
+				<div class="col-md-2 ">
+					<span class="form-label" >
+						Transaction Status </span><span ng-show="transactionStatusMndt" style="color:red">*</span>
+				</div>
+				<div class="col-md-2 ">
+					<span class="form-label" >
+						Run-date from </span><span ng-show="datetimepicker1Mndt" style="color:red">*</span>
+				</div>
+				<div class="col-md-2 ">
+					<span class="form-label" >
+						Run-date to </span><span ng-show="datetimepicker2Mndt" style="color:red">*</span>
+				</div>
+				<div class="col-md-2 "></div>
+			</div>
+			<div class="col-md-12" style="padding-left: 0px">
+				<!-- <div class="col-md-1 " style="padding-left: 0px;width: 5.333333%;">
+                </div> -->
+				<div class="col-md-2 " style="padding-left: 0px">
+					<select class="form-control" id="filter.tenantModelName"
+						name="tenantModelName" ng-model="filter.tenantModelName"
+						ng-options="aliasName for aliasName in tenantModelNames"
+						ng-required="modelNameMndt"
+						ng-disabled="flags.tenantModelName">
+					</select>
+				</div>
+				<div class="col-md-2 ">
+					<input id="TransactionDashboard.majorVersion" ng-trim="true"
+						name="majorVersion" type="text" class="form-control"
+						ng-required="majorVersionMndt"
+						ng-model="filter.fullVersion" ng-disabled="flags.fullVersion"/>
+				</div>
+				<div class="col-md-2 ">
+					<select id="transactionStatus"  name="transactionStatus" class="form-control"  
+					ng-init="transactionStatus = transactionStatusList[0]" 
+					ng-required="transactionStatusMndt"
+						ng-model="filter.transactionStatus" 
+						ng-disabled="flags.transactionStatus"
+						ng-options="transactionStatus for transactionStatus in transactionStatusList">
+					</select>
+				</div>
+				<div class="col-md-2 ">
+					<div class='input-group date' id='datetimepicker1'>
+						<input id="runAsOfDateFromString" type="text" class="form-control" ng-required="datetimepicker1Mndt" ng-disabled="flags.runAsOfDateFromString"
+							ng-model="filter.runAsOfDateFromString" date-time-picker
+							format="dateTimeFormat" /> <span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+				<div class="col-md-2 ">
+					<div class='input-group date' id='datetimepicker2'>
+						<input id="runAsOfDateToString" type="text" class="form-control" ng-required="datetimepicker2Mndt" ng-disabled="flags.runAsOfDateToString"
+							ng-model="filter.runAsOfDateToString" date-time-picker
+							format="dateTimeFormat" /> <span class="input-group-addon">
+							<span class="glyphicon glyphicon-calendar"></span>
+						</span>
+					</div>
+				</div>
+			<!-- 	<div class="col-md-2 ">
+					<div>
+						<button id="TransactionDashboard.search" type="button"
+							class="btn btn-primary" ng-disabled="searchFlag" ng-click="searchTransactions()" style="width: 40%; margin-right:10%;"> 
+							Search</button>
+						<button id="TransactionDashboard.clear" type="button"
+							class="btn btn-primary" ng-click="clear()" style="width: 40%;">
+							Clear</button>
+					</div>
+				</div> -->
+			</div>
+		</div>
+	</div>
+
+
+<!-- advanced search box -->
+<!-- <a id="advancedSearch" ng-click= "showAdvanceSearch()" class="btn btn-sm" style="color :#4E5152;"> 
+	<span class="form-label" > Advanced Search &nbsp</span> 
+	<span class="fa fa-caret-down"></span></a> -->
+<div class="box box-primary" ng-show="showAdvSrch" style="margin-bottom: 0px;    border-top: 0px;"> 
+	<!-- background-color: rgba(158, 200, 24, 0.18); border-top-color : #94BB1E;"> -->
+	<div class="box-header with-border"
+		style="padding-top: 0px; padding-bottom: 0px;padding-left: 0px">
+		<div id="advGridRow1" >
+			<div class="box-body" style="padding-bottom:0px;">
+	            <div class="row">
+	              <div class="col-md-2">
+	              <span class="form-label">Tenant Transaction Id </span><span ng-show="clientTransactionIDMndt" style="color:red;">*</span>
+	                <!-- <input type="text" class="form-control" id="tenantTransactionId" 
+	                placeholder="Tenant transaction id"> -->
+	                <input id="filter.clientTransactionID"  name="clientTransactionID" type="text" class="form-control" 
+	                ng-model="filter.clientTransactionID" ng-required="clientTransactionIDMndt" ng-disabled="flags.clientTransactionID"/>
+	              </div>
+	               <div class="col-md-2">
+                  <span class="form-label">RA Transaction Id </span><span ng-show="raTransactionIDMndt" style="color:red">*</span>
+                    <input id="filter.raTransactionID"  name="raTransactionID" type="text" class="form-control" 
+                    ng-model="filter.raTransactionID" ng-required="raTransactionIDMndt" ng-disabled="flags.raTransactionID"/>
+                  </div>
+	              <div class="col-md-2">
+	              <span class="form-label"> Failure Type </span><span ng-show="errorTypeMndt" style="color:red">*</span>
+	               <!--  <input type="text" class="form-control" id="failureCode"
+	                placeholder="Failure Code"> -->
+	                <select id="filter.errorType"  name="errorType" class="form-control" ng-model="filter.errorType" ng-required="errorTypeMndt" ng-disabled="flags.errorType" 
+							ng-options="errorType.code as errorType.displayName for errorType in ErrorTypeList">
+						</select>
+	              </div>
+	              <div class="col-md-2">
+	              <span class="form-label"> Failure Reason </span><span ng-show="errorDescriptionMndt" style="color:red">*</span>
+	                <input id="filter.errorDescription" class="form-control" name="errorDescription" type="text" 
+	                ng-model="filter.errorDescription" ng-required="errorDescriptionMndt" ng-disabled="flags.errorDescription" />
+	              </div>
+	              <div class="col-md-2">
+	              <span class="form-label"> Transaction Type </span><span ng-show="transactionTypeMndt" style="color:red">*</span>
+					<select id="transactionType"  name="transactionType" class="form-control"  
+					ng-init="transactionType = transactionTypeList[0]" 
+						ng-model="filter.transactionType" ng-required="transactionTypeMndt" ng-disabled="flags.transactionType"
+						ng-options="transactionType for transactionType in transactionTypeList">
+					</select>
+				  </div>
+				  <!-- uncomment when transaction mode is added in next sprint -->
+	              <!-- <div class="col-xs-2">
+	                <span class="form-label"> Transaction Mode </span>
+					<select id="transactionMode"  name="transactionMode" class="form-control"  
+					ng-init="transactionMode = transactionModeList[0]" 
+						ng-model="filter.transactionMode" 
+						ng-options="transactionMode for transactionMode in transactionModeList">
+					</select>
+				  </div> -->
+				<!--   <div class="col-xs-2">
+	                <span class="form-label"> Batch ID </span>
+	                <input id="filter.batchId" class="form-control" name="batchId" type="text" 
+	                ng-model="filter.batchId" />
+	              </div> -->
+	              
+	              <!-- Tips is removed
+	              <div class="col-md-2" style="margin-top: 15px;">
+					<div>
+						<div id="tips" class="tip-icon" ng-click="advSrchNote()" data-toggle="modal" data-target="#advSrch-note"/>
+					</div>
+				 </div>
+				 	 -->
+			<!-- 	 	  <div class="col-xs-2">
+	              <span class="form-label"> Execution Group </span>
+					<select id="executionGroup"  name="executionGroup" class="form-control"  
+					  ng-init="executionGroup = executionGroupList[0]" 
+						ng-model="filter.executionGroup" 
+						ng-options="executionGroup for executionGroup in executionGroupList">
+					</select>
+					</div> -->
+	            </div>
+            </div>
+			<div class="box-body" ng-show="showAdvfilterCriteria1">
+	            <div class="row" id="criteria1"  >
+	              <div class="col-xs-2">
+	              	<span class="form-label"> Search In</span>
+					<select ng-model="Advfilter.searchIn1" id="SearchIn1"  name="SearchIn1" class="form-control" >
+      				  <option ng-repeat="inputType in inputTypeMap" value="{{inputType.id}}" 
+      				  ng-selected="Advfilter.searchIn1 == inputType.name">{{inputType.name}}</option>
+    				</select>
+	              </div>
+	              <div class="col-xs-3">
+	              <span class="form-label"> Payload Key </span>
+	                <input ng-model="Advfilter.parameter1" id="Advfilter.parameter1"  name="AdvfilterParameter1" 
+	                type="text" class="form-control"
+	                placeholder="Object.Child">
+	              </div>
+	              <div class="col-xs-2">
+	                <span class="form-label"> Operator </span>
+					<select id="Advfilter.operator1"  name="QueryOperator1" class="form-control" 
+						ng-model="Advfilter.operator1">
+						<option value="">Select operator</option>
+						<option ng-selected="operatr1==Advfilter.operator1"
+							ng-repeat="operatr1 in operatorList" value="{{operatr1}}">{{operatr1}}</option>
+					</select>
+	              </div>
+	              <div class="col-xs-3">
+	              <span class="form-label"> Payload Value </span>
+	                <input ng-model="Advfilter.value1" id="Advfilter.value1"  name="AdvfilterValue1" 
+	                	type="text" class="form-control" 
+	                placeholder="Value">
+	              </div>
+	              <a ng-click= "removeAdvanceSearchCrit()" class="glyphicon glyphicon-minus-sign" 
+	              		ng-hide="hideRemoveButton" style= "font-size: large; top:19px; color:#B5B9BB;"></a>
+	            </div>
+            </div>
+			<div class="box-body" style="padding-top: 10px;" ng-show="showAdvfilterCriteria2">
+				<div class="row col-sm-10" style="text-align:center;">
+					<label style="padding-right:5px;"> <input
+						type="radio" id="qryCriteriaAnd" name="qryCriteria"
+						value="AND" ng-model="Advfilter.qryCriteria" ng-disabled="intern"/> 
+						<span class="form-label"> And </span>
+					</label> 
+					<label > <input
+						type="radio" id="qryCriteriaOr" name="qryCriteria"
+						value="OR" ng-model="Advfilter.qryCriteria"/> 
+						<span class="form-label"> Or </span>
+					</label>
+				</div>	
+			</div>
+            <div class="box-body" style="padding-top:0px;" >
+	            <div class="row" id="criteria2" ng-show="showAdvfilterCriteria2">
+	              <div class="col-xs-2">
+	              	<span class="form-label"> Search In</span>
+					<select ng-model="Advfilter.searchIn2" id="SearchIn2"  name="SearchIn2" class="form-control" >
+      				  <option ng-repeat="inputType in inputTypeMap" value="{{inputType.id}}" 
+      				  ng-selected="Advfilter.searchIn2 == inputType.name">{{inputType.name}}</option>
+    				</select>
+	              </div>
+	              <div class="col-xs-3">
+	              <span class="form-label"> Parameter </span>
+	                <input ng-model="Advfilter.parameter2" id="Advfilter.parameter2"  name="AdvfilterParameter2" 
+	                type="text" class="form-control"
+	                placeholder="Value">
+	              </div>
+	              <div class="col-xs-2">
+	                <span class="form-label"> Operator </span>
+					<select id="Advfilter.operator2"  name="QueryOperator2" class="form-control" 
+						ng-model="Advfilter.operator2">
+						<option value="">Select operator</option>
+						<option ng-selected="operatr2==Advfilter.operator2"
+							ng-repeat="operatr2 in operatorList" value="{{operatr2}}">{{operatr2}}</option>
+					</select>
+	              </div>
+	              <div class="col-xs-3">
+	              <span class="form-label"> Value </span>
+	                <input ng-model="Advfilter.value2" id="Advfilter.value2"  name="AdvfilterValue2" 
+	                	type="text" class="form-control" 
+	                placeholder="Value">
+	              </div>
+	              <a ng-click= "removeAdvanceSearchCrit()" class="glyphicon glyphicon-minus-sign" 
+	              		style= "font-size: large; top:19px; color:#B5B9BB;"></a>
+	            </div>
+            </div>
+            <div id="payloadField" class="col-sm-2" style="padding : 0px;cursor: not-allowed;pointer-events: none;"> 
+			      <!-- <span class="glyphicon glyphicon-plus-sign add">Add Field</span> -->
+					<!-- <a ng-click= "showAdvanceSearchCrit()" class="glyphicon glyphicon-plus-sign"
+					style= "font-size: medium; color:#4B5154;">
+					</a> 
+					<a class> Add Field</a> -->
+					<!-- <div class="col-md-3 col-sm-4"> -->
+					<div class="col-sm-1" style="padding-left : 0px; padding-right: 30px;" ng-click= "showAdvanceSearchCrit()">
+					<i class="fa fa-fw fa-plus-circle" 
+					style= "font-size: large;"></i></div>
+					<div class="col-sm-1 form-label" style ="padding-top:5px; font-size:12px !important; padding-left: 0px; width:100px">  Payload Field</div> 
+					<!-- <span class="form-label" style = "padding-left : 5px; padding-bottom : 10px; height : 30px; "> AddField </span> -->		
+			</div>            
+		</div>
+	</div>
+</div>
+</form>
+<!-- the grid to show the transactions -->
+<div class="box box-primary" style="margin-bottom: 0px; ">
+<!-- border-top-color : #94BB1E; -->
+	<div class="box-body">
+		<div class="box-header" ng-show="showGrid || totalCount != 0"
+			style="padding: 0px;">
+			
+			<div class="pull-left" ng-show="!searchResultMessageWarnning"><label style="color: #00a65a;">{{searchResultMessage}}</label></div>
+			
+			<div class="pull-left" ng-show="searchResultMessageWarnning"><label style="color: red;">{{searchResultMessage}}</label></div>
+			  	
+			<div class="pull-right">
+				<span>&nbsp &nbsp Rows: &nbsp</span>
+					<select id="td_setPageSize" class="pageSizeMenu" ng-change="pageSizeChanged()"
+						ng-model="grid.pagingOptions.pageSize"
+						ng-options="size as size for size in grid.pagingOptions.pageSizes"></select>
+			</div>
+			  	
+			<div class="pull-right" >
+			  <button id="dLabel" type="button" class="btn btn-sm" data-toggle="dropdown" aria-haspopup="true" 
+			  aria-expanded="false" ng-click="columnMsg=''" style="color :#4E5152; background-color:#FFFFFF;padding: 0px;">
+			    &nbsp; Columns &nbsp;
+			    <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu"  id="dropdown-menu" aria-labelledby="dLabel" onclick="event.stopPropagation();"
+			  	style="background-color: #EEEEEE; border: 1px solid;border-radius: 0px;border-color: #AAAAAA;
+			  	padding: 6px;padding-bottom: 3px;padding-top: 3px;">
+			  		<li ng-repeat="col in columnRed"><input type="checkbox"
+						ng-model="col.flag" ng-change="colHide(col.field,col.flag)"
+						ng-click="" />{{col.headerName}}</li>
+			  </ul>
+			</div>
+			
+			
+			
+		</div>
+		<div ng-show="showGrid || totalCount != 0" id="dashGrid" ag-grid="gridOptions"
+			class="ag-blue" style="height: 450px;"></div>
+		<div ng-show="showGrid" id="gridfooter" ng-include
+			src=" 'resources/partial/dashboard/dashboard-grid-footer.html' "></div>
+		<div ng-show="showNoGrid && totalCount == 0" id="td_noModelFound" class="box"
+			style="text-align: center; margin: 0px; background-color: hsla(191, 16%, 26%, 0.2);">
+			<div class="box-body">
+				<h3>No Records Found</h3>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- version details pop up on click of version number in grid -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+	aria-labelledby="myModalLabel" style="display: none">
+	<div class="modal-dialog" style="margin-top: 6%; width: 80%;">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">x</span>
+				</button>
+				<h3 class="modal-title">Version Details</h3>
+			</div>
+			<form class="form-horizontal">
+				<div class="modal-body" style="color: #484848 ! important">
+					<div class="form-group">
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label">UMG Library Name : </label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control"
+									ng-model="ViewDashaboardVersion.umgLibraryName" name="dimension" readonly/>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label">UMG Model Name :</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control"
+									ng-model="ViewDashaboardVersion.umgModelName" name="paramName" readonly/>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label">TID Name :</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control"
+									ng-model="ViewDashaboardVersion.umgTidName" name="desc" readonly/>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label">Status :</label>
+							<div class="col-sm-6">
+								<input id="AddTIDUpdate.defaultValue" class="form-control"
+									name="defaultValue" type="text" ng-model="ViewDashaboardVersion.status" readonly/> 
+							</div>
+						</div>
+						<div class="col-sm-6" >
+							<label class="col-sm-6 control-label">Published On :</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control" positive-numbers
+									ng-model="ViewDashaboardVersion.publishedOn" name="length" readonly/>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<label class="col-sm-6 control-label">Published By
+								:</label>
+							<div class="col-sm-6">
+								<input type="text" class="form-control"
+									ng-model="ViewDashaboardVersion.publishedBy" name="paramSeq" readonly/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>	
+		</div>
+	</div>
+</div>
+
+
+<!-- <div class="modal fade" id="exportModalTranDsbrd" tabindex="-1" role="dialog"
+	aria-labelledby="exportModalLabelTranDsbrd" style="display: none">
+	<div class="modal-dialog" style="margin-top: 6%; width: 60%;">
+<div class="modal fade" id="exportModal" tabindex="-1" role="dialog" aria-labelledby="exportModalLabel" aria-hidden="true">
+  <div class="modal-dialog" >
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" style="color: orange;" id="reportModalLabel">Export Transactions</h4>
+      </div>
+      <div class="modal-body">
+      sadasd
+       <input type="radio" id="all" name="transaction.type" ng-model="all.transactions" value="all" 
+       ng-click=""> All transactions <br>
+        <input type="radio" id="selected" name="transaction.type" ng-model="all.transactions" value="selected" 
+        ng-click=""> Selected transactions ({{gridOptions.selectedRows.length}})<br>
+        What transactions do you want to export ? <br>
+        <input type="radio" id="all" name="transaction.type" ng-model="all.transactions" value="all" ng-click="disableAndEnableExportOptionsAll()"> All transactions ({{grid.pagingOptions.totalServerItems}})<br>
+        <input type="radio" id="selected" name="transaction.type" ng-model="all.transactions" value="selected" ng-click="disableAndEnableExportOptionsSelected()"> Selected transactions ({{selectedTransactions.length}})<br>
+        <br/>
+        What is the purpose for export ? <br>
+        <input type="radio" id="billing" name="export.option" ng-model="billing" value="billing"> Billing <br>
+        <input type="radio" id="rerun" name="export.option" ng-model="re.run" value="rerun"> Re-run <br>
+      </div>
+      <div class="modal-footer">
+        <div>
+        asdsad
+        	<span class="pull-left" style="color: red;" ng-show="exportMsg">{{exportMsg}}</span>
+			<button  type="button" class="btn btn-primary" 
+			id="cancel_export" data-dismiss="modal"> CANCEL </button>
+			<button  type="button" class="btn btn-primary" id="ok" 
+			ng-click="downloadUsageReport()"> Download </button>
+			
+			<button type="button" class="btn btn-primary" data-dismiss="modal"
+				ng-click="clearModal();">Cancel</button>
+			<button type="button" class="btn btn-primary" data-dismiss="modal"
+				ng-click="uploadBatchFunc()">Upload</button>
+		</div>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<!-- pop up for usage report -->
+<div class="modal" id="dwnldUsgRprt" tabindex="-1"
+	role="dialog" aria-labelledby="dwnldUsgRprtLabel"
+	aria-hidden="true"
+	ng-show="showUsgRprtRerunPopup">
+	<div class="modal-dialog" style="width: 40%; height: 50%">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background-color: #3C8DBC; color: white;">
+				<button type="button" class="close" data-dismiss="modal"
+					ng-click="" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Usage Report</h3> <h5>(Max 50,000 transactions) </h5>
+				<!-- <h3>Usage Report</h3> (Max 50,000 transactions) -->
+			</div>
+			<div class="modal-body" style="padding-bottom: 30px;" ng-hide="hideForRerunWrongSelection">
+			 	<input type="radio" id="all" name="transaction.type" ng-model="all.transactions" value="all" 
+       				ng-click=""> All transactions ({{totalSearchedTransactions}})<br>
+       			<input type="radio" id="selected" name="transaction.type" ng-model="all.transactions" value="selected" 
+        			ng-click=""> Selected transactions ({{selectedTransForUsgRprtCnt}})<br>
+			</div>
+		</div>
+		<div class="modal-footer" style="background-color: #FFFFFF;">
+			<button  type="button" class="btn btn-primary" id="ok" 
+			ng-click="downloadUsageReport()" ng-disabled="all.transactions == null || all.transactions == ''"
+			> Download </button>
+			<button  type="button" class="btn btn-primary" 
+			id="cancel_export" data-dismiss="modal" ng-hide="hideForRerunWrongSelection"> Cancel </button>
+		</div>
+	</div>
+</div>
+
+<!-- pop up for usage report -->
+<div class="modal" id="dwnldExecRprt" tabindex="-1"
+	role="dialog" aria-labelledby="dwnldExecRprtLabel"
+	aria-hidden="true"
+	ng-show="showExecRprtRerunPopup">
+	<div class="modal-dialog" style="width: 40%; height: 50%">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background-color: #3C8DBC; color: white;">
+				<button type="button" class="close" data-dismiss="modal"
+					ng-click="" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Execution Report</h3> <h5>(Max 50,000 transactions) </h5>
+				<!-- <h3>Usage Report</h3> (Max 50,000 transactions) -->
+			</div>
+			<div class="modal-body" style="padding-bottom: 30px;" ng-hide="hideForRerunWrongSelection">
+			 	<input type="radio" id="all_exec" name="transaction.type" ng-model="all.transactions" value="all_exec" 
+       				ng-click=""> All transactions ({{totalSearchedTransactions}})<br>
+       			<input type="radio" id="selected_exec" name="transaction.type" ng-model="all.transactions" value="selected_exec" 
+        			ng-click=""> Selected transactions ({{selectedTransForUsgRprtCnt}})<br>
+			</div>
+		</div>
+		<div class="modal-footer" style="background-color: #FFFFFF;">
+			<button  type="button" class="btn btn-primary" id="ok" 
+			ng-click="downloadExecReport()" ng-disabled="all.transactions == null || all.transactions == ''"
+			> Download </button>
+			<button  type="button" class="btn btn-primary" 
+			id="cancel_export_execution_report" data-dismiss="modal" ng-hide="hideForRerunWrongSelection"> Cancel </button>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal" id="reRunPopId" tabindex="-1"
+	role="dialog" aria-labelledby="reRunPopIdLabel"
+	aria-hidden="true"
+	ng-show="reRunPopUpShow">
+	<div class="modal-dialog" style="width: 40%; height: 50%">
+		<div class="modal-content">
+			<div class="modal-header"
+				style="background-color: #3C8DBC; color: white;">
+				<button type="button" class="close" data-dismiss="modal"
+					ng-click="clearModal();" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<div ng-show="downloadIoErrorShow">
+					<h3 class="modal-title">Download I/O Files</h3>
+				</div>
+				<div ng-hide="downloadIoErrorShow">
+					<h3 class="modal-title">Export for Re-run</h3>
+				</div>
+				
+			</div>
+			<div class="modal-body" style="padding-bottom: 30px;">
+			 	<label class="control-label"><!-- Export for Re-run is applicable 
+			 	for transactions with same Model Name and Version -->
+			 	{{sameModelVerErrorMsg}} <br> {{tranCntErrorMsg}}</label>
+			</div>
+		</div>
+		<div class="modal-footer" style="background-color: #FFFFFF;">
+			<button type="button" class="btn btn-primary" data-dismiss="modal"
+				ng-click="clearModal();">Ok</button>
+		</div>
+	</div>
+</div>
+
+
+<!-- upload note dialog -->
+
+<div class="modal" id="advSrch-note" tabindex="-1" role="dialog" aria-labelledby="dwnldUsgRprtLabel" aria-hidden="true" 
+	title="Tip for Advanced Search..." ng-show="showNote">
+	
+	<div class="modal-dialog" style="width: 50%; height: 50%">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #3C8DBC; color: white;">
+				<button type="button" class="close" data-dismiss="modal" ng-click="" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title">Tips for Advanced Search</h3>
+			</div>
+	
+			<div class="modal-body" style="padding-bottom: 30px;">
+				<ol>
+					<li>1) Search key in advanced search should have the following structure : &ltObject&gt.&ltMember-1&gt....&ltMember-n&gt 
+						<br>Available options for &ltObject&gt: tenantInput, tenantOutput, modelInput, modelOutput
+						<br>Available options for &ltMember-1&gt: header,data
+						<br>Available options for @ltMember-2...n&gt: field names as in TID/MID definition 
+						<br>Ex:- tenantInput.data.modelCommonAssumptions.shortSaleByOcwen</li>
+					<li>2) At least one search key, comparison operator, and value should be provided before clicking search. </li>
+					<li>3) AND/OR operator can be used to combine two search strings.</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+$(document).ready(function(){
+	permissionMapping();
+});
+</script>       

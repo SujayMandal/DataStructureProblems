@@ -1,0 +1,203 @@
+<div class="box box-primary">
+	<!-- <div class="box-header">
+		<div class="box-title">View Model</div>
+	</div> -->
+	<!-- Data Grid -->
+	<div class="box-body">
+		<table class="table table-borderless table-condensed">
+			<tbody>
+				<tr>
+					<td width="20%"><strong>Model API Name</strong></td>
+					<td width="80%">{{smp.name}}</td>
+				</tr>
+				<tr>
+					<td width="20%"><strong>Model API Description</strong></td>
+					<td width="80%">{{smp.versionDescription}}</td>
+				</tr>
+				<tr>
+					<td width="20%"><strong>Version</strong></td>
+					<td width="80%">{{smp.majorVersion}}.{{smp.minorVersion}}</td>
+				</tr>
+				<tr>
+					<td width="20%"><strong>Execution Language</strong></td>
+					<td width="80%">{{smp.modelLibrary.modelExecEnvName}}</td>
+				</tr>
+				<tr>
+					<td width="20%"><strong>Execution Environment</strong></td>
+					<td width="80%">{{smp.modelLibrary.execEnv}}</td>
+				</tr>
+				<tr>
+					<td width="20%"><strong>Model Type</strong></td>
+					<td width="80%">{{smp.modelType}}</td>
+				</tr>
+				<tr>
+					<td width="20%"><strong>Allow Null Data</strong></td>
+					<td width="80%">{{smp.mapping.model.allowNull | checkmark}}</td>
+				</tr>
+				<tr>
+					<td width="20%"><strong>Status</strong></td>
+					<td width="80%">{{smp.status}}</td>
+				</tr>
+				<tr>
+					<td width="20%"><strong>Created By</strong></td>
+					<td width="80%">{{smp.createdBy}}</td>
+				</tr>
+				<tr>
+					<td width="20%"><strong>Created On</strong></td>
+					<td width="80%">{{smp.createdDateTime}}</td>
+				</tr>
+				<tr ng-show="smp.status == 'PUBLISHED' || smp.status == 'PENDING APPROVAL'">
+					<td width="20%"><strong>Approval Requested By</strong></td>
+					<td width="80%">{{smp.requestedBy}}</td>
+				</tr>
+				<tr ng-show="smp.status == 'PUBLISHED' || smp.status == 'PENDING APPROVAL'">
+					<td width="20%"><strong>Approval Requested On</strong></td>
+					<td width="80%">{{smp.requestedDateTime}}</td>
+				</tr>
+				
+				<tr>
+					<td width="20%"><strong>Approver</strong></td>
+					<td width="80%">{{smp.approver}}</td>
+				</tr>
+				
+				<tr ng-show="smp.status == 'PUBLISHED' && smp.emailApproval == 1">
+					<td width="20%"><strong>Approved By</strong></td>
+					<td width="80%">{{smp.publishedBy}}</td>
+				</tr>
+				<tr ng-show="smp.status == 'PUBLISHED' && smp.emailApproval == 1">
+					<td width="20%"><strong>Approved On</strong></td>
+					<td width="80%">{{smp.publishedDateTime}}</td>
+				</tr>
+				<tr ng-show="smp.status == 'PUBLISHED' && smp.emailApproval == 0">
+					<td width="20%"><strong>Published By</strong></td>
+					<td width="80%">{{smp.publishedBy}}</td>
+				</tr>
+				<tr ng-show="smp.status == 'PUBLISHED' && smp.emailApproval == 0">
+					<td width="20%"><strong>Published On</strong></td>
+					<td width="80%">{{smp.publishedDateTime}}</td>
+				</tr>
+v				<tr ng-show="smp.status == 'DEACTIVATED'">
+					<td width="20%"><strong>Deactivated By</strong></td>
+					<td width="80%">{{smp.deactivatedBy}}</td>
+				</tr>
+				<tr ng-show="smp.status == 'DEACTIVATED'">
+					<td width="20%"><strong>Deactivated On</strong></td>
+					<td width="80%">{{smp.deactivatedDateTime}}</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+		<!-- Download icons -->
+
+		<div class="alert alert-info" ng-hide="smp.id == ''"
+			style="margin-top: 15px; padding: 8px; background-color: #495463 !important; border-color: #495463;">
+			 <strong>Download</strong> Model Artifacts.
+		</div>
+
+		<div class="col-sm-12">
+			<div align="center" ng-hide="smp.id == ''">
+				
+				<div id="mv_downloadJar_div_linux" class="col-sm-2" style="text-align: center;" ng-show="smp.modelLibrary.execEnv=='Linux'">
+					<a id="mv_downloadJar"
+						href="modelDownload/downloadLibraryJar/{{smp.modelLibrary.id}}"
+						onclick="accessPerm(this.id,event);"
+						tooltip="Download model executable file" tooltip-placement="bottom"
+						tooltip-trigger="mouseenter"> <div><img
+						src="./resources/images/targz_icon.png" height="100px" width="100px"
+						alt=""></div> <div style="word-wrap: break-word;"> {{smp.jarName}} </div>
+					</a>
+				</div>
+				
+				<div id="mv_downloadJar_div_windows" class="col-sm-2" style="text-align: center;" ng-hide="smp.modelLibrary.execEnv=='Linux'">
+					<a id="mv_downloadJar"
+						href="modelDownload/downloadLibraryJar/{{smp.modelLibrary.id}}"
+						onclick="accessPerm(this.id,event);"
+						tooltip="Download model executable file" tooltip-placement="bottom"
+						tooltip-trigger="mouseenter"> <div><img
+						src="./resources/images/zip_icon.png" height="100px" width="100px"
+						alt=""></div> <div style="word-wrap: break-word;"> {{smp.jarName}} </div>
+					</a>
+				</div>
+				
+				<div id="mv_downloadModelDefinition_div" class="col-sm-2" style="text-align: center;">
+					<a id="mv_downloadModelDefinitionXml"
+						href="modelDownload/downloadModelXml/{{smp.mapping.model.id}}"
+						onclick="accessPerm(this.id,event);"
+						tooltip="Download Model Definition XML" tooltip-placement="bottom"
+						tooltip-trigger="mouseenter"> <div><img
+						src="./resources/images/xml3.png" height="100px" width="100px"
+						alt=""></div> <div style="word-wrap: break-word;"> {{smp.mapping.model.ioDefinitionName}} </div> 
+					</a>
+				</div>
+				
+				<div id="mv_downloadModelDoc_div" class="col-sm-2" style="text-align: center;">
+					<a id="mv_downloadModelDoc"
+						href="modelDownload/downloadModelDoc/{{smp.mapping.model.id}}"
+						onclick="accessPerm(this.id,event);"
+						tooltip="Download Model Document" tooltip-placement="bottom"
+						tooltip-trigger="mouseenter"> <div><img
+						src="./resources/images/doc3.png" height="100px" width="100px"
+						alt=""></div> <div style="word-wrap: break-word;"> {{smp.mapping.model.documentationName}} </div> 
+					</a>
+				</div>
+
+				<div id="mv_downloadModelDefinition_div" class="col-sm-2" ng-show="smp.mapping.model.ioDefExcelName" style="text-align: center;">
+					<a id="mv_downloadModelDefinitionExcel"
+						href="modelDownload/downloadModelExcel/{{smp.mapping.model.id}}"
+						onclick="accessPerm(this.id,event);"
+						tooltip="Download Model Definition Excel"
+						tooltip-placement="bottom" tooltip-trigger="mouseenter"> <div><img
+						src="./resources/images/xlsx.png" height="100px" width="100px"
+						alt=""></div> <div style="word-wrap: break-word;"> {{smp.mapping.model.ioDefExcelName}} </div> 
+					</a>
+				</div>
+				
+				<div id="mv_downloadModelManifest_div" class="col-sm-2"  ng-show="smp.manifestName != null &&  smp.manifestName != ''" style="text-align: center;">
+					<a id="mv_downloadModelManifest"
+						href="modelDownload/downloadModelLibManifest/{{smp.modelLibrary.id}}"
+						onclick="accessPerm(this.id,event);"
+						tooltip="Download Manifest File"
+						tooltip-placement="bottom" tooltip-trigger="mouseenter"> <div><img
+						src="./resources/images/csv.png" height="100px" width="100px"
+						alt=""></div> <div style="word-wrap: break-word;"> {{smp.manifestName}} </div>
+					</a>
+				</div>
+				
+				<div id="mv_downloadReportTemplate_div" class="col-sm-2" ng-show="smp.hasReportTemplate" style="text-align: center;">
+					<a id="mv_downloadReportTemplate"
+						href="report/downloadReportTemplate/{{smp.id}}"
+						onclick="accessPerm(this.id,event);"
+						tooltip="Download Report Template"
+						tooltip-placement="bottom" tooltip-trigger="mouseenter"> <div><img
+						src="./resources/images/jrxml.png" height="100px" width="100px"
+						alt=""></div> <div style="word-wrap: break-word;"> {{smp.reportTemplateName}} </div> 
+					</a>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+
+	<div class="box-footer">
+		<!-- Button Bar -->
+		<div align="center">
+			<button id="mv_submit" type="submit" class="btn btn-primary"
+				ui-sref="modelPublish">Add</button>
+			<button id="test" type="submit" class="btn btn-primary"
+				ng-disabled="smp.id == ''" ng-click="testModelAPI()">Test</button>
+			<button id="mv_mapping" type="button" class="btn btn-primary"
+				ng-disabled="smp.id == ''"
+				ng-click="editMapping(smp.name,smp.majorVersion,smp.minorVersion)">Update
+				Mapping</button>
+			<button id="mv_apis" type="submit" class="btn btn-primary"
+				ui-sref="umgVersionView">Back</button>
+		</div>
+	</div>
+</div>
+<script>
+        $(document).ready(function(){
+            permissionMapping();
+        });
+</script> 

@@ -1,0 +1,1 @@
+-- in mongo prompt execute the below statements replace the ${tenantCode} with tenant name. For example : ocwen 

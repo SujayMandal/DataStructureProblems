@@ -1,0 +1,34 @@
+select *
+from RRRBPMTX_PROP_LIST T1,
+  ( -- fetches only the id's where top record is not-successfull
+      select RBID_PROP_ID_VC_FK
+          from RRRBPMTX_PROP_LIST
+          where (RBID_PROP_ID_VC_FK, TO_NUMBER(regexp_replace(RBID_PROP_LIST_ID_VC_PK,'[[:alpha:]]'))) in
+                ( -- Query to fetch the max of the RBID_PROP_LIST_ID_VC_PK so that we can check the not-successfull in outer query
+                    select RBID_PROP_ID_VC_FK, max(TO_NUMBER(regexp_replace(RBID_PROP_LIST_ID_VC_PK,'[[:alpha:]]')))
+                    from RRRBPMTX_PROP_LIST
+                    where RBID_PROP_ID_VC_FK in
+                        ( -- Query to fetch ids where all the LIST_TYPE_ID_VC_FK are only AUCN
+                            select T1.RBID_PROP_ID_VC_FK
+                            from
+                                (
+                                    select RBID_PROP_ID_VC_FK, count(LIST_TYPE_ID_VC_FK) AS CNT
+                                        from RRRBPMTX_PROP_LIST
+                                        where LIST_TYPE_ID_VC_FK = 'AUCN'
+                                        group by RBID_PROP_ID_VC_FK, LIST_TYPE_ID_VC_FK
+                                 ) T1,
+                                (
+                                    select RBID_PROP_ID_VC_FK, count(RBID_PROP_ID_VC_FK) AS CNT
+                                        from RRRBPMTX_PROP_LIST
+                                        group by RBID_PROP_ID_VC_FK
+                                ) T2
+                             where T1.RBID_PROP_ID_VC_FK = T2.RBID_PROP_ID_VC_FK and T1.CNT = T2.CNT
+                         )
+                    and LIST_STRT_DATE_DT_NN BETWEEN TO_DATE('01-JUL-18') AND TO_DATE('25-JUL-18')
+                    group by RBID_PROP_ID_VC_FK
+                )
+          and LIST_TYPE_ID_VC_FK = 'AUCN'  and (LIST_STTS_DTLS_VC <> 'SUCCESSFUL' OR LIST_STTS_DTLS_VC is null)
+    ) T2
+where T1.RBID_PROP_ID_VC_FK = T2.RBID_PROP_ID_VC_FK and T1.LIST_TYPE_ID_VC_FK = 'AUCN'
+      and (T1.LIST_STTS_DTLS_VC NOT IN ('CANCELLED','DISAPROVED') OR T1.LIST_STTS_DTLS_VC is null)
+      order by T1.LIST_END_DATE_DT_NN desc, T1.RBID_PROP_ID_VC_FK desc;

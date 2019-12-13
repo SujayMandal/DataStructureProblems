@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>
+	/WEB-INF/spring/message-resources.xml
+    /WEB-INF/spring/root-context.xml
+    /WEB-INF/spring/db-context.xml
+   file:///${applicationSecurity.config}
+    </param-value>
+	</context-param>
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>com.ca.framework.core.web.listener.ContextFinalizer</listener-class>
+	</listener>
+
+	<filter>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>springSecurityFilterChain</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>UMGCorsFilter</filter-name>
+		<filter-class>com.ca.sdc.webui.core.filter.UMGCorsFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>UMGCorsFilter</filter-name>
+		<url-pattern>/api/v1.0/search/*</url-pattern>
+	</filter-mapping>
+	
+	<filter-mapping>
+		<filter-name>UMGCorsFilter</filter-name>
+		<url-pattern>/ra-report/download/v1.0/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>umgSecurityFilter</filter-name>
+		<filter-class>com.ca.sdc.webui.core.filter.UMGSecurityFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>umgSecurityFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>tenantResolutionFilter</filter-name>
+		<filter-class>com.ca.sdc.webui.core.filter.TenantResolutionFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>tenantResolutionFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+
+
+	<servlet>
+		<servlet-name>systemConfigLoader</servlet-name>
+		<servlet-class>com.ca.sdc.webui.core.loader.SystemConfigLoader</servlet-class>
+		<init-param>
+			<param-name>umg.properties</param-name>
+			<param-value>${umg.properties}</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>httpFileUploadTransformer</servlet-name>
+		<servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>httpFileUploadTransformer</servlet-name>
+		<url-pattern>/fileUpload/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/servlet-context.xml</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<error-page>
+		<error-code>401</error-code>
+		<location>/WEB-INF/views/errorpages/401.html</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/WEB-INF/views/errorpages/403.html</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/errorpages/404.html</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/views/errorpages/500.html</location>
+	</error-page>
+</web-app>

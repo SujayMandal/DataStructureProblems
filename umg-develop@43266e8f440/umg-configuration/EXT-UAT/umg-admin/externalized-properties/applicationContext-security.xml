@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/security
+                           http://www.springframework.org/schema/security/spring-security.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<sec:global-method-security
+		secured-annotations="enabled" />
+
+	<!-- excluded URL patterns from spring security -->
+	<sec:http pattern="/authz/**" security="none" />
+	<sec:http pattern="/selfsvc/**" security="none" />
+	<sec:http pattern="/metadata/*" security="none" />
+
+	<sec:http pattern="/resources/**" security="none" />
+	<sec:http pattern="/login" security="none" />
+	<sec:http pattern="/favicon.ico" security="none" />
+	<sec:http pattern="/version/getVersionDetails/**" security="none" />
+	
+	<sec:http auto-config="true" entry-point-ref="ssoProcessingFilterEntryPoint"
+		access-decision-manager-ref="affirmativeBased">
+		<sec:intercept-url pattern="/**" access="${spring.security.role}" />
+		<sec:logout invalidate-session="true"
+			logout-success-url="${service.provider.logout.success.url}" />
+		<sec:custom-filter ref="ssoAuthenticationFilter"
+			position="PRE_AUTH_FILTER" />
+		<sec:session-management>
+			<sec:concurrency-control max-sessions="1" />
+		</sec:session-management>
+	</sec:http>
+
+	<import resource="classpath*:/META-INF/spring/security-shib.xml"/>
+</beans>

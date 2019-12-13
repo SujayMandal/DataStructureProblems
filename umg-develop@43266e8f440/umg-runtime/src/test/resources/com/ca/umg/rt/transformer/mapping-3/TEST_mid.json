@@ -1,0 +1,1339 @@
+{  
+   "metadata":{  
+      "model-publisher":"Sample Publisher",
+      "model-method":"computeSampleMehod",
+      "model-version":"SampleModel-1234",
+      "model-class":"computeSampleModel",
+      "model-name":"SampleModel"
+   },
+   "midInput":[  
+      {  
+         "description":"It has datatype as double",
+         "mandatory":true,
+         "syndicate":false,
+         "name":"InputParameter1",
+         "text":"InputParameter1",
+         "flatenedName":"InputParameter1",
+         "sequence":1,
+         "datatype":{  
+            "type":"double",
+            "properties":{  
+               "defaultValue":"11.11"
+            },
+            "array":false
+         },
+         "dataTypeStr":"DOUBLE",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":null,
+         "value":null
+      },
+      {  
+         "description":"It has datatype as string",
+         "mandatory":true,
+         "syndicate":false,
+         "name":"InputParameter2",
+         "text":"InputParameter2",
+         "flatenedName":"InputParameter2",
+         "sequence":2,
+         "datatype":{  
+            "type":"string",
+            "properties":{  
+               "defaultValue":"this is default value example"
+            },
+            "array":false
+         },
+         "dataTypeStr":"STRING",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":null,
+         "value":null
+      },
+      {  
+         "description":"It has datatype as integer",
+         "mandatory":true,
+         "syndicate":true,
+         "name":"InputParameter3",
+         "text":"InputParameter3",
+         "flatenedName":"InputParameter3",
+         "sequence":3,
+         "datatype":{  
+            "type":"integer",
+            "properties":{  
+               "defaultValue":"33"
+            },
+            "array":false
+         },
+         "dataTypeStr":"INTEGER",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":null,
+         "value":null
+      },
+      {  
+         "description":"It has datatype as boolean",
+         "mandatory":true,
+         "syndicate":true,
+         "name":"InputParameter4",
+         "text":"InputParameter4",
+         "flatenedName":"InputParameter4",
+         "sequence":4,
+         "datatype":{  
+            "type":"boolean",
+            "properties":{  
+               "defaultValue":"true"
+            },
+            "array":false
+         },
+         "dataTypeStr":"BOOLEAN",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":null,
+         "value":null
+      },
+      {  
+         "description":"It has datatype as date",
+         "mandatory":false,
+         "syndicate":true,
+         "name":"InputParameter5",
+         "text":"InputParameter5",
+         "flatenedName":"InputParameter5",
+         "sequence":5,
+         "datatype":{  
+            "type":"date",
+            "properties":{  
+               "defaultValue":"2002-09-24"
+            },
+            "array":false
+         },
+         "dataTypeStr":"DATE",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":null,
+         "value":null
+      },
+      {  
+         "description":"It is a boolean array",
+         "mandatory":false,
+         "syndicate":true,
+         "name":"InputParameter6",
+         "text":"InputParameter6",
+         "flatenedName":"InputParameter6",
+         "sequence":6,
+         "datatype":{  
+            "type":"boolean",
+            "properties":{  
+               "dimensions":[  
+                  1,
+                  1
+               ]
+            },
+            "array":true
+         },
+         "dataTypeStr":"BOOLEAN",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":null,
+         "value":null
+      },
+      {  
+         "description":"It is a numeric array",
+         "mandatory":true,
+         "syndicate":false,
+         "name":"InputParameter7",
+         "text":"InputParameter7",
+         "flatenedName":"InputParameter7",
+         "sequence":7,
+         "datatype":{  
+            "type":"numeric",
+            "properties":{  
+               "numerictype":"DOUBLE",
+               "dimensions":[  
+                  1,
+                  1
+               ]
+            },
+            "array":true
+         },
+         "dataTypeStr":"NUMERIC-DOUBLE",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":null,
+         "value":null
+      },
+      {  
+         "description":"It is a multistructure array",
+         "mandatory":true,
+         "syndicate":false,
+         "name":"A",
+         "text":"A",
+         "flatenedName":"A",
+         "sequence":8,
+         "datatype":{  
+            "type":"object",
+            "properties":{  
+               "dimensions":[  
+                  1,
+                  1
+               ]
+            },
+            "array":true
+         },
+         "dataTypeStr":"OBJECT",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":[  
+            {  
+               "description":"Exapmle property info parameter.",
+               "mandatory":true,
+               "syndicate":false,
+               "name":"1st Child of A - A1",
+               "text":"1st Child of A - A1",
+               "flatenedName":"A/1st Child of A - A1",
+               "sequence":1,
+               "datatype":{  
+                  "type":"object",
+                  "properties":{  
+
+                  },
+                  "array":false
+               },
+               "dataTypeStr":"OBJECT",
+               "mapped":false,
+               "dataFormat":null,
+               "size":0,
+               "precision":0,
+               "userSelected":false,
+               "children":[  
+                  {  
+                     "description":"It has datatype as date",
+                     "mandatory":true,
+                     "syndicate":false,
+                     "name":"1st Child of A1 - A11",
+                     "text":"1st Child of A1 - A11",
+                     "flatenedName":"A/1st Child of A - A1/1st Child of A1 - A11",
+                     "sequence":1,
+                     "datatype":{  
+                        "type":"date",
+                        "properties":{  
+                           "defaultValue":"2012-12-12"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"DATE",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string",
+                     "mandatory":true,
+                     "syndicate":true,
+                     "name":"2nd Child of A1 - A12",
+                     "text":"2nd Child of A1 - A12",
+                     "flatenedName":"A/1st Child of A - A1/2nd Child of A1 - A12",
+                     "sequence":2,
+                     "datatype":{  
+                        "type":"string",
+                        "properties":{  
+                           "defaultValue":"asd"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"STRING",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string.",
+                     "mandatory":true,
+                     "syndicate":true,
+                     "name":"3rd Child of A1 - A13",
+                     "text":"3rd Child of A1 - A13",
+                     "flatenedName":"A/1st Child of A - A1/3rd Child of A1 - A13",
+                     "sequence":3,
+                     "datatype":{  
+                        "type":"string",
+                        "properties":{  
+                           "defaultValue":"fgh"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"STRING",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string",
+                     "mandatory":false,
+                     "syndicate":true,
+                     "name":"4th Child of A1 - A14",
+                     "text":"4th Child of A1 - A14",
+                     "flatenedName":"A/1st Child of A - A1/4th Child of A1 - A14",
+                     "sequence":4,
+                     "datatype":{  
+                        "type":"string",
+                        "properties":{  
+                           "defaultValue":"jkl"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"STRING",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string",
+                     "mandatory":false,
+                     "syndicate":true,
+                     "name":"5th Child of A1 - A15",
+                     "text":"5th Child of A1 - A15",
+                     "flatenedName":"A/1st Child of A - A1/5th Child of A1 - A15",
+                     "sequence":5,
+                     "datatype":{  
+                        "type":"object",
+                        "properties":{  
+
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"OBJECT",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":[  
+                        {  
+                           "description":"It has datatype as date",
+                           "mandatory":true,
+                           "syndicate":false,
+                           "name":"1st Child of A15 - A151",
+                           "text":"1st Child of A15 - A151",
+                           "flatenedName":"A/1st Child of A - A1/5th Child of A1 - A15/1st Child of A15 - A151",
+                           "sequence":1,
+                           "datatype":{  
+                              "type":"date",
+                              "properties":{  
+                                 "defaultValue":"2012-12-12"
+                              },
+                              "array":false
+                           },
+                           "dataTypeStr":"DATE",
+                           "mapped":false,
+                           "dataFormat":null,
+                           "size":0,
+                           "precision":0,
+                           "userSelected":false,
+                           "children":null,
+                           "value":null
+                        },
+                        {  
+                           "description":"It has datatype as string",
+                           "mandatory":true,
+                           "syndicate":true,
+                           "name":"2nd Child of A15 - A152",
+                           "text":"2nd Child of A15 - A152",
+                           "flatenedName":"A/1st Child of A - A1/5th Child of A1 - A15/2nd Child of A15 - A152",
+                           "sequence":2,
+                           "datatype":{  
+                              "type":"string",
+                              "properties":{  
+                                 "defaultValue":"asd"
+                              },
+                              "array":false
+                           },
+                           "dataTypeStr":"STRING",
+                           "mapped":false,
+                           "dataFormat":null,
+                           "size":0,
+                           "precision":0,
+                           "userSelected":false,
+                           "children":null,
+                           "value":null
+                        },
+                        {  
+                           "description":"It has datatype as string.",
+                           "mandatory":true,
+                           "syndicate":true,
+                           "name":"3rd Child of A15 - A153",
+                           "text":"3rd Child of A15 - A153",
+                           "flatenedName":"A/1st Child of A - A1/5th Child of A1 - A15/3rd Child of A15 - A153",
+                           "sequence":3,
+                           "datatype":{  
+                              "type":"string",
+                              "properties":{  
+                                 "defaultValue":"fgh"
+                              },
+                              "array":false
+                           },
+                           "dataTypeStr":"STRING",
+                           "mapped":false,
+                           "dataFormat":null,
+                           "size":0,
+                           "precision":0,
+                           "userSelected":false,
+                           "children":null,
+                           "value":null
+                        },
+                        {  
+                           "description":"It has datatype as string",
+                           "mandatory":false,
+                           "syndicate":true,
+                           "name":"4th Child of A15 - A154",
+                           "text":"4th Child of A15 - A154",
+                           "flatenedName":"A/1st Child of A - A1/5th Child of A1 - A15/4th Child of A15 - A154",
+                           "sequence":4,
+                           "datatype":{  
+                              "type":"string",
+                              "properties":{  
+                                 "defaultValue":"jkl"
+                              },
+                              "array":false
+                           },
+                           "dataTypeStr":"STRING",
+                           "mapped":false,
+                           "dataFormat":null,
+                           "size":0,
+                           "precision":0,
+                           "userSelected":false,
+                           "children":null,
+                           "value":null
+                        },
+                        {  
+                           "description":"It has datatype as string",
+                           "mandatory":false,
+                           "syndicate":true,
+                           "name":"5th Child of A15 - A155",
+                           "text":"5th Child of A15 - A155",
+                           "flatenedName":"A/1st Child of A - A1/5th Child of A1 - A15/5th Child of A15 - A155",
+                           "sequence":5,
+                           "datatype":{  
+                              "type":"double",
+                              "properties":{  
+                                 "defaultValue":"1526.23"
+                              },
+                              "array":false
+                           },
+                           "dataTypeStr":"DOUBLE",
+                           "mapped":false,
+                           "dataFormat":null,
+                           "size":0,
+                           "precision":0,
+                           "userSelected":false,
+                           "children":null,
+                           "value":null
+                        }
+                     ],
+                     "value":null
+                  }
+               ],
+               "value":null
+            },
+            {  
+               "description":"Exapmle property info parameter.",
+               "mandatory":true,
+               "syndicate":false,
+               "name":"2nd Child of A - A2",
+               "text":"2nd Child of A - A2",
+               "flatenedName":"A/2nd Child of A - A2",
+               "sequence":2,
+               "datatype":{  
+                  "type":"object",
+                  "properties":{  
+
+                  },
+                  "array":false
+               },
+               "dataTypeStr":"OBJECT",
+               "mapped":false,
+               "dataFormat":null,
+               "size":0,
+               "precision":0,
+               "userSelected":false,
+               "children":[  
+                  {  
+                     "description":"It has datatype as date",
+                     "mandatory":true,
+                     "syndicate":false,
+                     "name":"1st Child of A2 - A21",
+                     "text":"1st Child of A2 - A21",
+                     "flatenedName":"A/2nd Child of A - A2/1st Child of A2 - A21",
+                     "sequence":1,
+                     "datatype":{  
+                        "type":"date",
+                        "properties":{  
+                           "defaultValue":"2012-12-12"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"DATE",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string",
+                     "mandatory":true,
+                     "syndicate":false,
+                     "name":"2nd Child of A2 - A22",
+                     "text":"2nd Child of A2 - A22",
+                     "flatenedName":"A/2nd Child of A - A2/2nd Child of A2 - A22",
+                     "sequence":2,
+                     "datatype":{  
+                        "type":"string",
+                        "properties":{  
+                           "defaultValue":"asd"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"STRING",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string.",
+                     "mandatory":true,
+                     "syndicate":true,
+                     "name":"3rd Child of A2 - A23",
+                     "text":"3rd Child of A2 - A23",
+                     "flatenedName":"A/2nd Child of A - A2/3rd Child of A2 - A23",
+                     "sequence":3,
+                     "datatype":{  
+                        "type":"string",
+                        "properties":{  
+                           "defaultValue":"fgh"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"STRING",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string",
+                     "mandatory":true,
+                     "syndicate":true,
+                     "name":"4th Child of A2 - A24",
+                     "text":"4th Child of A2 - A24",
+                     "flatenedName":"A/2nd Child of A - A2/4th Child of A2 - A24",
+                     "sequence":4,
+                     "datatype":{  
+                        "type":"string",
+                        "properties":{  
+                           "defaultValue":"jkl"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"STRING",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string",
+                     "mandatory":false,
+                     "syndicate":true,
+                     "name":"5th Child of A2 - A25",
+                     "text":"5th Child of A2 - A25",
+                     "flatenedName":"A/2nd Child of A - A2/5th Child of A2 - A25",
+                     "sequence":5,
+                     "datatype":{  
+                        "type":"double",
+                        "properties":{  
+                           "defaultValue":"1526.23"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"DOUBLE",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  }
+               ],
+               "value":null
+            },
+            {  
+               "description":"Exapmle servicer inputs.",
+               "mandatory":true,
+               "syndicate":false,
+               "name":"Child of A - A3",
+               "text":"Child of A - A3",
+               "flatenedName":"A/Child of A - A3",
+               "sequence":3,
+               "datatype":{  
+                  "type":"object",
+                  "properties":{  
+
+                  },
+                  "array":false
+               },
+               "dataTypeStr":"OBJECT",
+               "mapped":false,
+               "dataFormat":null,
+               "size":0,
+               "precision":0,
+               "userSelected":false,
+               "children":[  
+                  {  
+                     "description":"Exapmle servicer owned flag.",
+                     "mandatory":true,
+                     "syndicate":false,
+                     "name":"Child of A3",
+                     "text":"Child of A3",
+                     "flatenedName":"A/Child of A - A3/Child of A3",
+                     "sequence":1,
+                     "datatype":{  
+                        "type":"double",
+                        "properties":{  
+                           "defaultValue":"23.45"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"DOUBLE",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  }
+               ],
+               "value":null
+            }
+         ],
+         "value":null
+      }
+   ],
+   "midOutput":[  
+      {  
+         "description":"It has datatype as double",
+         "mandatory":true,
+         "syndicate":false,
+         "name":"OutParameter1",
+         "text":"OutParameter1",
+         "flatenedName":"OutParameter1",
+         "sequence":1,
+         "datatype":{  
+            "type":"double",
+            "properties":{  
+               "defaultValue":"11.11"
+            },
+            "array":false
+         },
+         "dataTypeStr":"DOUBLE",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":null,
+         "value":null
+      },
+      {  
+         "description":"It has datatype as string",
+         "mandatory":true,
+         "syndicate":false,
+         "name":"OutParameter2",
+         "text":"OutParameter2",
+         "flatenedName":"OutParameter2",
+         "sequence":2,
+         "datatype":{  
+            "type":"string",
+            "properties":{  
+               "defaultValue":"this is default value example"
+            },
+            "array":false
+         },
+         "dataTypeStr":"STRING",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":null,
+         "value":null
+      },
+      {  
+         "description":"It has datatype as integer",
+         "mandatory":true,
+         "syndicate":true,
+         "name":"OutParameter3",
+         "text":"OutParameter3",
+         "flatenedName":"OutParameter3",
+         "sequence":3,
+         "datatype":{  
+            "type":"integer",
+            "properties":{  
+               "defaultValue":"33"
+            },
+            "array":false
+         },
+         "dataTypeStr":"INTEGER",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":null,
+         "value":null
+      },
+      {  
+         "description":"It has datatype as boolean",
+         "mandatory":true,
+         "syndicate":true,
+         "name":"OutParameter4",
+         "text":"OutParameter4",
+         "flatenedName":"OutParameter4",
+         "sequence":4,
+         "datatype":{  
+            "type":"boolean",
+            "properties":{  
+               "defaultValue":"true"
+            },
+            "array":false
+         },
+         "dataTypeStr":"BOOLEAN",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":null,
+         "value":null
+      },
+      {  
+         "description":"It has datatype as date",
+         "mandatory":false,
+         "syndicate":true,
+         "name":"OutParameter5",
+         "text":"OutParameter5",
+         "flatenedName":"OutParameter5",
+         "sequence":5,
+         "datatype":{  
+            "type":"date",
+            "properties":{  
+               "defaultValue":"2002-09-24"
+            },
+            "array":false
+         },
+         "dataTypeStr":"DATE",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":null,
+         "value":null
+      },
+      {  
+         "description":"It is a boolean array",
+         "mandatory":false,
+         "syndicate":true,
+         "name":"OutParameter6",
+         "text":"OutParameter6",
+         "flatenedName":"OutParameter6",
+         "sequence":6,
+         "datatype":{  
+            "type":"boolean",
+            "properties":{  
+               "dimensions":[  
+                  1,
+                  1
+               ]
+            },
+            "array":true
+         },
+         "dataTypeStr":"BOOLEAN",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":null,
+         "value":null
+      },
+      {  
+         "description":"It is a numeric array",
+         "mandatory":true,
+         "syndicate":false,
+         "name":"OutputParameter7",
+         "text":"OutputParameter7",
+         "flatenedName":"OutputParameter7",
+         "sequence":7,
+         "datatype":{  
+            "type":"numeric",
+            "properties":{  
+               "numerictype":"DOUBLE",
+               "dimensions":[  
+                  1,
+                  1
+               ]
+            },
+            "array":true
+         },
+         "dataTypeStr":"NUMERIC-DOUBLE",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":null,
+         "value":null
+      },
+      {  
+         "description":"It is a multistructure array",
+         "mandatory":true,
+         "syndicate":false,
+         "name":"A",
+         "text":"A",
+         "flatenedName":"A",
+         "sequence":8,
+         "datatype":{  
+            "type":"object",
+            "properties":{  
+               "dimensions":[  
+                  1,
+                  1
+               ]
+            },
+            "array":true
+         },
+         "dataTypeStr":"OBJECT",
+         "mapped":false,
+         "dataFormat":null,
+         "size":0,
+         "precision":0,
+         "userSelected":false,
+         "children":[  
+            {  
+               "description":"Exapmle property info parameter.",
+               "mandatory":true,
+               "syndicate":false,
+               "name":"1st Child of A - A1",
+               "text":"1st Child of A - A1",
+               "flatenedName":"A/1st Child of A - A1",
+               "sequence":1,
+               "datatype":{  
+                  "type":"object",
+                  "properties":{  
+
+                  },
+                  "array":false
+               },
+               "dataTypeStr":"OBJECT",
+               "mapped":false,
+               "dataFormat":null,
+               "size":0,
+               "precision":0,
+               "userSelected":false,
+               "children":[  
+                  {  
+                     "description":"It has datatype as date",
+                     "mandatory":true,
+                     "syndicate":false,
+                     "name":"1st Child of A1 - A11",
+                     "text":"1st Child of A1 - A11",
+                     "flatenedName":"A/1st Child of A - A1/1st Child of A1 - A11",
+                     "sequence":1,
+                     "datatype":{  
+                        "type":"date",
+                        "properties":{  
+                           "defaultValue":"2012-12-12"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"DATE",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string",
+                     "mandatory":true,
+                     "syndicate":true,
+                     "name":"2nd Child of A1 - A12",
+                     "text":"2nd Child of A1 - A12",
+                     "flatenedName":"A/1st Child of A - A1/2nd Child of A1 - A12",
+                     "sequence":2,
+                     "datatype":{  
+                        "type":"string",
+                        "properties":{  
+                           "defaultValue":"asd"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"STRING",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string.",
+                     "mandatory":true,
+                     "syndicate":true,
+                     "name":"3rd Child of A1 - A13",
+                     "text":"3rd Child of A1 - A13",
+                     "flatenedName":"A/1st Child of A - A1/3rd Child of A1 - A13",
+                     "sequence":3,
+                     "datatype":{  
+                        "type":"string",
+                        "properties":{  
+                           "defaultValue":"fgh"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"STRING",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string",
+                     "mandatory":false,
+                     "syndicate":true,
+                     "name":"4th Child of A1 - A14",
+                     "text":"4th Child of A1 - A14",
+                     "flatenedName":"A/1st Child of A - A1/4th Child of A1 - A14",
+                     "sequence":4,
+                     "datatype":{  
+                        "type":"string",
+                        "properties":{  
+                           "defaultValue":"jkl"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"STRING",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string",
+                     "mandatory":false,
+                     "syndicate":true,
+                     "name":"5th Child of A1 - A15",
+                     "text":"5th Child of A1 - A15",
+                     "flatenedName":"A/1st Child of A - A1/5th Child of A1 - A15",
+                     "sequence":5,
+                     "datatype":{  
+                        "type":"object",
+                        "properties":{  
+
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"OBJECT",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":[  
+                        {  
+                           "description":"It has datatype as date",
+                           "mandatory":true,
+                           "syndicate":false,
+                           "name":"1st Child of A15 - A151",
+                           "text":"1st Child of A15 - A151",
+                           "flatenedName":"A/1st Child of A - A1/5th Child of A1 - A15/1st Child of A15 - A151",
+                           "sequence":1,
+                           "datatype":{  
+                              "type":"date",
+                              "properties":{  
+                                 "defaultValue":"2012-12-12"
+                              },
+                              "array":false
+                           },
+                           "dataTypeStr":"DATE",
+                           "mapped":false,
+                           "dataFormat":null,
+                           "size":0,
+                           "precision":0,
+                           "userSelected":false,
+                           "children":null,
+                           "value":null
+                        },
+                        {  
+                           "description":"It has datatype as string",
+                           "mandatory":true,
+                           "syndicate":true,
+                           "name":"2nd Child of A15 - A152",
+                           "text":"2nd Child of A15 - A152",
+                           "flatenedName":"A/1st Child of A - A1/5th Child of A1 - A15/2nd Child of A15 - A152",
+                           "sequence":2,
+                           "datatype":{  
+                              "type":"string",
+                              "properties":{  
+                                 "defaultValue":"asd"
+                              },
+                              "array":false
+                           },
+                           "dataTypeStr":"STRING",
+                           "mapped":false,
+                           "dataFormat":null,
+                           "size":0,
+                           "precision":0,
+                           "userSelected":false,
+                           "children":null,
+                           "value":null
+                        },
+                        {  
+                           "description":"It has datatype as string.",
+                           "mandatory":true,
+                           "syndicate":true,
+                           "name":"3rd Child of A15 - A153",
+                           "text":"3rd Child of A15 - A153",
+                           "flatenedName":"A/1st Child of A - A1/5th Child of A1 - A15/3rd Child of A15 - A153",
+                           "sequence":3,
+                           "datatype":{  
+                              "type":"string",
+                              "properties":{  
+                                 "defaultValue":"fgh"
+                              },
+                              "array":false
+                           },
+                           "dataTypeStr":"STRING",
+                           "mapped":false,
+                           "dataFormat":null,
+                           "size":0,
+                           "precision":0,
+                           "userSelected":false,
+                           "children":null,
+                           "value":null
+                        },
+                        {  
+                           "description":"It has datatype as string",
+                           "mandatory":false,
+                           "syndicate":true,
+                           "name":"4th Child of A15 - A154",
+                           "text":"4th Child of A15 - A154",
+                           "flatenedName":"A/1st Child of A - A1/5th Child of A1 - A15/4th Child of A15 - A154",
+                           "sequence":4,
+                           "datatype":{  
+                              "type":"string",
+                              "properties":{  
+                                 "defaultValue":"jkl"
+                              },
+                              "array":false
+                           },
+                           "dataTypeStr":"STRING",
+                           "mapped":false,
+                           "dataFormat":null,
+                           "size":0,
+                           "precision":0,
+                           "userSelected":false,
+                           "children":null,
+                           "value":null
+                        },
+                        {  
+                           "description":"It has datatype as string",
+                           "mandatory":false,
+                           "syndicate":true,
+                           "name":"5th Child of A15 - A155",
+                           "text":"5th Child of A15 - A155",
+                           "flatenedName":"A/1st Child of A - A1/5th Child of A1 - A15/5th Child of A15 - A155",
+                           "sequence":5,
+                           "datatype":{  
+                              "type":"double",
+                              "properties":{  
+                                 "defaultValue":"1526.23"
+                              },
+                              "array":false
+                           },
+                           "dataTypeStr":"DOUBLE",
+                           "mapped":false,
+                           "dataFormat":null,
+                           "size":0,
+                           "precision":0,
+                           "userSelected":false,
+                           "children":null,
+                           "value":null
+                        }
+                     ],
+                     "value":null
+                  }
+               ],
+               "value":null
+            },
+            {  
+               "description":"Exapmle property info parameter.",
+               "mandatory":true,
+               "syndicate":false,
+               "name":"2nd Child of A - A2",
+               "text":"2nd Child of A - A2",
+               "flatenedName":"A/2nd Child of A - A2",
+               "sequence":2,
+               "datatype":{  
+                  "type":"object",
+                  "properties":{  
+
+                  },
+                  "array":false
+               },
+               "dataTypeStr":"OBJECT",
+               "mapped":false,
+               "dataFormat":null,
+               "size":0,
+               "precision":0,
+               "userSelected":false,
+               "children":[  
+                  {  
+                     "description":"It has datatype as date",
+                     "mandatory":true,
+                     "syndicate":false,
+                     "name":"1st Child of A2 - A21",
+                     "text":"1st Child of A2 - A21",
+                     "flatenedName":"A/2nd Child of A - A2/1st Child of A2 - A21",
+                     "sequence":1,
+                     "datatype":{  
+                        "type":"date",
+                        "properties":{  
+                           "defaultValue":"2012-12-12"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"DATE",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string",
+                     "mandatory":true,
+                     "syndicate":false,
+                     "name":"2nd Child of A2 - A22",
+                     "text":"2nd Child of A2 - A22",
+                     "flatenedName":"A/2nd Child of A - A2/2nd Child of A2 - A22",
+                     "sequence":2,
+                     "datatype":{  
+                        "type":"string",
+                        "properties":{  
+                           "defaultValue":"asd"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"STRING",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string.",
+                     "mandatory":true,
+                     "syndicate":true,
+                     "name":"3rd Child of A2 - A23",
+                     "text":"3rd Child of A2 - A23",
+                     "flatenedName":"A/2nd Child of A - A2/3rd Child of A2 - A23",
+                     "sequence":3,
+                     "datatype":{  
+                        "type":"string",
+                        "properties":{  
+                           "defaultValue":"fgh"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"STRING",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string",
+                     "mandatory":true,
+                     "syndicate":true,
+                     "name":"4th Child of A2 - A24",
+                     "text":"4th Child of A2 - A24",
+                     "flatenedName":"A/2nd Child of A - A2/4th Child of A2 - A24",
+                     "sequence":4,
+                     "datatype":{  
+                        "type":"string",
+                        "properties":{  
+                           "defaultValue":"jkl"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"STRING",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  },
+                  {  
+                     "description":"It has datatype as string",
+                     "mandatory":false,
+                     "syndicate":true,
+                     "name":"5th Child of A2 - A25",
+                     "text":"5th Child of A2 - A25",
+                     "flatenedName":"A/2nd Child of A - A2/5th Child of A2 - A25",
+                     "sequence":5,
+                     "datatype":{  
+                        "type":"double",
+                        "properties":{  
+                           "defaultValue":"1526.23"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"DOUBLE",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  }
+               ],
+               "value":null
+            },
+            {  
+               "description":"Exapmle servicer inputs.",
+               "mandatory":true,
+               "syndicate":false,
+               "name":"Child of A - A3",
+               "text":"Child of A - A3",
+               "flatenedName":"A/Child of A - A3",
+               "sequence":3,
+               "datatype":{  
+                  "type":"object",
+                  "properties":{  
+
+                  },
+                  "array":false
+               },
+               "dataTypeStr":"OBJECT",
+               "mapped":false,
+               "dataFormat":null,
+               "size":0,
+               "precision":0,
+               "userSelected":false,
+               "children":[  
+                  {  
+                     "description":"Exapmle servicer owned flag.",
+                     "mandatory":true,
+                     "syndicate":false,
+                     "name":"Child of A3",
+                     "text":"Child of A3",
+                     "flatenedName":"A/Child of A - A3/Child of A3",
+                     "sequence":1,
+                     "datatype":{  
+                        "type":"double",
+                        "properties":{  
+                           "defaultValue":"23.45"
+                        },
+                        "array":false
+                     },
+                     "dataTypeStr":"DOUBLE",
+                     "mapped":false,
+                     "dataFormat":null,
+                     "size":0,
+                     "precision":0,
+                     "userSelected":false,
+                     "children":null,
+                     "value":null
+                  }
+               ],
+               "value":null
+            }
+         ],
+         "value":null
+      }
+   ]
+}

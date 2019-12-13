@@ -1,0 +1,8 @@
+Update default.model.env to Operating system.Example :; Linux/Windows
+Add new param default.model.env.lang and value will be R/Excel/Matlabelow :
+
+See the example below
+
+default.model.env=Linux
+default.model.env.ver=3.2.1
+default.model.env.lang = R

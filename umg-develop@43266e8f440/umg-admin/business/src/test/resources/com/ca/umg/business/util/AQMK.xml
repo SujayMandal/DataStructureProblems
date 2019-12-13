@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<umg-matlab-io xmlns="http://com.ca.umg.matlab.io/xml/ns/umg-matlab-io"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<metadata>
+		<model-name>SampleModel</model-name>
+		<model-version>SampleModel-1234</model-version>
+		<model-publisher>Sample Publisher</model-publisher>
+		<model-class>computeSampleModel</model-class>
+		<model-method>computeSampleMehod</model-method>
+	</metadata>
+	<input>
+		
+	</input>
+	<output>
+		
+	</output>
+</umg-matlab-io>
+

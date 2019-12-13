@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 123
+/ConsumerAnalytics/!svn/ver/8141/umg/branches/2.3.0-RELEASE/umg-db/src/main/resources/db/2.3-Consolidated/rollback%20script
+END
+UMG-2.3-admin_schema_rollback.sql
+K 25
+svn:wc:ra_dav:version-url
+V 157
+/ConsumerAnalytics/!svn/ver/8141/umg/branches/2.3.0-RELEASE/umg-db/src/main/resources/db/2.3-Consolidated/rollback%20script/UMG-2.3-admin_schema_rollback.sql
+END
+UMG-2.3-tenant_schema_rollback.sql
+K 25
+svn:wc:ra_dav:version-url
+V 158
+/ConsumerAnalytics/!svn/ver/8142/umg/branches/2.3.0-RELEASE/umg-db/src/main/resources/db/2.3-Consolidated/rollback%20script/UMG-2.3-tenant_schema_rollback.sql
+END

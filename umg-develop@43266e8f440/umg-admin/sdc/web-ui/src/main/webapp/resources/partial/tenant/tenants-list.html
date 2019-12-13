@@ -1,0 +1,47 @@
+
+<style>
+.content {
+	height: 542px;
+}
+ polygon,rect {
+     fill  : #fff;
+  }
+  
+</style>
+
+
+<div class="col-sm-12" style="padding: 0px;" id="gridbody">
+<!-- ng-show="tenantsDetailsData.length > 0" -->
+
+	
+	<div class="box box-primary" style="margin-bottom:0px; box-shadow:none;">
+	
+		<div class="row" style="margin-top: 10px;margin-left: 0px; margin-right: 0px;">
+			<div id="ma-errorMsg" ng-show="msg.length > 0"
+									ng-animate="{show: 'show'}" class={{clazz}}
+									style="padding: 8px; margin-bottom: 10px;">
+									<strong>{{msg}}</strong>
+								</div>
+		</div>
+		<div class="box-body"
+			style="height: 364px;padding:0px;">
+			<br>
+			<div class="row result-row">
+				<strong class="result-header">Tenants</strong>
+			</div>
+			<div class="headSpace"></div>
+			<div id="dashGrid"  ag-grid="gridOptions" class="ag-blue"
+				style="height: 300px;"></div>
+			<div class="box" align=left
+				style="border-top: 0px; background: none; box-shadow: none;">
+				<div class="box-body" style="padding-left: 0px;">
+					<a id="manageAuth"
+						ng-click="getAuthTokensList();"
+						class="btn btn-app btn-sm design-button" tooltip="Manage Auth codes"
+						tooltip-placement="top" tooltip-trigger="mouseenter"> <i
+						id="manageAuthIcon" title="Manage Auth codes" class="fa fa-edit"></i></a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

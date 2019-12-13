@@ -1,0 +1,39 @@
+<div class="container-fluid">
+      <div class="section-wrapper">
+        <div class="col-sm-2" id="startDate">
+          <div class="icon-positioner" title="Start date">
+            <input type="date" class="form-control" [placeholder]="'Start Date'" id="selectedDateStart" [ngModel]="selectedDateStart | date:'yyyy-MM-dd'" (ngModelChange)="selectedDateStart = $event"
+              name="selectedDateStart" [max]="getToday()" (keydown)="onKeyInput()" (change)="checkDateDiff()">
+          </div>
+        </div>
+        <div class="col-sm-2" id="endDate">
+          <div class="icon-positioner" title="End date">
+            <input type="date" class="form-control"  [placeholder]="'End Date'" id="selectedDateEnd" [ngModel]="selectedDateEnd | date:'yyyy-MM-dd'" (ngModelChange)="selectedDateEnd = $event"
+             name="selectedDateEnd" [max]="getToday()" (keydown)="onKeyInput()"  (change)="checkDateDiff()">
+          </div>
+        </div>
+        <div class="col-sm-3" id="Occupancy">
+            <ng-multiselect-dropdown id="Occupancy" name="Occupancy" [placeholder]="'Occupancy'" [data]="possibleOccupancy" [(ngModel)]="selectedOccupant"
+              [settings]="occupDropdownSettings">
+            </ng-multiselect-dropdown>
+          </div>
+          <div class="col-sm-3" id="client">
+              <ng-multiselect-dropdown id="clientName" name="clientName" [placeholder]="'Clients'" [data]="possibleClients" [(ngModel)]="selectedClient"
+                [settings]="clientDropdownSettings">
+              </ng-multiselect-dropdown>
+            </div>
+        <div class="buttons-group">
+          <button type="button" class="btn btn-primary" [disabled]="isDisabled()" (click)="onSearch()">Fetch</button>
+        </div>
+        <label style="color:red"  *ngIf="errorFlag">{{error}}</label>
+      </div>
+
+
+      <div class="section-wrapper grid-view" *ngIf=successFlag>
+        <ag-grid-angular [style.height.px]="errorFlag ? gridMinHeight : gridMaxHeight" class="ag-theme-balham" [columnDefs]="columnDefs" [gridOptions]="gridOptions" [rowData]="rowData">
+        </ag-grid-angular>
+        <div class="buttons-group grid-button">
+          <button type="button" class="btn btn-primary" *ngIf=successFlag (click)="onDownload()">Download</button>
+        </div>
+      </div>
+    </div>

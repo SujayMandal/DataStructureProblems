@@ -1,0 +1,330 @@
+<!--     dialog box  for key definition    -->
+<div id="keyDefinitionModal" class="modal modal-default fade in" tabindex="-1" role="dialog" aria-labelledby="KeyDefinition" aria-hidden="true" ng-show="dialogType == 'KeyDef'">
+	<div class="modal-dialog" style="width: 60%; height: 60%; margin-top: 10%">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #3C8DBC;color:white;">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">Key Definition</h4>
+			</div>
+			<div class="modal-body">
+			<div class="form-group" style="height:150px;overflow-y:auto;">
+				<table class="table">
+					<tr class="table-header">
+						<th style="width:20%;text-align:center;">Key Name</th>
+						<th style="width:10%;text-align:center;" ng-repeat='(index, columnHeader) in syndicateData.metaData'>{{columnHeader.displayName}}</th>
+						<th style="width:10%;text-align:center;">delete</th>
+					</tr>
+					<tr ng-repeat='kDefinition in syndicateData.keyDefinitions'>
+						<td><input type="text" ng-model="kDefinition.keyName"
+							maxlength="25"
+							class="text-200px text-border txt-corner5 text-glow"></td>
+						<td align="center"
+							ng-repeat='(index2, columnHeader) in syndicateData.metaData'>
+							<input ng-model="kDefinition.sColumnInfos[index2].columnName"
+							type="hidden" class="text-50px" /> <input
+							ng-model="kDefinition.sColumnInfos[index2].status"
+							type="checkbox" />
+						</td>
+						<td><button type="button" id="deleteKeyDefinition"
+								class="btn btn-primary btn-sm"
+								ng-click="deleteKeyDefinition(kDefinition.keyName)">
+								Delete</button></td>
+					</tr>
+				</table>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" id="addNewKeyDefinition"
+					class="btn btn-primary pull-left" ng-click="addNewKeyDefinition()">
+					Add new Key</button>
+				<button type="button" id="addNewKeyDefinition"
+					class="btn btn-primary pull-right" onClick="umgDialog.closeDialog()"
+					data-dismiss="modal">Save & Close</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+
+<!--     dialog box  for column definition    -->
+<div id="colDefinitionModal" class="modal modal-default fade in" tabindex="-1" role="dialog" aria-labelledby="ColDefinition" aria-hidden="true" ng-show="dialogType == 'ColDef'">
+	<div class="modal-dialog"
+		style="width: 60%; height: 50%; margin-bottom: 5%; ">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #3C8DBC;color:white;">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h4 class="modal-title">Container Definition</h4>
+			</div>
+			<div class="modal-body">
+			<div class="form-group" style="height:250px;overflow-y:auto;">
+				<table class="table">
+					<tr valign="middle" class="table-header label2 center-txt">
+						<th style="width:10%;text-align:center;">SINO</th>
+						<th style="width:20%;text-align:center;">Column Name</th>
+						<th style="width:20%;text-align:center;">Description</th>
+						<th style="text-align:center;">Data Type</th>
+						<th style="text-align:center;">Size</th>
+						<th style="width:10%;text-align:center;">Null</th>
+					</tr>
+					<tr ng-repeat='metaData in syndicateData.metaData'>
+						<td align="center">{{$index+1}}</td>
+						<td><input type="text" id={{dname-columnHeader.$$hashKey}}
+							ng-model="metaData.displayName" maxlength="64"
+							class="txt-200px text-border txt-corner5 text-glow"
+							ng-disabled="editFlag||addVersion"></td>
+						<td><input type="text" ng-model="metaData.description"
+							maxlength="200"
+							class="txt-350px text-border txt-corner5 text-glow"
+							ng-disabled="editFlag||addVersion"></td>
+						<td><select ng-change="metaData.columnSize=''"
+							class="selectMenu-150px" ng-model="metaData.columnType"
+							ng-disabled="editFlag||addVersion">
+								<option value="">--DataType--</option>
+								<option value="INTEGER">INTEGER</option>
+								<option value="STRING">STRING</option>
+								<option value="DATE">DATE</option>
+								<option value="BOOLEAN">BOOLEAN</option>
+								<option value="DOUBLE">DOUBLE</option>
+						</select></td>
+						<td>
+							<div
+								ng-hide="metaData.columnType == 'DOUBLE'">
+								<input ng-model="metaData.columnSize" type="text" maxlength="25"
+									positive-numbers class="col-lg-12"
+									ng-disabled="editFlag||addVersion || metaData.columnType == 'BOOLEAN' || metaData.columnType =='DATE' || metaData.columnType =='INTEGER' " />
+							</div>
+							<div
+								ng-show="metaData.columnType == 'DOUBLE'">
+								 
+								<input ng-model="metaData.columnSize" type="text" maxlength="65"
+									title="Total Length" positive-numbers class="col-lg-6"
+									ng-disabled="editFlag||addVersion" /><input
+									ng-model="metaData.precision" type="text" maxlength="65"
+									title="number of precision" positive-numbers class="col-lg-6"
+									ng-disabled="editFlag||addVersion" />
+							</div>
+						</td>
+						<td align="center"><input ng-model="metaData.mandatory"
+							type="checkbox" ng-disabled="editFlag||addVersion" /></td>
+					</tr>
+				</table>
+			</div>
+				<br>
+				<div id="template-note">
+					<B>Container Definition Note</B> :-
+					<ol>
+						<li><small>Size column should be provided for String and Double data types</small></li>
+						<li><small>For String data type, provide Size value as max length of the string.Eg. 10 (interpreted
+							as field values will have max string length as 10).</small>
+						</li>
+						<li><small>For Double data type, provide Size value (Maximum
+							number of digits(the precision), number
+							of digits to the right of the decimal point(the scale)) Eg. A Double(20,6) column has fourteen
+							integer digits and six fractional digits.
+						</small></li>
+						<li><small>4. In case column name starts with a number, system will automatically append _ (underscore) while displaying the name on UI. In the backend and during query execution the actual column name (without underscore) will be considered. 
+						</small></li>
+					</ol>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary pull-right"
+					data-dismiss="modal" id="addNewKeyDefinition"
+					ng-disabled="editFlag" ng-click="updateColumnDefinition()">Save
+					& Close</button>
+			</div>
+		</div>
+		<!-- /.modal-content -->
+	</div>
+	<!-- /.modal-dialog -->
+</div>
+
+<form id="synForm" name="synForm" novalidate="novalidate">
+<div class="alert" ng-class="meassageClass" role="alert" ng-show="meassage" ng-bind-html="meassage" style="padding: 5px; margin-bottom: 10px;"></div>
+
+<div class="center-block">
+<div class="center-block" style="width:1070px;">
+<span class="sub-heading-1">1.Table Details and Version Info</span>
+<div class="header-form-background" style="width: 1070px;padding:8px; margin-top: 8px;">
+<table  class="synd-elem-table" >
+	<tr  style="padding:10px;">
+	<td width="100px">Table Name<font color="red">*</font> </td>
+	<td width="250px">
+		<input type="text" id="syndicateData.containerName" name="syndicateDatacontainerName" style="text-transform: uppercase;" 
+		class="form-control ng-pristine ng-invalid ng-invalid-required ng-valid-minlength ng-valid-maxlength ng-touched" 
+		ng-disabled="editFlag||addVersion||viewFlag" ng-model="syndicateData.containerName" ng-required="true" 
+		ng-minlength="2" maxlength="50" ng-blur="containerNameToUpper();" required="required">
+	</td>
+	<td width="130px">Version Name<font color="red">*</font> </td>
+	<td width="250px">
+	<input type="text" id="syndicateData.versionName" 
+	class="form-control ng-pristine ng-invalid ng-invalid-required ng-valid-minlength ng-valid-maxlength ng-touched" 
+	name="syndicateDataVersionName" ng-disabled="viewFlag||editFlag" 
+	ng-model="syndicateData.versionName" ng-required="true" ng-minlength="2" maxlength="50" required="required">
+	</td>
+	<td width="100px">Active From<font color="red">*</font> </td>
+	<td>
+		<div class="col-sm-2" style="padding-left:0px;">
+				<div style="width:180px;" class="input-group date" id="datetimepicker1">
+				<input type="text" class="form-control ng-valid ng-isolate-scope ng-dirty ng-valid-parse ng-touched" 
+				ng-model="syndicateData.validFromString" date-time-picker="" format="dateTimeFormat">
+				<span class="input-group-addon">
+		             <span class="glyphicon glyphicon-calendar"></span>
+		         </span>	
+		     </div>
+		</div>
+	
+	
+	</td>
+	</tr>
+	<tr style="padding:10px;">
+	<td>Table Description<font color="red">*</font> </td>
+	<td>
+	<textarea class="form-control ng-pristine ng-invalid ng-invalid-required ng-valid-minlength ng-valid-maxlength ng-touched" 
+	rows="2" id="syndicateData.description" name="syndicateDataDesc" ng-disabled="editFlag||addVersion||viewFlag" 
+	ng-model="syndicateData.description" ng-required="true" ng-minlength="2" maxlength="200" style="resize: none" 
+	required="required"></textarea>	
+	</td>
+	<td>Version Description<font color="red">*</font> </td>
+	<td><textarea class="form-control ng-pristine ng-invalid ng-invalid-required ng-valid-minlength ng-valid-maxlength ng-touched" 
+	rows="2" id="syndicateData.versionDescription" name="syndicateVerDesc" ng-disabled="viewFlag" 
+	ng-model="syndicateData.versionDescription" ng-required="true" ng-minlength="2" maxlength="200" style="resize: none" required="required"></textarea></td>
+	<td>Active Till</td>
+	<td>	
+	<div class="col-sm-2" style="width: 2.666667%; padding-left:0px;">						
+		<div style="width:180px;" class="input-group date" id="datetimepicker1">
+				<input type="text" class="form-control ng-pristine ng-untouched ng-valid ng-isolate-scope" 
+				ng-model="syndicateData.validToString" date-time-picker="" format="dateTimeFormat">
+				<span class="input-group-addon">
+		             <span class="glyphicon glyphicon-calendar"></span>
+		         </span>	
+		</div>
+	</div>
+	</td>
+	</tr>
+</table>
+</div>
+
+<br>
+<span class="sub-heading-1">2.Upload and Define Data</span>
+<div class="header-form-background" style="width: 1070px;padding:8px; margin-top: 8px;">
+<table class="synd-elem-table" >
+	<tr>
+	<td width="480px">
+				<div class="form-group">
+						<span for="syndicateData.syndicateXlsxFile"
+							class="col-sm-3 control-label" style="padding:0px;margin-top:5px;">Upload Lookup Data</span>
+						<div class="col-md-5">
+							<input style="width:200px;background-color: white;"class="form-control input-sm" type="text" id="synDataFileName"
+								name="synDataFileName" value={{syndicateData.syndicateXlsxFile.name}}
+								readonly>
+						</div>
+						<div class="col-md-3">
+							<span class="btn btn-primary btn-sm btn-file"
+								tooltip="Upload Data File" tooltip-placement="top"
+								tooltip-trigger="mouseenter">Browse<input
+								id="syndicateData.syndicateXlsxFile"
+								ng-model="syndicateData.syndicateXlsxFile" type="file"
+								ng-disabled="viewFlag||editFlag" name="synDataFile"
+								accept=".csv" ng-required="true"
+								file-model="syndicateData.syndicateXlsxFile">
+							</span>
+						</div>
+						<div class="col-sm-6">
+							<a ng-show="editFlag"
+								href="syndicateData/version/template/{{syndicateData.containerName}}/{{syndicateData.versionId}}/{{syndicateData.versionName}}">Data
+								Download</a>
+						</div>
+			</div>	
+	
+	</td>
+	<td width="450px">
+	<div class="form-group">
+			<span for="syndicateData.syndicateCsvFile"
+				class="col-sm-3 control-label" style="padding:0px;margin-top:5px;">Upload MetaData <font color="red">*</font></span>
+			<div class="col-md-5" >
+				<input style="width:200px;background-color: white;" class="form-control input-sm" type="text" id="synContainerDefinitionFileName"
+					name="synContainerDefinitionFileName" value={{syndicateData.syndicateCsvFile.name}}
+					readonly>
+			</div>
+			<div class="col-md-3">
+				<span class="btn btn-primary btn-sm btn-file" ng-disabled="!dataloadedFlag||editFlag||viewFlag||addVersion"
+					tooltip="Upload Data File" tooltip-placement="top"
+					tooltip-trigger="mouseenter">Browse<input id="syndicateData.syndicateCsvFile"
+					ng-model="syndicateData.syndicateCsvFile" type="file"
+					name="synContainerDefinitionFile" accept=".csv"
+					file-model="syndicateData.syndicateCsvFile">
+					
+				</span>
+			</div>
+			<div class="col-sm-6">
+				<a ng-show="editFlag"
+					href="syndicateData/version/definition/{{syndicateData.containerName}}">Download
+					Definition</a>
+			</div>
+	</div>					
+	</td>	
+	
+	<td width="130px" style="padding-top: 2px; text-align:left;">#Lookup  Data Rows<font color="red">*</font> </td>
+	<td><input type="text" class="form-control input-sm"
+								id="syndicateData.totalRows" name="rowCount"
+								ng-disabled="viewFlag||editFlag" positive-numbers
+								ng-model="syndicateData.totalRows" ng-required="true" min="1"
+								style="width: 75px" 
+								max="100000" /></td>
+	<td><div title="upload note" class="tip-icon" ng-click="showTip()"></div></td>
+	</tr>
+</table>
+</div>
+<br><br>
+<div class="row" style="width:1000px;">
+		<div ng-class="{'col-sm-1' : editFlag==true}"></div>
+		<div ng-class="{'col-sm-2' : editFlag==true,'col-sm-3' : editFlag==false}">
+			<button type="button" class="btn btn-block btn-primary btn-sm"
+				ng-disabled="!(dataloadedFlag || addVersion || editFlag) || viewFlag"
+				id="loadColumnDefinition" ng-click="loadColumnDefinition()"
+				data-toggle="modal" data-target="#colDefinitionModal">
+				Container Definition</button>
+		</div>
+			<div ng-class="{'col-sm-2' : editFlag==true,'col-sm-3' : editFlag==false}">
+			<button type="button" class="btn btn-block btn-primary btn-sm"
+				ng-disabled="!(dataloadedFlag || addVersion || editFlag) || viewFlag"
+				id="keyDefinition" ng-click="loadKeyDefinition()"
+				data-toggle="modal" data-target="#keyDefinitionModal">Key
+				definition</button>
+		</div>
+		<div ng-class="{'col-sm-2' : editFlag==true,'col-sm-3' : editFlag==false}">
+			<button type="button" class="btn btn-block btn-primary btn-sm"
+				ng-disabled="!(dataloadedFlag && definitionloadedFlag) || viewFlag"
+				id="save" ng-click="save()">Save</button>
+		</div>
+		<div ng-class="{'col-sm-2' : editFlag==true,'col-sm-3' : editFlag==false}">
+			<button type="button" class="btn btn-block btn-primary btn-sm"
+				ui-sref="modelAssumptionList" id="btn-cancel">Cancel</button>
+		</div>
+		<div ng-class="{'col-sm-2' : editFlag==true,'col-sm-3' : editFlag==false}">
+			<button type="button" class="btn btn-block btn-primary btn-sm"
+				ng-show="editFlag" id="update" ng-click="updateVersion()">Update</button>
+		</div>
+		<div ng-class="{'col-sm-1' : editFlag==true}"></div>
+</div>
+</div>
+</div>
+</form>
+
+<!-- grid -->
+<div class="col-md-12">
+	<h4 align="center">Lookup Data</h4>
+	<div id="synDataGridOptions" class="umg-grid syn-data_gr center-div "
+		ng-grid="synDataGridOptions"></div>
+	<br>
+</div>
+<br>

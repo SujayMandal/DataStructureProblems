@@ -1,0 +1,190 @@
+<div class="container-fluid">
+  <div class="section-wrapper">
+    <div class="col-sm-3">
+      <label for="loanSearch">Loan ID</label>
+    </div>
+    <div class="col-sm-4">
+      <input class="form-control" oninput="validity.valid||(value='');" onkeypress="return ((event.charCode == 45) || ((event.charCode >= 48) && (event.charCode <= 57)) || ((event.charCode >= 65) && (event.charCode <= 90)))"
+        id="loanNumber" name="loanNumber" [(ngModel)]="loanID" />
+    </div>
+    <div class="col-sm-3" id="Occupancy">
+      <ng-multiselect-dropdown id="Occupancy" name="Occupancy" [placeholder]="'Occupancy'" [data]="possibleSearches"
+        [(ngModel)]="selectedSearch" [settings]="searchDropdownSettings">
+      </ng-multiselect-dropdown>
+    </div>
+    <div class="buttons-group">
+      <button type="button" class="btn btn-primary" [disabled]="(loanID==null) || (loanID=='') || (selectedSearch.length==0)"
+        (click)="onSearch()">Search</button>
+    </div>
+    <label style="color:red" *ngIf="errorFlag && !successFlag">{{errorMsg}}</label>
+    <!--<div class="col-sm-3" *ngIf="successFlag">
+        <label for="eligibleReduction">Eligible for future recommendation :</label>
+      </div>
+      <div class="col-sm-1" *ngIf="successFlag">
+        <label for="eligible">{{rowData[0].eligible}}</label>
+      </div>
+      <div class="col-sm-3" *ngIf="successFlag">
+        <label for="eligibleReduction">{{rowData[0].exclusionReason}}</label>
+      </div>-->
+  </div>
+
+  <!--<div class="section-wrapper break-word skin-shade" *ngIf=errorFlag>
+    <label style="color:red">
+      {{errorMsg}}
+    </label><br />
+  </div>-->
+
+  <div class="section-wrapper grid-view" *ngIf=successFlag>
+    <ag-grid-angular *ngIf=recommHistory [style.height.px]="gridMaxHeight" class="ag-theme-balham" [rowData]="rowData"
+      [columnDefs]="columnDefs" [enableSorting]="true" [enableFilter]="true" [suppressMenuHide]="true"
+      [enableColResize]="true" [headerHeight]="40" (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
+    <table *ngIf=!recommHistory class="futureTable">
+     
+      <tbody>
+        <tr>
+          <td> Loan Number</td>
+          <td>
+            {{ futureTabData["loanNumber"]}}
+          </td>
+          <td class="space"></td>
+          <td>Classification</td>
+          <td>
+            {{ futureTabData["classification"]}}
+          </td>
+        </tr>
+
+        <tr>
+          <td>  Old Loan Number</td>
+          <td>
+            {{ futureTabData["oldLoanNumber"]}}
+          </td>
+          <td class="space"></td>
+          <td>Week 0 Run Date</td>
+          <td>
+            {{ futureTabData["week0RunDate"]}}
+          </td>
+        </tr>
+
+        <tr>
+         <td> Property Id</td>
+         <td>{{futureTabData["propTemp"]}}</td>
+          <td class="space"></td>
+          <td>Week 0 Eligibility</td>
+          <td>
+            {{ futureTabData["week0Eligibility"]}}
+          </td>
+        </tr>
+        <tr>
+            <td>  Latest List Status</td>
+            <td>
+              {{ futureTabData["listStatus"]}}
+            </td>
+          <td class="space"></td>
+          <td>Assignment</td>
+          <td>
+            {{ futureTabData["week0Assignment"]}}
+          </td>
+        </tr>
+        <tr>
+            <td> Latest List End Date</td>
+            <td>
+              {{ futureTabData["listEndDate"]}}
+            </td> 
+          <td class="space"></td>
+          <td>No. Of Listings</td>
+          <td>
+            {{ futureTabData["listingCount"]}}
+          </td>
+        </tr>
+        <tr>
+            <td> Last Reduction</td>
+            <td>
+              {{ futureTabData["lastReductionDate"]}}
+            </td>
+            <td class="space"></td>
+            <td>Sold Date</td>
+           <td>
+            {{ futureTabData["soldDate"]}}
+          </td>
+        </tr>
+        <tr>
+            <td> Latest SOP Flag</td>
+            <td>
+              {{ futureTabData["sopFlag"]}}
+            </td>
+            <td class="space"></td>
+            <td><strong><span>Future Reduction</span>
+             </strong></td>
+            <td>
+              {{ futureTabData["futureReductionFlag"]}}
+            </td>
+         </tr>
+        <tr>
+            <td> Latest List Type</td>
+            <td>
+              {{ futureTabData["listType"]}}
+            </td>
+            <td class="space"></td>
+            <td><strong><span>Reason</span>
+            </strong></td>
+            <td>
+                {{reason}}
+              </td>
+        </tr>
+        <tr>
+            <td>SS/PMI Flag</td>
+            <td>
+              {{ futureTabData["ssPmiFlag"]}}
+            </td>
+         
+          <td class="space"></td>
+          <td><strong><span>Part of Dynamic Pricing</span></strong></td>
+          <td>
+            {{ futureTabData["partOfDp"]}}
+          </td>
+     </tr>      
+     <tr>
+        <td>State</td>
+          <td>
+            {{ futureTabData["state"]}}
+          </td>
+          <td class="space"></td>
+          <td></td>
+          <td>
+            
+          </td>
+     </tr>     
+      </tbody>
+    </table>
+    <div class="col-sm-9">
+      <label style="color:red" *ngIf=errorFlag>{{errorMsg}}</label>
+    </div>
+  <!--   <div *ngIf=!recommHistory class="buttons-group grid-button excludeBtn">
+      <button type="button" class="btn btn-primary" (click)="openModal(template)">Exclude from Dynamic Pricing</button>
+    </div> -->
+    <div class="buttons-group grid-button">
+      <button type="button" class="btn btn-primary" (click)="openModal(template)">Exclude from Dynamic Pricing</button>
+    </div>
+  </div>
+
+  <ng-template #template>
+    <div class="modal-header">
+      <h5 class="modal-title pull-left">Are you sure to exclude the Asset from Dynamic Pricing ?</h5>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="decline()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="col-sm-2">
+        <label for="reason">Reason</label>
+      </div>
+      <div class="col-sm-8">
+        <input class="form-control" id="reason" name="reason" [(ngModel)]="excludeReason" />
+      </div>
+      <button type="button" class="btn btn-primary" [disabled]="((excludeReason==null) || (excludeReason.trim()==''))"
+        (click)="confirm()">confirm </button>
+    </div>
+  </ng-template>
+
+</div>

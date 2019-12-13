@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<umg-matlab-io xmlns="http://com.ca.umg.matlab.io/xml/ns/umg-matlab-io" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+   <metadata>
+      <model-name>testUMG</model-name>
+      <model-version>V1</model-version>
+      <model-publisher>CA Modelling Team - 3f724bbf3210a31758586b651fd22eb25963e92fd9b099013f6414ebb5358d6f</model-publisher>
+      <model-class>testUMG.testUMG</model-class>
+      <model-method>testUMGIOParams</model-method>
+   </metadata>
+   <input>
+	<parameter sequence="1" name="testInt1" description="testInt1" mandatory="true" syndicate="false">
+         <datatype>
+            <integer  defaultValue="0"/>
+         </datatype>
+      </parameter>
+		
+      <parameter sequence="2" name="testInt2" description="testInt2" mandatory="true" syndicate="false">
+          <datatype>
+            <integer  defaultValue="0"/>
+         </datatype>
+      </parameter>
+	  <parameter sequence="3" name="testInt3" description="testInt3" mandatory="true" syndicate="false">
+          <datatype>
+            <integer/>
+         </datatype>
+      </parameter>
+      <parameter sequence="4" name="InterestRate" description="testDouble1" mandatory="true" syndicate="true">
+         <datatype>
+            <double  defaultValue="1.23456789" totalDigits="9" fractionDigits="7" />
+         </datatype>
+      </parameter>
+      <parameter sequence="5" name="testDouble2" description="testDouble2" mandatory="true" syndicate="false">
+         <datatype>
+            <double  defaultValue="0.0"  totalDigits="5" fractionDigits="6"/>
+         </datatype>
+      </parameter>
+      <parameter sequence="6" name="testDouble3" description="testDouble3" mandatory="true" syndicate="false">
+         <datatype>
+              <double  defaultValue="1234.567"  totalDigits="5" fractionDigits="6"/>
+         </datatype>
+      </parameter>
+      <parameter sequence="7" name="testDoubleArr" description="testDoubleArr" mandatory="true" syndicate="false">
+         <datatype>
+            <array>
+               <dimensions>
+                  <dim>-2</dim>
+               </dimensions>
+               <type>
+                  <double/>
+               </type>
+			   <defaultValue>[1.0,2.0]</defaultValue>
+            </array>
+         </datatype>	 
+      </parameter>
+      <parameter sequence="8" name="testBool1" description="testBool1" mandatory="true" syndicate="false">
+         <datatype>
+            <boolean  defaultValue="true" />
+         </datatype>
+      </parameter>
+      <parameter sequence="9" name="testBool2" description="testBool2" mandatory="true" syndicate="false">
+         <datatype>
+            <boolean  defaultValue="true" />
+         </datatype>
+      </parameter>
+     <parameter sequence="10" name="testBool3" description="testBool3" mandatory="true" syndicate="false">
+         <datatype>
+            <boolean  defaultValue="true" />
+         </datatype>
+      </parameter>
+      <parameter sequence="11" name="Month" description="testStr1" mandatory="true" syndicate="false">
+         <datatype>
+            <string  defaultValue="UMG" />
+         </datatype>
+      </parameter>
+      <parameter sequence="12" name="testStr2" description="testStr2" mandatory="true" syndicate="false">
+         <datatype>
+            <string  defaultValue="HAMP" />
+         </datatype>
+      </parameter>
+      <parameter sequence="13" name="testStr3" description="testStr3" mandatory="true" syndicate="false">
+         <datatype>
+            <string  defaultValue="SHA" />
+         </datatype>
+      </parameter>
+        <parameter sequence="14" name="testDouble14" description="testDouble14" mandatory="true" syndicate="false">
+         <datatype>
+              <double  defaultValue="sdfsdfds"  totalDigits="5" fractionDigits="6"/>
+         </datatype>
+      </parameter>
+       <parameter sequence="15" name="testDouble15" description="testDouble15" mandatory="true" syndicate="false">
+         <datatype>
+              <double  defaultValue="1234"  totalDigits="asASA" fractionDigits="6"/>
+         </datatype>
+      </parameter>
+   </input>
+   <output>
+	 <parameter sequence="1" name="intSum" description="intSum" mandatory="false" syndicate="false">
+		 <datatype>
+            <integer  defaultValue="0"/>
+         </datatype>
+	  </parameter>
+	  <parameter sequence="2" name="doubleSum" description="doubleSum" mandatory="false" syndicate="false">
+		 <datatype>
+            <double  defaultValue="0.0" totalDigits="10"/>
+         </datatype>
+	  </parameter>
+	  <parameter sequence="3" name="doubleArrSum" description="doubleArrSum" mandatory="false" syndicate="false">
+		 <datatype>
+            <double defaultValue="0.0.0"/>
+         </datatype>
+	  </parameter>
+	  <parameter sequence="4" name="boolResult" description="boolResult" mandatory="false" syndicate="false">
+		 <datatype>
+            <double  defaultValue="0.0"/>
+         </datatype>
+	  </parameter>
+	  	  <parameter sequence="5" name="stringCat" description="stringCat" mandatory="false" syndicate="false">
+		 <datatype>
+            <string  defaultValue="concatenated_string"/>
+         </datatype>
+	  </parameter>
+   </output>
+</umg-matlab-io>

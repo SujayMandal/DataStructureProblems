@@ -1,0 +1,5 @@
+use umg_admin;
+
+INSERT INTO `SYSTEM_PARAMETER` (`ID`, `SYS_KEY`, `DESCRIPTION`, `SYS_VALUE`, `IS_ACTIVE`, `CREATED_BY`, `CREATED_ON`, `LAST_UPDATED_BY`, `LAST_UPDATED_ON`) VALUES ('cab8f2ef-8ce4-11e5-bf86-00ffde411c99', 'STRINGS_AS_FACTORS', 'Boolean flag for stringsAsFactors', 'false', 'Y', 'system', 1417439330020, 'system', 1417439330020);
+
+COMMIT;

@@ -1,0 +1,55 @@
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+
+	<include file="com/fa/dp/db/1.0/stories/initial/initial-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-18/dp-18-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-18-update/ra-update-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-18-update1/ra-update1-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-15/dp-15-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-9/dp-9-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-48/dp-48-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-56/dp-56-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-43/dp-43-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-56-update/dp-56update-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-55/dp-55-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-50/dp-50-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-82/dp-82-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-78/dp-78-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-77/dp-77-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-78-update/dp-78update-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-77-update/dp-77update-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-99/dp-99-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-93/dp-93-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-110/dp-110-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/UMG-9667/umg-9667-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/UMG-9668/umg-9668-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-121/dp-121-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-122/dp-122-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-125/dp-125-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-127/dp-127-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-107/dp-107-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-107-update/dp-107-update-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-138/dp-138-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-140/dp-140-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-140-update/dp-140-update-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-147/dp-147-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-147-update/dp-147-update-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-122-update/dp-122-update-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-145/dp-145-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-147-update-2/dp-147-update-2-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-152/dp-152-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-172/dp-172-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-176/dp-176-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-173/dp-173-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-180/dp-180-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-178/dp-178-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-198/dp-198-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-174/dp-174-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="com/fa/dp/db/1.0/stories/DP-205/dp-205-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="dynamic-pricing/DP-147-update-3/dp-147-update-3-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="dynamic-pricing/DP-218/dp-218-change-log.xml" relativeToChangelogFile="true"/>
+	<include file="dynamic-pricing/DP-165/dp-165-change-log.xml" relativeToChangelogFile="true"/>
+
+</databaseChangeLog>

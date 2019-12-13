@@ -1,0 +1,16 @@
+-- in mongo prompt execute the below statements 
+
+use ra_transaction_documents;
+db.createCollection("hubzu_documents");
+
+-- hubzu collection
+db.hubzu_documents.ensureIndex({'createdDate':-1},{ background: true });
+db.hubzu_documents.ensureIndex({'runAsOfDate':-1},{ background: true });
+db.hubzu_documents.ensureIndex({'libraryName':1},{ background: true });
+db.hubzu_documents.ensureIndex({'versionName':1},{ background: true });
+db.hubzu_documents.ensureIndex({'clientTransactionID':1},{ background: true });
+db.hubzu_documents.ensureIndex({'transactionId':1},{ background: true });
+db.hubzu_documents.ensureIndex({'test':1},{ background: true });
+db.hubzu_documents.createIndex( { "runAsOfDate": -1, "versionName": 1 },{ background: true } );
+db.hubzu_documents.createIndex( { "runAsOfDate": -1, "status": 1 },{ background: true } );
+

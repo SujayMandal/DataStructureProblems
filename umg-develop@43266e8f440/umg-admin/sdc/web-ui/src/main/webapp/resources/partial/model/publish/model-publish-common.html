@@ -1,0 +1,241 @@
+<div class="form-horizontal"
+	ng-show="(createNewModelMode == 'CreateFromScratch' && createNewVersionMode == 'CreateFromScratch') ||  importedFileName != ''">
+	<div class="box-header with-border" style="border-top: 2px solid #AAAAAA; border-bottom-width: 0px;">
+		<div class="col-md-9">
+			<span class="sub-heading-1" style="font-weight: 600;">1. Enter Model Details</span>
+		</div>
+	</div>
+	<div class="box-body">
+		<!-- <div class="col-sm-1"></div> -->
+		<div class="form-group"
+			ng-show="activeTab == 'CreateNewModel' && !versionImportInProgress">
+			<span for="modelName_fv" class="col-sm-3 control-label">Model
+				Name<font color="red">*</font> <span class="error-container ng-hide"
+				ng-show="mpForm.modelName_fv.$dirty && mpForm.modelName_fv.$invalid">
+					<small class="error-msg pull-right"
+					ng-show="mpForm.modelName_fv.$error.required"><font
+						color="red">Required!</font></small> <small class="error-msg pull-right"
+					ng-show="mpForm.modelName_fv.$error.maxlength"><font
+						color="red">API name cannot be longer than 50 characters</font></small>
+			</span>
+			</span>
+			<div class="col-sm-6">
+				<input type="text" id="modelName_fv" name="modelName_fv" required
+					ng-model="smp.name" class="form-control"
+					ng-disabled="versionSaved || showAdditionalArtifactsForm"
+					placeholder="Enter Model Name" ng-maxlength="50" />
+			</div>
+		</div>
+		<div class="form-group"
+			ng-show="activeTab == 'CreateNewModel' && versionImportInProgress">
+			<span for="modelName_import_fv" class="col-sm-3 control-label">Model
+				Name<font color="red">*</font> <span class="error-container ng-hide"
+				ng-show="mpForm.modelName_import_fv.$dirty && mpForm.modelName_import_fv.$invalid">
+					<small class="error-msg pull-right"
+					ng-show="mpForm.modelName_import_fv.$error.required"><font
+						color="red">Required!</font></small> <small class="error-msg pull-right"
+					ng-show="mpForm.modelName_import_fv.$error.maxlength"><font
+						color="red">API name cannot be longer than 20 characters</font></small>
+			</span>
+			</span>
+			<div class="col-sm-6">
+				<input type="text" id="modelName_import_fv"
+					name="modelName_import_fv" required ng-model="smp.name"
+					class="form-control" ng-disabled="versionSaved"
+					placeholder="Enter Model Name" ng-maxlength="20" />
+			</div>
+		</div>
+		<div class="form-group" ng-show="activeTab == 'CreateNewVersion'">
+			<span for="modelName_fv_sel" class="col-sm-3 control-label">Model
+				Name<font color="red">*</font><span class="error-container ng-hide"
+				ng-show="mpForm.modelName_fv_sel.$dirty && mpForm.modelName_fv_sel.$invalid">
+					<small class="error-msg pull-right"
+					ng-show="mpForm.modelName_fv_sel.$error.required"><font
+						color="red">Required!</font></small>
+			</span>
+			</span>
+			<div class="col-sm-6">
+				<select class="form-control" id="modelName_fv_sel" required
+					ng-disabled="versionSaved" ng-model='smp.name'
+					name="modelName_fv_sel"
+					ng-change="setModelDescription(); loadAllMajorVersionNumbersForModel();">
+					<option ng-repeat="uniqueModelName in uniqueModelNames"
+						value="{{uniqueModelName}}">{{uniqueModelName}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group" ng-show="activeTab == 'CreateNewVersion'">
+			<span class="col-sm-3 control-label">Model Version</span>
+			<div class="col-sm-3" style="padding-left: 20px">
+				<div>
+					<label class="default"> <input type="radio"
+						ng-disabled="smp.name == ''" id="majorVer_hv" name="verType"
+						value="MAJOR" ng-model="smp.versionType"
+						ng-click="smp.majorVersion = ''" /> <span> <b>Major</b>
+					</span>
+					</label> <label class="default" style="padding-left: 20px"> <input
+						type="radio" ng-disabled="versionSaved || smp.name == ''"
+						id="minorVer_hv" name="verType" value="MINOR"
+						ng-model="smp.versionType" /> <span> <b>Minor</b>
+					</span>
+					</label>
+				</div>
+			</div>
+
+			<div class="col-sm-3" >
+				<select id="majorVersions_hv"
+					class="form-control"
+					ng-model="smp.majorVersion"
+					ng-disabled="versionSaved || smp.versionType === 'MAJOR' || existingVersions.length == 0">
+					<option ng-repeat="ver in majorVersionsForModel" value="{{ver}}">{{ver}}</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group" ng-show="activeTab == 'CreateNewModel'">
+			<span for="model_desc_fv_desc" class="col-sm-3 control-label">Model
+				Description<font color="red">*</font><span
+				class="error-container ng-hide"
+				ng-show="mpForm.model_desc_fv.$dirty && mpForm.model_desc_fv.$invalid">
+					<small class="error-msg pull-right"
+					ng-show="mpForm.model_desc_fv.$error.required"><font
+						color="red">Required!</font></small> <small class="error-msg pull-right"
+					ng-show="mpForm.model_desc_fv.$error.maxlength"><font
+						color="red">API name cannot be longer than 200 characters</font></small>
+			</span>
+			</span>
+			<div class="col-sm-6">
+				<textarea id="model_desc_fv" name="model_desc_fv"
+					ng-disabled="versionSaved" class="form-control" rows="1"
+					ng-model="smp.description" placeholder="Enter Model Description"
+					required ng-maxlength="200" style="resize: none"></textarea>
+			</div>
+		</div>
+		<div class="form-group" ng-show="activeTab == 'CreateNewVersion'">
+			<span for="version_desc_fv_desc" class="col-sm-3 control-label">Version
+				Description<font color="red">*</font> <span
+				class="error-container ng-hide"
+				ng-show="mpForm.version_desc_fv.$dirty &amp;&amp; mpForm.version_desc_fv.$invalid">
+					<small class="error-msg pull-right"
+					ng-show="mpForm.version_desc_fv.$error.required"><font
+						color="red">Required!</font></small> <small class="error-msg pull-right"
+					ng-show="mpForm.version_desc_fv.$error.maxlength"><font
+						color="red">API name cannot be longer than 200 characters</font></small>
+			</span>
+			</span>
+			<div class="col-sm-6">
+				<textarea id="version_desc_fv" name="version_desc_fv"
+					ng-disabled="versionSaved" class="form-control" rows="1"
+					ng-model="smp.versionDescription"
+					placeholder="Enter Version Description" required ng-maxlength="200"
+					style="resize: none"></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<span for="mdef" class="col-sm-3 control-label">Model Release
+				Notes <font color="red">*</font><span
+				class="error-container ng-hide"
+				ng-show="mpForm.docName_fv.$dirty && mpForm.docName_fv.$invalid">
+					<small class="error-msg pull-right"
+					ng-show="mpForm.docName_fv.$error.required"><font
+						color="red">Required!</font></small>
+			</span>
+			</span>
+			<div class="col-md-6 input-group" ng-show="!versionImportInProgress"
+				style="padding-left: 14px; padding-right: 14px;">
+				<input style="background-color: white;" class="form-control " type="text"
+					id="model_release_notes_txt" name="docName_fv"
+					value="{{smp.mapping.model.documentationName.name}}" readonly></input>
+				<div class="input-group-btn" style="padding-left: 5px;">
+					<div class="btn btn-primary btn-sm btn-file" style="width: 60px"
+						tooltip="Upload Document" tooltip-placement="top"
+						tooltip-trigger="mouseenter">
+						Browse<input type="file" ng-click="resetReleaseNotes();"
+							ng-disabled="versionImportInProgress  || versionSaved"
+							id="model_release_notes_btn" name="mrn"
+							file-model="smp.mapping.model.documentationName"
+							ng-model="smp.mapping.model.documentationName">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6 input-group" ng-show="versionImportInProgress"
+				style="padding-left: 14px; padding-right: 14px;">
+				<input style="background-color: white;" class="form-control " type="text"
+					id="model_release_notes_txt_readonly" 
+					ng-model="smp.mapping.model.documentationName" name="mrn" readonly></input>
+				<div class="input-group-btn" style="padding-left: 5px;">
+					<div class="btn btn-primary btn-sm btn-file" style="width: 60px"
+						tooltip="Upload Document" tooltip-placement="top"
+						tooltip-trigger="mouseenter">
+						Browse<input ng-click="resetReleaseNotes();" ng-disabled="versionImportInProgress || versionSaved"
+							type="file" id="model_release_notes_btn" name="mrn"
+							file-model="smp.mapping.model.documentationName"
+							ng-model="smp.mapping.model.documentationName">
+					</div>
+				</div>
+			</div>
+			<div class="col-md-1">
+				<!-- <span class="btn btn-primary btn-sm btn-file" style="width: 60px"
+                                 tooltip="Upload XML or XLSX file" tooltip-placement="top"
+                                 tooltip-trigger="mouseenter">Browse<input
+                                 ng-disabled="versionImportInProgress" type="file"
+                                 id="model_release_notes_btn" name="mrn"
+                                 file-model="smp.mapping.model.documentationName"
+                                 ng-model="smp.mapping.model.documentationName">
+                           </span> -->
+			</div>
+		</div>
+
+		<div class="form-group">
+			<span for="pl" class="col-sm-3 control-label">Programming
+				Language<font color="red">*</font> <span
+				class="error-container ng-hide"
+				ng-show="mpForm.pr_lng.$dirty && mpForm.pr_lng.$invalid"> <small
+					class="error-msg pull-right"
+					ng-show="mpForm.pr_lng.$error.required"><font color="red">Required!</font></small>
+			</span>
+			</span>
+			<div class="col-md-3" style="padding-right: 0px;">
+				<select class="form-control" id="pr_lng" name="pr_lng" required
+					ng-change="loadLanguageVersions();"
+					ng-disabled="versionSaved || versionImportInProgress || activeTab == 'CreateNewVersion'"
+					ng-model="smp.modelLibrary.programmingLanguage">
+					<option ng-repeat="programmingLanguage in programmingLanguages"
+						value="{{programmingLanguage}}">{{programmingLanguage}}</option>
+				</select>
+			</div>
+			<div class="col-md-1">
+				<span for="el" class="col-sm-3 control-label">Version<font
+					color="red">*</font> <span class="error-container ng-hide"
+					ng-show="mpForm.pr_lng_version.$dirty && mpForm.pr_lng_version.$invalid">
+						<small class="error-msg pull-left"
+						ng-show="mpForm.pr_lng_version.$error.required"><font
+							color="red">Required!</font></small>
+				</span>
+				</span>
+			</div>
+			<div class="col-md-2">
+				<select style="padding: 0px;" class="form-control" id="pr_lng_version_new_model" required
+					ng-model="smp.modelLibrary.executionLanguage" ng-if = "activeTab != 'CreateNewVersion'"
+					ng-disabled="versionSaved || versionImportInProgress || activeTab == 'CreateNewVersion'"
+					name="pr_lng_version_new_model">
+					<option ng-repeat="languageVersion in languageVersions"
+						value="{{languageVersion}}">{{languageVersion}}</option>
+				</select>
+				<input class="form-control" required
+					ng-disabled="versionSaved || versionImportInProgress || activeTab == 'CreateNewVersion'"
+					type="text" id="pr_lng_version_old_model" name="pr_lng_version_old_model"
+					ng-model="activeLanguageVersion" ng-if = "activeTab == 'CreateNewVersion'">
+			</div>
+		</div>
+
+		<div class="form-group" ng-show="versionImportInProgress">
+			<span for="imported_file_name" class="col-sm-3 control-label">
+				Import Filename </span>
+			<div class="col-sm-6">
+				<input type="text" id="imported_file_name" name="imported_file_name"
+					ng-model="versionImport.versionZipFile.name" class="form-control"
+					ng-disabled="versionImportInProgress" style="resize: none" />
+			</div>
+		</div>
+	</div>
+</div>

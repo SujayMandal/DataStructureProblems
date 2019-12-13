@@ -1,0 +1,46 @@
+<div class="box box-primary">
+	<div class="col-sm-12" style="padding-top: 10px;">
+
+		<div class="col-sm-7">
+			<!-- <div class="imgButtonSet" title="Add New System Parameter"
+				ng-show="false">
+				<div id="addContainer" class="fa fa-plus"
+					ng-click="showParamCreationPopup()"></div>
+			</div> -->
+		</div>
+		<div class="col-sm-5" style="padding-right:0px;">
+			<div class="col-sm-3">
+				<div class="pull-right">
+					<select id="sp_setPageSize" ng-model="pagingOptions.pageSize">
+						<option ng-repeat="size in pagingOptions.pageSizes"
+							value="{{size}}" ng-selected="size==pagingOptions.pageSize">{{size}}</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="col-sm-9" style="padding-left: 0px; padding-right:0px;">
+				<ul class="pagination pull-right"
+					style="margin-bottom: 0px; margin-top: 0px;">
+
+					<li><a id="sp_firstPage" title="First Page"
+						ng-click="pageToFirst()" ng-disabled="cantPageBackward()">First</a></li>
+					<li><a id="sp_previousPage" title="Previous Page"
+						ng-click="pageBackward()" ng-disabled="cantPageBackward()">&lt;</a></li>
+
+
+					<li><a id="sp_currentPage"><input type="text" min="1"
+							max="{{currentMaxPages}}" ng-model="pagingOptions.currentPage"
+							style="width: 50px; text-align: center; margin-top: -2px;" /> of
+							{{currentMaxPages}}</a></li>
+
+					<li><a id="sp_nextPage" title="Next Page"
+						ng-click="pageForward()" ng-disabled="cantPageForward()">&gt;</a></li>
+					<li><a id="sp_lastPage" title="Last Page"
+						ng-click="pageToLast()" ng-disabled="cantPageToLast()">Last</a></li>
+
+				</ul>
+			</div>
+
+		</div>
+	</div>
+</div>

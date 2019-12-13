@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+	<import resource="classpath:app-context.xml" />
+
+	<bean id="modelExecutorBO" class="com.ca.umg.me2.bo.ModelExecutorBOImpl" />
+
+	<bean id="modeletExecutionDistributor" class="com.ca.umg.me2.util.ModelExecutionDistributor" />
+
+	<bean id="cacheRegistry"
+		class="com.ca.framework.core.cache.registry.impl.DefaultCacheRegistry">
+		<constructor-arg name="configFile" value="hazelcast-config.xml" />
+	</bean>
+
+	<bean id="modeletRegistry" class="com.ca.umg.me2.util.ModeletRegistry" />
+
+</beans>

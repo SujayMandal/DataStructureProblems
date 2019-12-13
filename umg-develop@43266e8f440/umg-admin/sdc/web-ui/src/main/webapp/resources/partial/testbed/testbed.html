@@ -1,0 +1,242 @@
+
+	<script>
+	$(".draggable-alert").draggable();
+	$(".draggable-alert").hide();
+
+
+	</script>
+<!-- Dashborad testrun warning -->
+    <div id="draggable1" class="draggable-alert alert alert-danger alert-info" 
+    style="width: 40%; background-color: #495463 !important; border-color: #495463;" >
+        <button type="button" class="close" onclick="$(this).parent().hide();" style="color: #FFFFFF;">&times;</button>
+        <strong align="center">Extra field(s) are present in Tenant Txn Input : </strong> {{additionalPropsList}}
+    </div>
+    <div id="draggable2" class="draggable-alert alert alert-danger alert-info" 
+    style="width: 40%; background-color: #495463 !important; border-color: #495463;" >
+        <button type="button" class="close" onclick="$(this).parent().hide();" style="color: #FFFFFF;">&times;</button>
+        <strong align="center">Extra field(s) are present in test-bed TID : </strong> {{defaultValuesList}}
+    </div>	
+ <div class="col-md-12">   
+    <div class="box box-primary" style="width:101.4%">
+                <div class="box-body no-padding">
+                  <table class="table">
+                    <tbody>
+					<tr>
+						<td style="width:10%;vertical-align:middle;"align=right><span>Model Name :</span></td>
+						<td style="width:10%;vertical-align:middle;"align=left>{{tidVersion.versionTestContainer.modelName}}</td>
+						
+			<td style="width:10%;vertical-align:middle;" align=right ><span>Version :</span></td>
+			<td style="width:7%;vertical-align:middle;" align=left >{{tidVersion.versionTestContainer.majorVersion}} .
+				{{tidVersion.versionTestContainer.minorVersion}}</td>
+			<td style="width:10%;vertical-align:middle;"align=right><span>As On Date<span style="color: red;">*</span> :</span></td>
+			<td style="width:18%;" align=left>
+							<div class='input-group input-group-sm date' id='datetimepicker1'>
+								<input type="text" class="form-control"
+									ng-model="tidVersion.versionTestContainer.asOnDate" date-time-picker
+									format="dateTimeFormat" /> <span class="input-group-addon">
+									<span class="glyphicon glyphicon-calendar"></span>
+								</span>
+							</div>
+			</td>	
+			<td style="width:4%;vertical-align:middle;" align=right >
+				<input style="vertical-align:middle;" align=left type="checkbox" id="tbed_report" ng-model="generateReport" ng-disabled="!tidVersion.versionTestContainer.hasReportTemplate" /><span style="width:4%;vertical-align:middle;"> Generate Report </span>
+			</td>
+			<td style="width:4%;vertical-align:middle;" align=right >
+				<input style="vertical-align:middle;" align=left type="checkbox" id="tbed_op_validation" ng-model="modelOpValidation"/><span style="width:4%;vertical-align:middle;"> ModelOutput Validation </span>
+			</td>
+			<td style="width:4%;vertical-align:middle;" align=right >
+				<input style="vertical-align:middle;" align=left type="checkbox" id="tbed_op_validation" ng-model="acceptableValuesValidation"/><span style="width:4%;vertical-align:middle;"> AcceptableValues Validation </span>
+			</td>
+			<td style="width:4%;vertical-align:middle;" align=right >
+				<input style="vertical-align:middle;" align=left type="checkbox" id="" ng-model="storeRLogs" ng-disabled="!isRModel"/><span style="width:4%;vertical-align:middle;"> store RLogs</span>
+			</td>
+		</tr>
+		</tbody>
+	</table>
+    </div><!-- /.box-body -->
+	<div class="box-footer" >
+	<div align=center>
+	<table>
+		<tr>
+		<td style="padding-left:3px;padding-right:3px;">
+		<div class="input-group">
+			<input type="text" class="form-control input-sm" style="width:200px;" value="{{downloadRunFile.name}}" disabled readonly/>
+			
+			<div class="input-group-btn">
+                      <span class="btn btn-primary btn-sm btn-file">Choose File<input id="tbed_fl" type="file" accept=".txt" file-model="downloadRunFile" ng-model="downloadRunFile"></span>
+                    </div>
+			<!-- <input type="file" accept=".txt" file-model="downloadRunFile"	ng-model="downloadRunFile"> -->
+			<!-- <button type="button" class="btn btn-primary"	id="runFilebtn" ng-click="downloadTestRunFile()">Populate</button> -->
+		</div>
+		</td>
+		<td style="padding-left:3px;padding-right:3px;">
+			<button type="button" class="btn btn-primary btn-sm" id="runFilebtn" ng-click="downloadTestRunFile()">Populate</button>
+		</td>
+		<td style="padding-left:3px;padding-right:3px;">
+			<button type="submit" class="btn btn-primary btn-sm" id="execute" ng-click="execute()">Execute</button>
+		</td>
+		<td style="padding-left:3px">
+			<button type="submit" class="btn btn-primary btn-sm" id="test" ng-disabled="isExecutedSucessfully==false" ng-show="false" ng-click="test()">Mark as Tested</button>
+		</td>
+		<td style="padding-left:3px;padding-right:3px;">
+			<button type="submit" class="btn btn-primary btn-sm" id="cancel"	ng-click="cancel()">Cancel</button>
+		</td>
+	<!-- 			<td style="width:38%;">
+		<div class="pull-right">
+		<div class="tip-icon" ng-click="showTips()"></div>
+		</div>
+		</td> -->
+		
+		</tr>
+		</table>
+	</div>
+	</div>
+   </div>
+</div>  
+<div><br></div>
+
+
+<div id="testInputOutputContainer" class="col-sm-12" style=" padding-right: 0px;padding-left: 9px;margin-bottom: -10px;">
+<!-- <div class="testInputOutputContainer"> -->
+	<div ng-show="showMessageForTstRunFile" class="txt-corner5" style="text-align: center; margin-bottom: 2%;">
+			<span ng-class="error?'error-msg':'success-msg'" compile="messageForTstRunFile" ></span>
+	</div>
+	<div id="testbedInput" class="testbedInputFull">
+		<div id="testbedBoxes_{{$index}}" class="col-sm-4" style=" padding-right: 0px;padding-left: 9px;margin-bottom: -10px;margin-top:-10px;" ng-repeat="input in tidVersion.finalList">
+			<div class="box box-primary" style="height:70px !important;" ng-class="{ 'box box-danger':input.error,'box box-primary':!input.error}">
+				<div class="box-header" style="padding:3px !important;vertical-align:middle;">
+					<span class="text-primary pull-left" style="font-weight: 800;"><small>{{ input.name }}</small><span ng-show="input.mandatory" style="color: red;"> *</span>
+					</span>
+				</div>
+				<div class="box-body no-padding" align=center style="display: block;">
+					<span>
+					
+						<div ng-if="input.htmlElement == 'text'">
+							<div class="input-group" style="    width: 93%;">
+                    			<input id="tbed_input_{{$index}}" type="{{input.htmlElement}}"  style="height: 24px;" class="form-control input-sm" name="{{input.name}}" ng-model="input.value" ng-blur="validateInput(input)">
+                   				 <span class="input-group-btn" >
+                   				 	<button id="tbed_input_but_{{$index}}" class="btn btn-default btn-flat" style="height: 24px;" type="button" ng-click="showTips(input.description)"><span class="text-primary pull-right" ng-show="input.datatype.type" style="font-weight: 800;color: #08c; font-size : 11px;vertical-align:center;">{{input.datatype.type}} 
+										<span ng-show="input.arrayType" style="color: #08c; font-size : 9px"> {{input.datatype.dimensions}}</span></span>
+									</button>
+                   				 </span>
+                  			</div>
+							<small  class="error-msg pull-right" ng-show="input.error">{{input.errorMessage}}</small>
+						</div>
+						
+						
+						<div ng-if="input.htmlElement == 'checkbox'">
+							<div class="input-group" style="    width: 93%;">
+	                    			<select id="tbed_input_{{$index}}" type="{{input.htmlElement}}"  style="height: 24px;padding-top: 2px;" class="form-control input-sm" name="{{input.name}}" ng-model="input.value" ng-options="option.value as option.text for option in booleanDropDownList" ng-blur="validateInput(input)"></select>
+	                   				 <span class="input-group-btn" >
+	                   				 	<button id="tbed_input_but_{{$index}}" class="btn btn-default btn-flat" style="height: 24px;" type="button" ng-click="showTips(input.description)"><span class="text-primary pull-right" ng-show="input.datatype.type" style="font-weight: 800;color: #08c; font-size : 11px;vertical-align:center;">{{input.datatype.type}} 
+											<span ng-show="input.arrayType" style="color: #08c; font-size : 9px"> {{input.datatype.dimensions}}</span></span>
+										</button>
+	                   				 </span>
+	                  			</div>
+							<small  class="error-msg pull-right" ng-show="input.error">{{input.errorMessage}}</small>
+						</div>
+						
+						
+						<div ng-if="input.htmlElement == 'date' ">
+							<div class="input-group" style="    width: 93%;">
+                    			<input id="tbed_input_{{$index}}" type="text"  style="height: 24px;" class="form-control input-sm" name="{{input.name}}" ng-model="input.value" date-time-picker format="dateTestBedFormat" placeholder="{{date.placeholder}}" min="{{date.min}}" max="{{date.max}}" ng-blur="validateInput(input)">
+                   				 <span class="input-group-btn" >
+                   				 	<button id="tbed_input_but_{{$index}}" class="btn btn-default btn-flat" style="height: 24px;" type="button" ng-click="showTips(input.description)"><span class="text-primary pull-right" ng-show="input.datatype.type" style="font-weight: 800;color: #08c; font-size : 11px;vertical-align:center;">{{input.datatype.type}} 
+										<span ng-show="input.arrayType" style="color: #08c; font-size : 9px"> {{input.datatype.dimensions}}</span></span>
+									</button>
+                   				 </span>
+                  			</div>
+							<small  class="error-msg pull-right" ng-show="input.error">{{input.errorMessage}}</small>
+						</div>
+						
+						
+						<div ng-if="input.htmlElement == 'textarea' ">
+						 <div class="col-md-12" style="padding-left: 1px;position: relative;float: left;width: 98%;margin-bottom: 0;">	
+						 	<div class="col-md-9">
+							<textarea id="tbed_input_{{$index}}" style="height:24px;" class="form-control input-sm testbed_text" name="{{input.name}}"
+								ng-model="input.value" ng-blur="validateInput(input)"
+								required></textarea></div>
+								<div class="col-md-3">
+								<button id="tbed_input_but_{{$index}}" class="btn btn-default btn-flat" style="height: 24px;" type="button" ng-click="showTips(input.description)"><span class="text-primary pull-right" ng-show="input.datatype.type" style="font-weight: 800;color: #08c; font-size : 11px;vertical-align:center;">{{input.datatype.type}} 
+											<span ng-show="input.arrayType" style="color: #08c; font-size : 9px"> {{input.datatype.dimensions}}</span></span>
+										</button>
+										</div>
+							</div>
+							<div class="col-lg-12" style="position:absolute;bottom:2%;">
+							<small class="error-msg pull-right"  ng-show="input.error">{{input.errorMessage}}</small>
+							</div>
+						</div>
+						
+				</span>
+				</div>
+			</div>
+		</div>
+
+
+
+	</div>
+	</div>
+	
+	<div id="expander"  style="width: 4.33333333%;margin-top:-10px;" > <!-- class="col-xs-1" -->
+	<div id="testBedColpButtn"  ng-click="toggleOutput();" style="display:none;"></div>
+	</div>
+	
+	
+	<div id="testbedOutput" style="display:none;width: 37.33333333%;margin-top:-10px;" >
+		
+		<div class="box box-primary" style="width:104%;" ng-class="{ 'box box-success':isExecutedSucessfully,'box box-danger':!isExecutedSucessfully}">
+		<div class="box-header with-border">
+                  <div class="col-sm-6" style="text-align: left;" ng-if="isExecuted==true">
+					<span class="badge badge-success" ng-show="isExecutedSucessfully==true">Executed Successfully</span> 
+					<span class="badge badge-danger"	ng-show="isExecutedSucessfully==false">Error in Execution</span>
+				  </div>
+                  <div class="col-sm-6" style="text-align: right;"><button ng-show="reportSuccess" class="btn btn-sm btn-success" type="button"
+							ng-click="downloadReport();">Download Report</button></div>
+        </div>
+        
+         <div class="box-body">      
+         	
+         	<div ng-show = "showReportURL" class="txt-corner5"> 
+         		<div ng-show="reportDownloadError">
+					<span ng-class="error?'error-msg':'error-msg'"> Report download failed : {{reportDownloadStatus}}</span> 
+				</div>			
+				<div >
+					<span ng-class="error?'error-msg':'success-msg'"> Report generation status : {{reportExecutionStatus}}</span> 
+				</div>
+				<div ng-show="!reportSuccess">
+					<span ng-class="error?'error-msg':'error-msg'"> Error message : {{reportErrorMessage}}</span> 
+				</div>
+		    </div>
+		    
+		<div ng-if="hasError==true">
+			<span class="error-msg">Please correct the input errors to proceed.</span>
+		</div>
+		<div ng-show="message" class="txt-corner5" style="text-align: left">
+			<span ng-show="error" ng-class="error?'error-msg':'success-msg'">Error code : {{errorCode}}</span> <br>
+			<span ng-class="error?'error-msg':'success-msg'">Message : {{message}}</span>		
+		</div>
+		<div ng-show="isExecuted==true">
+			<span ng-show="outputs"><json-explorer json-data="{{outputs}}"></json-explorer></span>
+			<span ng-show="!outputs" ng-class="'error-msg'">Did not receive any output</span>
+		</div>
+	</div>
+	</div>
+	</div>
+	
+	<div id="testbedhiddenoutput" class="col-lg-1" style="display:none;margin-top:-10px;padding-right: 0%;">
+		
+		<div class="box box-primary" ng-class="{ 'box box-success':isExecutedSucessfully,'box box-danger':!isExecutedSucessfully}">
+			<div class="box-header with-border">
+	                  <h3 class="box-title">Result</h3>
+	        </div>
+        
+         <div class="box-body"> 
+			{{error ? "error" : "success"}}
+		</div>
+		</div>
+		
+		
+	</div>
+
+<!-- </div> -->
+

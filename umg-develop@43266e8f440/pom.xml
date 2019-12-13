@@ -1,0 +1,308 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.ca.umg</groupId>
+	<artifactId>umg-parent</artifactId>
+	<version>develop-${bambooBuildNumber}-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Universal Model Gateway - Parent</name>
+
+	<properties>
+		<maven.test.failure.ignore>true</maven.test.failure.ignore>
+		<spring.version>4.1.6.RELEASE</spring.version>
+		<slf4j.version>1.7.7</slf4j.version>
+		<log4j2.version>2.0</log4j2.version>
+		<compileSource>1.7</compileSource>
+		<compileTarget>1.7</compileTarget>
+		<cglib.version>3.0</cglib.version>
+		<codehaus.jackson.vesrion>1.9.12</codehaus.jackson.vesrion>
+		<commons.collections.version>3.2.1</commons.collections.version>
+		<mongojavadriver.vesion>3.0.2</mongojavadriver.vesion>
+		<disruptor.version>3.2.1</disruptor.version>
+		<commons.lang3.version>3.9</commons.lang3.version>
+		<skip.pmd.check>true</skip.pmd.check>
+		<clover.plugin.version>3.1.11</clover.plugin.version>
+		<httpConnectionPooling.properties></httpConnectionPooling.properties>
+	</properties>
+
+	<modules>
+		<!-- framework -->
+		<module>umg-report</module>
+		<module>framework</module>
+		<module>umg-notification</module>
+		<module>pooling</module>
+
+		<!-- me2 -->
+		<module>me2</module>
+		<!-- modelet -->
+		<module>modelet</module>
+		<!-- admin -->
+		<module>umg-admin</module>
+		<!-- runtime -->
+		<module>umg-runtime</module>
+		<module>umg-db</module>
+		
+		<module>umg-plugins</module>
+
+		<module>umg-scheduler</module>
+		<module>client</module>
+	</modules>
+
+	<dependencies>
+		<!-- hazelecast -->
+		<dependency>
+			<groupId>com.hazelcast</groupId>
+			<artifactId>hazelcast</artifactId>
+			<version>3.6.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+		<!-- Logging dependencies -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongo-java-driver</artifactId>
+			<version>${mongojavadriver.vesion}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-slf4j-impl</artifactId>
+			<version>${log4j2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-nosql</artifactId>
+			<version>${log4j2.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.lmax</groupId>
+			<artifactId>disruptor</artifactId>
+			<version>${disruptor.version}</version>
+		</dependency>
+
+		<!-- Apache Commons dependencies -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons.lang3.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-collections</groupId>
+			<artifactId>commons-collections</artifactId>
+			<version>${commons.collections.version}</version>
+		</dependency>
+
+		<!-- Spring framework -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aspects</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>${codehaus.jackson.vesrion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-core-asl</artifactId>
+			<version>${codehaus.jackson.vesrion}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml</groupId>
+			<artifactId>jackson-xml-databind</artifactId>
+			<version>0.6.2</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils-core</artifactId>
+			<version>1.8.3</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.inject</groupId>
+			<artifactId>javax.inject</artifactId>
+			<version>1</version>
+		</dependency>
+		<!-- Testing Dependencies -->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.9</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-all</artifactId>
+			<version>1.9.5</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<!-- <scm> <developerConnection>scm:svn:https://bvvxsvxxnp01/ConsumerAnalytics/umg/trunk</developerConnection> 
+		</scm> -->
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${compileSource}</source>
+					<target>${compileTarget}</target>
+					<compilerArgument>-Xlint:all</compilerArgument>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-pmd-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+					<targetJdk>${compileSource}</targetJdk>
+					<sourceEncoding>utf-8</sourceEncoding>
+					<failOnViolation>true</failOnViolation>
+					<rulesets >
+						<rulset>pmd-ruleset.xml</rulset>
+					</rulesets>
+					<skip>${skip.pmd.check}</skip>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+							<!-- <goal>cpd-check</goal> -->
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>2.10</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.17</version>
+				<configuration>
+					<testFailureIgnore>false</testFailureIgnore>
+					<!-- <skipTests>true</skipTests> -->
+					<systemProperties>
+						<systemProperty>
+							<key>httpConnectionPooling.properties</key>
+							<value>${httpConnectionPooling.properties}</value>
+						</systemProperty>
+					</systemProperties>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.atlassian.maven.plugins</groupId>
+				<artifactId>maven-clover2-plugin</artifactId>
+				<version>${clover.plugin.version}</version>
+				<configuration>
+					<generateHtml>true</generateHtml>
+					<failOnViolation>true</failOnViolation>
+					<licenseLocation><![CDATA[http://10.0.0.20/yum/common/clover.license]]></licenseLocation>
+					<jdk>1.7</jdk>
+				</configuration>
+			</plugin>
+
+			<!-- <plugin> <groupId>org.apache.maven.plugins</groupId> <artifactId>maven-release-plugin</artifactId> 
+				<version>2.5</version> <configuration> <tagBase>https://bvvxsvxxnp01/ConsumerAnalytics/umg/tags</tagBase> 
+				<tagNameFormat>@{project.version}/@{project.artifactId}</tagNameFormat> </configuration> 
+				</plugin> -->
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>public</id>
+			<url>http://10.0.0.20/artifactory/repo</url>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>public</id>
+			<url>http://10.0.0.20/artifactory/repo</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<distributionManagement>
+		<repository>
+			<id>Altisource Dev Artifactory</id>
+			<name>Altisource Dev Artifactory-releases</name>
+			<url>http://atlas.altidev.net/artifactory/realanalytics</url>
+		</repository>
+		<snapshotRepository>
+			<id>Altisource Dev Artifactory</id>
+			<name>Altisource Dev Artifactory-snapshots</name>
+			<url>http://atlas.altidev.net/artifactory/realanalytics</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+</project>

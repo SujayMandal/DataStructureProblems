@@ -1,0 +1,104 @@
+.sidebar-overall {
+  position: fixed;
+  overflow-y: auto;
+  top: 70px;
+  left: 0;
+  width: 170px !important;
+  background: rgba(80,88,101,0.80);
+  z-index: 9;
+  display: block;
+  box-shadow: none !important;
+  height: 100%;
+}
+.version-code-display {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.sidebar-overall ul {
+  margin: 0px 0px 50px;
+  padding: 0;
+  float: left;
+  font-weight: bold;
+  width: 100%;
+  overflow: auto !important;
+  position: absolute;
+}
+.sidebar-overall ul li {
+  list-style: none;
+  float: left;
+  width: 100%;
+}
+.sidebar-overall ul li a {
+  font-size: 12px;
+  padding: 8px 0;
+  float: left;
+  width: 100%;
+  color: #FFFFFF;
+  text-decoration: none;
+}
+.sidebar-overall ul li a i {
+  width: 25px;
+  height: 20px;
+  float: left;
+  margin: 0 35px 0 15px;
+}
+.icon{
+  background-size: 100%;
+  width: 14px !important;
+  margin: 5px 13px 5px 14px !important;
+}
+
+.sidebar-overall ul li a.active, .sidebar-overall ul li a:hover {
+  border-left:3px solid #95B825;
+}
+
+.myAcc-arrow-icon {
+  background-size: 100% !important;
+  float: right !important;
+  width: 12px !important;
+  height: 12px !important;
+  margin-top: 6px !important;
+  margin-right: 14px !important;
+}
+.myAcc-arrow-icon.activeAcc {
+  background-size: 100% !important;
+  float: right !important;
+  width: 12px !important;
+  height: 12px !important;
+  margin-top: 6px !important;
+  margin-right: 14px !important;
+}
+.activeLi{
+  border-left:3px solid #95B825;
+  color:#FFFFFF solid !important;
+  opacity: 1;
+  background: rgba(0,0,0,0.50);
+}
+
+.sidebar-overall ul .filter-buckets li a {
+  font-size: 12px;
+  padding: 6px 0px 5px 60px;
+  font-weight: normal;
+  border-left: 0px;
+  background: rgba(0,0,0,0.50);
+}
+
+.activeSmLi {
+  background: #819E34 !important;
+}
+
+label {
+  padding-top: 5px;
+}
+
+.block {
+    padding: 18px 15px 0px 170px;
+}
+
+#search {
+    vertical-align: unset;
+}
+#excludRpt {
+  vertical-align: unset;
+}

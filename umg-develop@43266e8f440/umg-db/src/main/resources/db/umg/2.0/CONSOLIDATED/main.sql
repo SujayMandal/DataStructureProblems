@@ -1,0 +1,1 @@
+source UMG-2.0-CONSOLIDATED.sql;

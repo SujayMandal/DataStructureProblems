@@ -1,0 +1,4 @@
+java -jar  -DtargetServers=<comma separated modelet server ips> -Dusername=<user name> -DidentityFile=<fully qualified path of id file> umgutility.one-jar.jar
+
+
+Eg: java -jar  -DtargetServers=10.0.10.62 -Dusername=root -DidentityFile=/opt/tomcat/real-impact-arch.pem umgutility.one-jar.jar

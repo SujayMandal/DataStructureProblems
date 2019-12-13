@@ -1,0 +1,9 @@
+/.settings/
+/.project
+.idea/
+*.iml
+umg-admin/business/TNT_OCN/modelLibrary/
+*.eml
+client/target/
+client/dependency-reduced-pom.xml
+pooling/target/

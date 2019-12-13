@@ -1,0 +1,10 @@
+1. Please update the following config in mysql server  my.cnf : 
+	Put this under [mysqld] tag :
+                group_concat_max_len = 4294967295
+	
+
+2. Security Configuration Changes in applicationContextSecurity.xml:
+	a. Add the line after the last http tag in applicationContextSecurity.xml for admin server : 
+      	<global-method-security pre-post-annotations="enabled"></global-method-security>
+	b. comment the below line in applicationContextSecurity.xml for spring.security.role : 
+		<sec:intercept-url pattern="/**" access="${spring.security.role}" />

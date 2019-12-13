@@ -1,0 +1,51 @@
+
+/* Theme and Font CSS */
+@import url(../css/admin_lte/bootstrap/css/bootstrap.min.css);
+@import url(../css/admin_lte/AdminLTE.min.css);
+@import url(../css/admin_lte/skins/_all-skins.min.css);
+@import url(../css/admin_lte/plugins/iCheck/flat/blue.css);
+@import url(../css/admin_lte/plugins/morris/morris.css);
+@import url(../css/admin_lte/plugins/jvectormap/jquery-jvectormap-1.2.2.css);
+@import url(../css/admin_lte/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css);
+@import url(../css/admin_lte/bootstrap/css/bootstrap-datetimepicker.min.css);
+
+@import url(../css/dialog/dialog.css);
+
+/* JSON Explorer */
+
+@import url(../css/json/gd-ui-jsonexplorer.css);
+
+/* Angular Grid CSS */
+
+@import url(../css/tenant-portal/layout/grid-style.css);
+@import url(../css/grid/ng-grid.css);
+@import url(../css/grid/angular-grid.min.css);
+@import url(../css/grid/theme-fresh.min.css);
+@import url(../css/grid/theme-grey.css);
+
+/* Tree Grid CSS */
+@import url(../css/tree-grid/treeGrid.css);
+
+/* Auto-suggestion */
+
+@import url(../css/jquery/themes/base/jquery-ui.css);
+
+/* Toastr */
+
+@import url(../css/toastr/toastr.min.css);
+
+/* Common UI CSS */
+@import url(../css/tenant-portal/style/common-ui.css);
+
+/*Notification related CSS*/
+@import url(../css/umg/NotificationApproval.css);
+@import url(../css/umg/notificationCRUD.css);
+
+/* umg related */
+@import url(../css/umg/charts.css);
+@import url(../css/umg/common_ui_elements.css);
+@import url(../css/umg/testbed.css);
+@import url(../css/umg/table.css);
+@import url(../css/umg/home.css);
+@import url(../css/umg/main.css);
+@import url(../css/umg/daterangepicker-bs3.css);

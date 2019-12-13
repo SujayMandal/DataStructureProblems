@@ -1,0 +1,11 @@
+
+
+CREATE INDEX idx_inptFileName ON `DYNAMIC_PRICING_FILE_PRCS_STATUS` (INPUT_FILE_NAME);
+CREATE INDEX idx_status ON `DYNAMIC_PRICING_FILE_PRCS_STATUS` (STATUS);
+CREATE INDEX idx_upldTimeStmp ON `DYNAMIC_PRICING_FILE_PRCS_STATUS` (UPLOAD_TIMESTAMP);
+
+CREATE INDEX idx_status ON `DP_WEEKN_PRCS_STATUS` (STATUS);
+CREATE INDEX idx_fetchDate ON `DP_WEEKN_PRCS_STATUS` (FETCHED_DATE);
+
+SELECT ID from RA_TNT_APPS WHERE LOWER(code) = 'dpa' INTO @APP_ID;
+INSERT INTO `RA_TNT_APP_PARAMS` (`ID`, `RA_TNT_APP_ID`, `ATTR_KEY`, `ATTR_VALUE`, `CLASSIFICATION`, `CREATED_BY`, `CREATED_ON`, `LAST_UPDATED_BY`, `LAST_UPDATED_ON`) VALUES (UUID(), @APP_ID, 'RR_CLASSIFICATION_QUERY', 'select fc_inventory_flag, nrz_acquisition_dt from shahmayu.reo_portfolio_master where loan_num = ? and nrz_acquisition_dt is not null and fc_inventory_flag in (1,2)', NULL, 'SYSTEM', NOW(), 'SYSTEM', NOW());

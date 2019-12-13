@@ -1,0 +1,57 @@
+<div class="col-lg-12"></div>
+
+
+
+<div class="col-lg-12"
+	style="vertical-align: middle; text-align: center; padding-left: 15px; height: 76px;">
+	<div class="col-lg-6" style="padding-top: 24px;">
+		<div class="btn-group pull-left"
+			style="border-radius: 4px; border: 1px solid; border-color: #cccccc">
+			<a
+				ng-class="{'btn btn-primary btn-sm':isCurrentStep(0),'btn btn-default btn-sm':isCurrentStep(1)}"
+				ng-click="setCurrentStep(0)">API Version Metrics</a> <a
+				ng-class="{'btn btn-primary btn-sm':isCurrentStep(1),'btn btn-default btn-sm':isCurrentStep(0)}"
+				ng-click="setCurrentStep(1)">Test Bed Version Metrics</a>
+		</div>
+	</div>
+	<div class="col-lg-6">
+		<div class="box box-primary"
+			style="width: 50%; float: right; height: 74px;">
+			<div class="box-body" style="padding-top: 4px;">
+				<span>Tenant Model Name</span> : <span>{{selected_name}}</span><br>
+				<span>Version no.</span> : <span>{{selected_version}}</span><br>
+				<span>Total Transactions :
+					{{transaction_API}}</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="col-lg-12" style="text-align: center;">
+	<div class="tab-content">
+		<div class="tab-pane" ng-class="{'active':true}">
+			<div class="col-sm-6">
+				<div class="umg-grid"
+					style="background-color: transparent; height: 184px; overflow-y: auto; overflow-x: hidden; border-bottom: 0px;"
+					ng-grid="tableGrid_API"></div>
+			</div>
+			<div class="col-sm-6">
+				<div google-chart chart="chartObjectPie" style=""></div>
+			</div>
+
+			<div class="col-sm-6">
+				<div google-chart chart="chartObjectColoumnChart" style=""></div>
+			</div>
+			<div class="col-sm-6">
+				<div google-chart chart="chartObjectAreaChart" style=""></div>
+			</div>
+		</div>
+		<!-- /.tab-pane -->
+
+	</div>
+	<!-- /.tab-content -->
+</div>
+<div style="text-align: center">
+	<a ui-sref="umgVersionView" class="btn btn-primary btn-sm"
+		style="width: 116px;">Back</a>
+</div>

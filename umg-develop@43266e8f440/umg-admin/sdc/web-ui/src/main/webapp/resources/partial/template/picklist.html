@@ -1,0 +1,52 @@
+<div class="container-fluid" ng-cloak>
+
+
+  <div class="row">
+
+    <!--unselected data-->
+    <div class="col-lg-5">
+    <!--   <input placeholder="Search" type="text" class="form-control" ng-model="leftFilter"
+             style="width: 100%;margin-bottom: 10px;"/> -->
+      <label class="col-lg-12">Unmapped Privileges</label>
+      <select multiple ng-model="leftSelected" 
+              style="overflow: auto;" ng-style="listCss">
+            <option style="{{getLeftStyle(r.data)}}" value={{r}} ng-repeat="r in leftListRows">{{r.data}}</option>        
+      </select>
+    </div>
+
+    <!--navigation buttons-->
+    <div class="col-lg-2" style="padding-top:10%;padding-left:6%">
+        <a role="button" style="display: block;    width: 37.666667%;" class="btn btn-primary" tooltip="Map selected privileges" tooltip-placement="top"
+                            tooltip-trigger="mouseenter" ng-click="moveRightSelected()" ng-disabled="leftSelected.length == 0">
+          <span class="glyphicon glyphicon-forward"></span>
+        </a>
+        <br>
+        <a role="button" style="display: block;    width: 37.666667%;" class="btn btn-default" tooltip="Map all privileges" tooltip-placement="top"
+                            tooltip-trigger="mouseenter" ng-click="moveRightAll()" ng-show="showAllButtons">
+          <span class="glyphicon glyphicon-fast-forward"></span>
+        </a><br>
+        <a role="button" style="display: block;    width: 37.666667%;" class="btn btn-primary" tooltip="Un-map selected privileges" tooltip-placement="top"
+                            tooltip-trigger="mouseenter" ng-click="moveLeftSelected()" ng-disabled="rightSelected.length == 0">
+          <span class="glyphicon glyphicon-backward"></span>
+        </a><br>
+        <a role="button" style="display: block;    width: 37.666667%;" class="btn btn-default" tooltip="Un-map all privileges" tooltip-placement="top"
+                            tooltip-trigger="mouseenter" ng-click="moveLeftAll()" ng-show="showAllButtons">
+          <span class="glyphicon glyphicon-fast-backward"></span>
+        </a><br>
+
+    </div>
+
+    <!--selected data-->
+    <div class="col-lg-5">
+     <!--  <input placeholder="Search" type="text" class="form-control" ng-model="rightFilter"
+             style="width: 100%;margin-bottom: 10px;"/> -->
+        <label class="col-lg-12">Mapped Privileges</label>
+      <select multiple ng-model="rightSelected"
+              style="overflow: auto;" ng-style="listCss">
+            <option style="{{getRightStyle(r.data)}}" value={{r}} ng-repeat="r in rightListRows">{{r.data}}</option>
+      </select>
+
+    </div>
+  </div>
+</div>
+

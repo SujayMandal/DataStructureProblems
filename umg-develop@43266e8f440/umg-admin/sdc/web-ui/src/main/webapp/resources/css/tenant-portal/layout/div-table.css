@@ -1,0 +1,79 @@
+.scroll-header {
+	/* border: 1px solid #666666; */
+    overflow-y: scroll;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
+}
+
+
+.scroll-div {
+	height: calc(100% - 70px);
+    overflow-y: auto;    /* Trigger vertical scroll    */
+    overflow-x: hidden;  /* Hide the horizontal scroll */
+}
+
+.table-div{
+    margin:0;
+    padding:0;
+    display:table;
+    table-layout: fixed;
+    width:100%;
+    max-width:100%;
+    overflow-y: auto;
+}
+
+
+.header-div {
+ display:table-header-group;
+ background-color: #D8D8D8;
+ font: 12px bold arial,sans-serif;
+}
+.header-div> .cell{
+    display:table-cell;
+    border-left:1px solid white;
+    padding: 5px;  
+}
+.header-div> .cell:first-child {
+/*     border-left:1px solid grey; */
+}
+
+.row-div {
+    display:table-row;
+    width:100%;
+    max-width:100%;
+}
+
+.row-div:nth-child(odd) {
+    background-color: #FAF6F5;
+}
+
+.row-group {
+    display:table-row-group;
+    width:100%;
+    max-width:100%;
+}
+.row-div:first-child {
+    display:table-row;
+}
+
+.row-div> .cell{
+    display:table-cell;
+    border-left:1px solid #F5F5F5;
+    border-bottom:1px solid #F5F5F5;
+    white-space: nowrap;
+    overflow:hidden;
+    text-overflow: ellipsis;  
+    padding: 5px;  
+}
+
+.action-cell{
+    display:table-cell;
+    border-left:1px solid #F5F5F5;
+    border-bottom:1px solid #F5F5F5;
+    overflow:visible;
+    z-index:0;
+    width: 60px;
+}
+.row-div> .cell:last-child {
+    border-right:1px solid #F5F5F5;
+}
+

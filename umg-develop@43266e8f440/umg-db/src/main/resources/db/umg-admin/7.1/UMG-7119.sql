@@ -1,0 +1,11 @@
+use umg_admin;
+
+SELECT @maxConnectionAgeId := ID FROM SYSTEM_KEY WHERE SYSTEM_KEY= 'maxConnectionAge';
+
+SELECT @maxIdleTimeId := ID FROM SYSTEM_KEY WHERE SYSTEM_KEY= 'maxIdleTime';
+
+UPDATE TENANT_CONFIG SET CONFIG_VALUE=0 WHERE  ID= @maxConnectionAgeId;
+
+UPDATE TENANT_CONFIG SET CONFIG_VALUE=28200 WHERE  ID= @maxIdleTimeId;
+
+commit;

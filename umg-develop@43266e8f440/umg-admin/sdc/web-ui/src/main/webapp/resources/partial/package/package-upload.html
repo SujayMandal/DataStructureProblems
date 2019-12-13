@@ -1,0 +1,158 @@
+<div class="box box-primary">
+
+	<div class="box-body" style="padding-top:50px;">
+		<div class="col-sm-12">
+			<div class="col-sm-3">
+				<div id="dropbox" class="well my-drop-zone" ng-class="dropClass">
+					<span>{{dropText}}</span>
+				</div>
+				<span style="text-align: center;">OR</span><br>
+				<br>
+				<div id="pu_addLibrary" class="btn btn-primary btn-block btn-file"
+					style="border-radius: 10px;">
+					<i class="glyphicon glyphicon-plus pull-left"></i> <span>Add
+						Libraries</span> <input type="file" ng-model-instant id="fileToUpload"
+						data-ng-click="showLargeTab=false"	multiple onchange="angular.element(this).scope().setFiles(this)" />
+
+				</div>
+			
+				
+				<div id="pendingFileUpload" class="btn btn-primary btn-block btn-file" data-toggle="tooltip" data-placement="bottom" title="Libraries added from backend must be synced for them to be usable on RA" style="border-radius: 10px;background-color: #91a013;"  data-ng-click="uploadLargeFiles()" ng-disabled="!largeFileCount!=0">
+					<i class="glyphicon glyphicon-plus pull-left"></i> <span id="updateCount">Sync
+						Libraries ({{ largeFileCount }}) </span>
+				</div>
+				
+				
+				<br>
+				<br>
+				<br>
+				<br>
+				<table class="table table-bordered">
+					<tbody>
+						<tr>
+							<th>Statistics</th>
+						</tr>
+						<tr id="pu_totalLibraries">
+							<td>Total Libraries : <span class="badge">{{filequeue.length}}</span></td>
+						</tr>
+						<tr id="pu_savedLibraries" ng-show="getSavedCount() != 0">
+							<td>Saved Libraries : <span class="badge bg-green">{{getSavedCount()}}</span></td>
+						</tr>
+						<tr id="pu_failedLibraries" ng-show="getFailCount() != 0">
+							<td>Failed Libraries : <span class="badge bg-red">{{getFailCount()}}</span></td>
+						</tr>
+					</tbody>
+				</table>
+				<br>
+				<br>
+				<div ng-show="filequeue.length">
+					<button id="pu_uploadAll" type="button" class="btn btn-primary"
+						ng-click="uploadAll()" 
+
+"
+						style="margin-bottom: 5px; margin-right: 3px;">
+						<span class="glyphicon glyphicon-upload"></span> Upload All
+					</button>
+					<button id="pu_Cancel" type="button" class="btn btn-warning"
+						data-ng-click="cancelRest=true" style="margin-bottom: 5px;">
+						<span class="glyphicon glyphicon-ban-circle"></span> Cancel
+					</button>
+					<button id="pu_removeAll" type="button" class="btn btn-danger"
+						data-ng-click="reset()" ng-disabled="wip">
+						<span class="glyphicon glyphicon-trash"></span> Remove All
+					</button>
+				</div>
+				<br>
+				<br>
+				<div id="pu_uploadComplete" class="alert alert-success" ng-show="isAllUploaded()">Upload
+					Process Complete.</div>
+
+			</div>
+
+			<div class="col-sm-9">
+				<div style="width: 90%; margin-left: auto; margin-right: auto;"  ng-show="!showLargeTab">
+					<table id="pu_fileUploadTable" class="table">
+						<thead>
+							<tr>
+								<th width="50%">Name</th>
+								<th>Size</th>
+								<th>Status</th>
+								<th>Actions</th>
+							</tr>
+						</thead>
+						<tbody ng-show="filequeue.length">
+							<tr data-ng-repeat="filedetail in filequeue.slice(0)">
+								<td width="50%"><strong> <span id="pu_file_{{$index}}">{{filedetail.file.webkitRelativePath
+											|| filedetail.file.name}}</span>
+								</strong></td>
+								<td>
+									<p id="pu_fileSize_{{$index}}" class="size"
+										ng-switch="filedetail.file.size > 1024*1024">
+										<span ng-switch-when="true">{{filedetail.file.size /
+											1024 / 1024 | number:2}} MB</span> <span ng-switch-default>{{filedetail.file.size
+											/ 1024 | number:2}} kB</span>
+									</p>
+								</td>
+								<td>
+									<p class="name">
+										<span id="pu_fileStatus_{{$index}}" class="label"
+											ng-class="filedetail.isSaved ? 'label label-success' : 'label label-warning'"
+											style="color: black;">{{filedetail.status}}</span>
+									</p>
+								</td>
+								<td nowrap>
+									<button type="button" id="pu_uploadFile"  class="btn btn-primary"
+										data-ng-click="upload(filedetail)"
+										ng-disabled="!filedetail.isValid || filedetail.isUploading || filedetail.isSaved || filedetail.isFailed">
+										<span class="glyphicon glyphicon-upload"></span> Upload
+									</button>
+									<button type="button" id="pu_removeFile" class="btn btn-danger" 
+										data-ng-click="remove(filedetail)"
+										ng-disabled="filedetail.isUploading">
+										<span class="glyphicon glyphicon-trash"></span> Remove
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+                <div style="width: 90%; margin-left: auto; margin-right: auto;"  ng-show=showLargeTab>
+					<table id="pu_largeFileUploadTable" class="table">
+						<thead>
+							<tr>
+								<th width="50%">Name</th>
+								<th>Size</th>
+								<th>Status</th>
+								
+							</tr>
+						</thead>
+						<tbody>
+							<tr data-ng-repeat="f in resLargeFiles">
+								<td width="50%"><strong> <span id="pu_file_{{$index}}">{{f.fileName}}</span>
+								</strong></td>
+								<td>
+									<p id="pu_fileSize_{{$index}}" class="size"
+									ng-switch="f.fileSize > 1024">
+										<span ng-switch-when="true">{{f.fileSize /
+											1024 | number:2}} MB</span> <span ng-switch-default>{{f.fileSize}} KB</span>
+									</p>
+								</td>
+								<td>
+									<p class="name">
+										<strong> <span id="pu_fileStatus_{{$index}}" class="label" 	ng-class="f.uploadStatus == 'Package uploaded Successfully' ? 'label label-success' : 'label label-warning'" style="color: black;font-size:12px">{{f.uploadStatus}}</span></strong>
+									</p>
+								</td>
+								
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+			</div> 
+			
+
+			</div>
+		</div>
+	</div>
+</div>

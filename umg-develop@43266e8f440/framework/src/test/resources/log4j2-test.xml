@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN"
+	packages="com.ca.framework.core.logging.appender">
+	<Appenders>
+	<!-- Commented tenant aware appender due to unavailibility of local mongo db  -->
+		<!-- <TenantAwareAppender name="tenantAwareAppender"
+			ignoreExceptions="false">
+			<TenantAwareDb server="localhost" port="27017"
+				databaseName="rdngstub" collectionName="System" username="log"
+				password="dtZc/E3ilti9zRQRWA8D6g==" />
+		</TenantAwareAppender>
+		<TenantAwareAsync name="Async" ignoreExceptions="false">
+			<AppenderRef ref="tenantAwareAppender" />
+		</TenantAwareAsync> -->
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+		</Console>
+	</Appenders>
+
+	<Loggers>
+		<Root level="debug">
+			<AppenderRef ref="Console" />
+		</Root>
+	</Loggers>
+</Configuration>

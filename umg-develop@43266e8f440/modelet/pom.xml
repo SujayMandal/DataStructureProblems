@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>modelet</artifactId>
+	<name>Universal Model Gateway - Modelet</name>
+	<packaging>jar</packaging>
+	<version>develop-${bambooBuildNumber}-SNAPSHOT</version>
+	<url>http://www.altisource.com</url>
+	<description>
+		<![CDATA[Contains JPA domain entities and Spring Data JPA repositories.]]>
+	</description>
+	<parent>
+		<groupId>com.ca.umg</groupId>
+		<artifactId>umg-parent</artifactId>
+		<version>develop-${bambooBuildNumber}-SNAPSHOT</version>
+	</parent>
+
+	<properties>
+		<mysql.connector.version>5.1.18</mysql.connector.version>
+		<compileSource>1.7</compileSource>
+		<compileTarget>1.7</compileTarget>
+		<cglib.version>3.0</cglib.version>
+		<infinispan.version>6.0.2.Final</infinispan.version>
+		<jboss.marshall.version>1.4.5.Final</jboss.marshall.version>
+		<commons-io.version>1.3.2</commons-io.version>
+		<skip.pmd.check>true</skip.pmd.check>
+		<skipTests>true</skipTests>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.altisource.lrm.matlab</groupId>
+			<artifactId>javabuilder</artifactId>
+			<version>7.16</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ca</groupId>
+			<artifactId>pooling</artifactId>
+			<version>develop-${bambooBuildNumber}-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>hibernate-validator</artifactId>
+					<groupId>org.hibernate</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mybatis</artifactId>
+					<groupId>org.mybatis</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>disruptor</artifactId>
+					<groupId>com.lmax</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>el-api</artifactId>
+					<groupId>javax.el</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>infinispan-jcache</artifactId>
+					<groupId>org.infinispan</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>log4j-api</artifactId>
+					<groupId>org.apache.logging.log4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mysql-connector-java</artifactId>
+					<groupId>mysql</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>infinispan-core</artifactId>
+					<groupId>org.infinispan</groupId>
+				</exclusion>
+				<!-- <exclusion> <artifactId>joda-time</artifactId> <groupId>joda-time</groupId> 
+					</exclusion> -->
+				<exclusion>
+					<artifactId>jboss-marshalling</artifactId>
+					<groupId>org.jboss.marshalling</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>hibernate-core</artifactId>
+					<groupId>org.hibernate</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>dozer</artifactId>
+					<groupId>net.sf.dozer</groupId>
+				</exclusion>
+				<!-- C3P0 -->
+				<exclusion>
+					<groupId>com.mchange</groupId>
+					<artifactId>c3p0</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>bonecp</artifactId>
+					<groupId>com.jolbox</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>
+						jboss-transaction-api_1.1_spec
+					</artifactId>
+					<groupId>org.jboss.spec.javax.transaction</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>hazelcast</artifactId>
+					<groupId>com.hazelcast</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>log4j-slf4j-impl</artifactId>
+					<groupId>org.apache.logging.log4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jasypt</artifactId>
+					<groupId>org.jasypt</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>cache-api</artifactId>
+					<groupId>javax.cache</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>log4j-core</artifactId>
+					<groupId>org.apache.logging.log4j</groupId>
+				</exclusion>
+				<!-- <exclusion> <artifactId>hibernate-envers</artifactId> <groupId>org.hibernate</groupId> 
+					</exclusion> -->
+				<exclusion>
+					<artifactId>jgroups</artifactId>
+					<groupId>org.jgroups</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>log4j-nosql</artifactId>
+					<groupId>org.apache.logging.log4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mongo-java-driver</artifactId>
+					<groupId>org.mongodb</groupId>
+				</exclusion>
+				<!-- <exclusion> <artifactId>hibernate-entitymanager</artifactId> <groupId>org.hibernate</groupId> 
+					</exclusion> -->
+				<exclusion>
+					<artifactId>infinispan-commons</artifactId>
+					<groupId>org.infinispan</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jboss-marshalling-river</artifactId>
+					<groupId>org.jboss.marshalling</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>jboss-logging</artifactId>
+					<groupId>org.jboss.logging</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>h2</artifactId>
+					<groupId>com.h2database</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-data-mongodb</artifactId>
+					<groupId>org.springframework.data</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>spring-data-jpa</artifactId>
+					<groupId>org.springframework.data</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.rosuda.JRI</groupId>
+			<artifactId>JRI</artifactId>
+			<version>0.9.5</version>
+		</dependency>
+        <dependency>
+            <groupId>org.rosuda.REngine</groupId>
+            <artifactId>Rserve</artifactId>
+            <version>1.8.1</version>
+        </dependency>
+		<!-- Jacob dependency -->
+		<dependency>
+			<groupId>com.hynnet</groupId>
+			<artifactId>jacob-jdk15</artifactId>
+			<version>1.18</version>
+		</dependency>
+	</dependencies>
+
+	<!-- Profiles Start -->
+	<profiles>
+		<profile>
+			<id>All</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-surefire-plugin</artifactId>
+						<version>2.18.1</version>
+						<configuration>
+							<skipTests>${skipTests}</skipTests>
+						</configuration>
+					</plugin>
+					<plugin>
+						<artifactId>maven-resources-plugin</artifactId>
+						<version>2.6</version>
+						<executions>
+							<execution>
+								<id>copy-resources</id>
+								<phase>validate</phase>
+								<goals>
+									<goal>copy-resources</goal>
+								</goals>
+								<configuration>
+									<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+									<resources>
+										<resource>
+											<directory>${project.basedir}/allProperties/${env}</directory>
+											<filtering>true</filtering>
+										</resource>
+									</resources>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>rpm-maven-plugin</artifactId>
+						<version>2.1-alpha-2</version>
+						<extensions>true</extensions>
+						<executions>
+							<execution>
+								<phase>install</phase>
+								<id>attach-rpm</id>
+								<goals>
+									<goal>attached-rpm</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<group>Applications/Programming</group>
+							<filemode>755</filemode>
+							<copyright>LGPL</copyright>
+							<mappings>
+								<mapping>
+									<directory>/opt/umg/</directory>
+									<sources>
+										<source>
+											<location>target/modelet.one-jar.jar</location>
+										</source>
+									</sources>
+								</mapping>
+							</mappings>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	<!-- Profiles End -->
+
+	<build>
+		<finalName>modelet</finalName>
+		<plugins>
+			<!--<plugin> <groupId>org.dstovall</groupId> <artifactId>onejar-maven-plugin</artifactId> 
+				<version>1.4.4</version> <executions> <execution> <configuration> <mainClass>com.ca.umg.modelet.StartModelet</mainClass> 
+				&lt;!&ndash; Optional &ndash;&gt; <onejarVersion>0.97</onejarVersion> &lt;!&ndash; 
+				Optional, use only if you need to include native libraries (dll's) &ndash;&gt; 
+				&lt;!&ndash; <binlibs> <fileSet> <directory>${project.build.directory}/dllextract</directory> 
+				<includes> <include>test.dll</include> </includes> </fileSet> </binlibs> 
+				&ndash;&gt; &lt;!&ndash; Optional, default is false &ndash;&gt; <attachToBuild>true</attachToBuild> 
+				&lt;!&ndash; Optional, default is "onejar" &ndash;&gt; <classifier>onejar</classifier> 
+				</configuration> <goals> <goal>one-jar</goal> </goals> </execution> </executions> 
+				</plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.4.3</version>
+				<configuration>
+					<!--<finalName>${project.artifactId}-${project.version}-executable</finalName> -->
+					<!--<finalName>modelet.one-jar</finalName> -->
+					<transformers>
+						<transformer
+							implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+							<mainClass>com.ca.umg.modelet.StartModelet</mainClass>
+						</transformer>
+						<transformer
+							implementation="com.github.edwgiz.mavenShadePlugin.log4j2CacheTransformer.PluginsCacheFileTransformer" />
+					</transformers>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<shadedArtifactAttached>true</shadedArtifactAttached>
+							<shadedClassifierName>onejar</shadedClassifierName>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>com.github.edwgiz</groupId>
+						<artifactId>maven-shade-plugin.log4j2-cachefile-transformer</artifactId>
+						<version>2.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>onejar-maven-plugin.googlecode.com</id>
+			<url>http://onejar-maven-plugin.googlecode.com/svn/mavenrepo</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+</project>

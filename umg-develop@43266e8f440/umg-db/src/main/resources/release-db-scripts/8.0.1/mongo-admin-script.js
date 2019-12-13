@@ -1,0 +1,1 @@
+db.runCommand({"setParameter":1, "internalQueryExecMaxBlockingSortBytes":67108864});
