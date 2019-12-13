@@ -11,7 +11,7 @@
 	<description>Runtime library</description>
 	<packaging>war</packaging>
 	<properties>
-		<spring.integration.version>3.0.4.RELEASE</spring.integration.version>
+		<spring.integration.version>5.2.2.RELEASE</spring.integration.version>
 		<spring.security.version>3.2.3.RELEASE</spring.security.version>
 		<skip.pmd.check>false</skip.pmd.check>
 	</properties>
