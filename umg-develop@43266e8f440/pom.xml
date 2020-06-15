@@ -16,7 +16,7 @@
 		<compileTarget>1.7</compileTarget>
 		<cglib.version>3.0</cglib.version>
 		<codehaus.jackson.vesrion>1.9.12</codehaus.jackson.vesrion>
-		<commons.collections.version>3.2.1</commons.collections.version>
+		<commons.collections.version>3.2.2</commons.collections.version>
 		<mongojavadriver.vesion>3.0.2</mongojavadriver.vesion>
 		<disruptor.version>3.2.1</disruptor.version>
 		<commons.lang3.version>3.9</commons.lang3.version>
