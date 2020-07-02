@@ -18,7 +18,7 @@
 
 
 	<properties>
-		<mysql.connector.version>5.1.18</mysql.connector.version>
+		<mysql.connector.version>8.0.16</mysql.connector.version>
 		<jasperreports.version>6.0.0</jasperreports.version>
 		<org.apache.poi>3.10-FINAL</org.apache.poi>		
 	</properties>
