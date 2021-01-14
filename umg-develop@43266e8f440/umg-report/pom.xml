@@ -20,7 +20,7 @@
 	<properties>
 		<mysql.connector.version>5.1.18</mysql.connector.version>
 		<jasperreports.version>6.0.0</jasperreports.version>
-		<org.apache.poi>3.10-FINAL</org.apache.poi>		
+		<org.apache.poi>3.17</org.apache.poi>		
 	</properties>
 	
   <dependencies>
