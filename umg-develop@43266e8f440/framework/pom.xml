@@ -28,7 +28,7 @@
 		<disruptor.version>3.2.1</disruptor.version>
 		<compileSource>1.7</compileSource>
 		<compileTarget>1.7</compileTarget>
-		<spring.security.version>3.2.4.RELEASE</spring.security.version>
+		<spring.security.version>5.2.10.RELEASE</spring.security.version>
 	</properties>
 
 	<dependencies>
